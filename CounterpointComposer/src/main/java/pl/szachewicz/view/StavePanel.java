@@ -32,7 +32,7 @@ public class StavePanel extends JPanel {
 		panel.add(bassStave);
 
 		JScrollPane scrollPane = new JScrollPane(panel);
-		scrollPane.setPreferredSize(new Dimension(MainFrame.WINDOW_WIDTH, 250));
+		scrollPane.setPreferredSize(new Dimension(MainFrame.WINDOW_WIDTH -40, 250));
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
@@ -72,6 +72,19 @@ public class StavePanel extends JPanel {
 	}
 
 	public void playScore() {
-		Play.midi(getScore());
+		new Thread() {
+			@Override
+			public void run() {
+				Play.midi(getScore());
+			}
+		}.start();
+	}
+
+	public void stopPlaying() {
+		Play.stopMidi();
+	}
+
+	public void saveToMidi(String filePath) {
+		Write.midi(getScore(), filePath);
 	}
 }

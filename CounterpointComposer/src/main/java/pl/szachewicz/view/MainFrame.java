@@ -8,7 +8,6 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -16,7 +15,7 @@ import javax.swing.JPanel;
 
 public class MainFrame extends JFrame {
 
-	public static int WINDOW_HEIGHT = 350;
+	public static int WINDOW_HEIGHT = 370;
 	public static int WINDOW_WIDTH = 900;
 
 	private final StavePanel stavePanel;
@@ -31,7 +30,7 @@ public class MainFrame extends JFrame {
 		createMenu();
 
 		JPanel panel = new JPanel(new BorderLayout());
-		panel.add(new JLabel("bebe"), BorderLayout.NORTH);
+		//panel.add(new JLabel("bebe"), BorderLayout.NORTH);
 
 		stavePanel = new StavePanel();
 		panel.add(stavePanel, BorderLayout.CENTER);
@@ -45,6 +44,14 @@ public class MainFrame extends JFrame {
 		playButton.setText("Play");
 		buttonsPanel.add(playButton);
 
+		JButton stopButton = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				stavePanel.stopPlaying();
+			}
+		});
+		stopButton.setText("Stop");
+		buttonsPanel.add(stopButton);
+
 		panel.add(buttonsPanel, BorderLayout.SOUTH);
 		this.add(panel);
 	}
@@ -55,6 +62,10 @@ public class MainFrame extends JFrame {
 		JMenu menu = new JMenu("File");
 		JMenuItem saveMenuItem = new JMenuItem(new SaveAction());
 		menu.add(saveMenuItem);
+
+		JMenuItem saveToMidiMenuItem = new JMenuItem(new SaveToMidiAction());
+		menu.add(saveToMidiMenuItem);
+
 		JMenuItem loadMenuItem = new JMenuItem(new LoadJmAction());
 		menu.add(loadMenuItem);
 
@@ -91,6 +102,20 @@ public class MainFrame extends JFrame {
 	        	stavePanel.loadScoreFromJMFile(selectedFile.getAbsolutePath());
 	        }
 
+		}
+	}
+
+	class SaveToMidiAction extends AbstractAction {
+		public SaveToMidiAction() {
+			super("Save to MIDI");
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			int returnVal = fileChooser.showSaveDialog(MainFrame.this);
+	        if (returnVal == JFileChooser.APPROVE_OPTION) {
+	        	File selectedFile = fileChooser.getSelectedFile();
+	        	stavePanel.saveToMidi(selectedFile.getAbsolutePath());
+	        }
 		}
 	}
 
