@@ -24,6 +24,7 @@ public class MainFrame extends JFrame {
 
 	public MainFrame() {
 		super();
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		this.setTitle("Counterpoint composer");
 
