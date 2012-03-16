@@ -3,3 +3,7 @@
 .settings
 *.metadata
 target
+*.snm
+*.aux
+*.log
+*.toc
