@@ -14,11 +14,15 @@ import jm.music.data.Score;
 import jm.util.Play;
 import jm.util.Read;
 import jm.util.Write;
+import pl.szachewicz.algorithm.Generator;
+import pl.szachewicz.algorithm.Ranking;
 
 public class StavePanel extends JPanel {
 
 	private final TrebleStave trebleStave;
 	private final BassStave bassStave;
+	private Generator generator;
+	private Ranking ranking;
 
 	public StavePanel() {
 
@@ -65,10 +69,13 @@ public class StavePanel extends JPanel {
 		Phrase treblePhrase = parts[0].getPhrase(0);
 		trebleStave.setPhrase(treblePhrase);
 
-		if (parts.length > 1) {
+		if (parts.length > 1 && parts[1].getPhrase(0) != null) {
 			Phrase bassPhrase = parts[1].getPhrase(0);
 			bassStave.setPhrase(bassPhrase);
 		}
+
+		generator = new Generator(treblePhrase);
+		ranking = new Ranking(treblePhrase);
 	}
 
 	public void playScore() {
@@ -86,5 +93,16 @@ public class StavePanel extends JPanel {
 
 	public void saveToMidi(String filePath) {
 		Write.midi(getScore(), filePath);
+	}
+
+	public void generateNext() {
+		//generator = new Generator(trebleStave.getPhrase());
+		ranking = new Ranking(trebleStave.getPhrase());
+
+		Phrase generatedCounterpoint = ranking.getTheBestCounterpoint();
+		bassStave.setPhrase(generatedCounterpoint);
+
+		//Phrase generatedCounterpoint = generator.generateNext();
+		//bassStave.setPhrase(generatedCounterpoint);
 	}
 }

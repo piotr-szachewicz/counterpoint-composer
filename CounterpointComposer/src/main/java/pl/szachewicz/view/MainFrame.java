@@ -53,6 +53,15 @@ public class MainFrame extends JFrame {
 		stopButton.setText("Stop");
 		buttonsPanel.add(stopButton);
 
+		JButton generateButton = new JButton(new AbstractAction() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				stavePanel.generateNext();
+			}
+		});
+		generateButton.setText("Generate");
+		buttonsPanel.add(generateButton);
+
 		panel.add(buttonsPanel, BorderLayout.SOUTH);
 		this.add(panel);
 	}

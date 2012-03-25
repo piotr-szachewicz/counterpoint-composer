@@ -20,20 +20,27 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
 
-// Constants representing rhythm values adjusted by 
-// Al Christians to try to make CPN look better after 
-// tempo had been changed, etc.  Changes questionable.  
+// Constants representing rhythm values adjusted by
+// Al Christians to try to make CPN look better after
+// tempo had been changed, etc.  Changes questionable.
 // IDK.
 
-package jm.gui.cpn; 
+package jm.gui.cpn;
 
-import java.awt.event.*;
-import java.awt.*;
-import java.awt.image.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Vector;
-import java.net.URL; 
+
+import javax.swing.JPanel;
+
 import jm.JMC;
-import jm.music.data.*;
+import jm.music.data.Note;
+import jm.music.data.Phrase;
 
 
 /**
@@ -42,7 +49,7 @@ import jm.music.data.*;
  * @author Andrew Brown, Adam Kirby
  * @version 8th July 2001
  */
-public abstract class Stave extends Panel implements JMC, KeyListener {
+public abstract class Stave extends JPanel implements JMC, KeyListener {
 
 // Commented out due to a JDK1.1 compiler bug
 //    public static final Images DEFAULT_IMAGES = new ToolkitImages();
@@ -60,12 +67,12 @@ public abstract class Stave extends Panel implements JMC, KeyListener {
     public Image image;
     protected Graphics g;
     // attributes
-    protected Image trebleClef, bassClef, crotchetUp, crotchetDown, quaverDown, quaverUp, 
+    protected Image trebleClef, bassClef, crotchetUp, crotchetDown, quaverDown, quaverUp,
                     semiquaverDown, semiquaverUp, minimDown, minimUp, semibreve, dot,
                     semiquaverRest, quaverRest, crotchetRest, minimRest, semibreveRest,
                     sharp, flat, natural, one, two, three, four, five, six,
                     seven, eight, nine, delete, tieOver, tieUnder;
-    public int staveSpaceHeight = 8, rightMargin = 20, beatWidth = 43, staveWidth = beatWidth*15,  
+    public int staveSpaceHeight = 8, rightMargin = 20, beatWidth = 43, staveWidth = beatWidth*15,
             imageHeightOffset = 28, clefWidth = 38, timeSigWidth = 5, keySigWidth = 5;
     public int bPos = 28;
     protected Phrase phrase;
@@ -76,7 +83,7 @@ public abstract class Stave extends Panel implements JMC, KeyListener {
     protected double metre = 4.0;
     protected int keySignature = 0; // postive numbers = sharps, negative numbers = flats
     protected int[] sharps = {77, 72, 79, 74, 69, 76, 71};
-    protected int[] flats = {71, 76, 69, 74, 67, 72, 65};  
+    protected int[] flats = {71, 76, 69, 74, 67, 72, 65};
     protected Vector previouslyChromatic = new Vector();
     protected int[] lineNotes = {0, 1, 4, 7, 8, 11, 14, 15, 17, 18, 21, 22};
     public Vector notePositions = new Vector();
@@ -134,8 +141,8 @@ public abstract class Stave extends Panel implements JMC, KeyListener {
         // change 'paper' colour
         this.setBackground(Color.getHSBColor((float)0.14,(float)0.09,(float)1.0)); // .17, .1, 1
         // set the appropriate size (at least 8 bars of 4/4) for the stave
-        this.setSize((int)(beatWidth*spacingValue), panelHeight);
-        if (this.getSize().width < (int)(phrase.getEndTime()* beatWidth * 1.5) ) 
+        this.setSize((beatWidth*spacingValue), panelHeight);
+        if (this.getSize().width < (int)(phrase.getEndTime()* beatWidth * 1.5) )
             this.setSize( (int)(phrase.getEndTime()* beatWidth * 1.5), panelHeight);
 
         // compensate for overly large images - pain!!
@@ -184,8 +191,8 @@ public abstract class Stave extends Panel implements JMC, KeyListener {
         delete = images.getDelete();
         tieOver = images.getTieOver();
         tieUnder = images.getTieUnder();
-    } 
-    
+    }
+
     /*
     * Puts rests at the start of an phrase that does not
     * start at time 0.0.
@@ -209,7 +216,7 @@ public abstract class Stave extends Panel implements JMC, KeyListener {
         }
         return phrase;
     }
-    
+
     /**
      * Sets the current Phrase for this Stave instance
     * @param Phrase
@@ -220,14 +227,14 @@ public abstract class Stave extends Panel implements JMC, KeyListener {
 	//setTitle(phr.getTitle());
         repaint();
     }
-    
+
     /**
     * Returns the current Phrase of this Stave instance
     */
     public Phrase getPhrase() {
         return this.phrase;
     }
-    
+
     /**
     * Sets the name for this Stave instance
     * @param String Specify the title of the score
@@ -236,7 +243,7 @@ public abstract class Stave extends Panel implements JMC, KeyListener {
         this.title = title;
         if(this.phrase != null) this.phrase.setTitle(title);
     }
-    
+
     /**
     * Returns the name for this Stave instance
     * @return String The title of the score
@@ -250,7 +257,7 @@ public abstract class Stave extends Panel implements JMC, KeyListener {
     public void removeTitle() {
         this.title = null;
     }
-    
+
     /**
     * Show the title or not.
     * @param value True or false
@@ -259,7 +266,7 @@ public abstract class Stave extends Panel implements JMC, KeyListener {
         this.displayTitle = value;
         this.repaint();
     }
-    
+
     /**
     * Is the title displayed or not.
     * @param value True or false
@@ -267,7 +274,7 @@ public abstract class Stave extends Panel implements JMC, KeyListener {
     public boolean getDisplayTitle() {
         return this.displayTitle;
     }
-    
+
     /**
     *	 Return the recommended height for this stave.
     */
@@ -290,14 +297,14 @@ public abstract class Stave extends Panel implements JMC, KeyListener {
     	*/
         this.metre = timeSig;
     }
-    
+
     /**
 	 * returns the current metre for this Stave instance as a double
 	 */
     public double getMetre() {
         return this.metre;
     }
-    
+
     /**
 	 * returns the current major key for this Stave instance as a integer
 	 * 0 is C, 1 is C#/Db major, 2 is D major, etc
@@ -315,14 +322,14 @@ public abstract class Stave extends Panel implements JMC, KeyListener {
     public void setKeySignature(int key) {
         this.keySignature = key;
     }
-    
+
     /**
 	 * returns the current key signature for this Stave instance as a double
 	 */
     public int getKeySignature() {
         return this.keySignature;
     }
-    
+
     /**
 	 * Decide to show bar numbers or not
 	 * @param boolean
@@ -330,7 +337,7 @@ public abstract class Stave extends Panel implements JMC, KeyListener {
     public void setBarNumbers(boolean show) {
         this.barNumbers = show;
     }
-    
+
     /**
 	 * Decide to allow stave to be editable or not
 	 * @param boolean
@@ -338,7 +345,7 @@ public abstract class Stave extends Panel implements JMC, KeyListener {
     public void setEditable(boolean state) {
         this.editable = state;
     }
-    
+
     /**
 	 * returns the current minimum MIDI pitch number
 	 */
@@ -352,7 +359,7 @@ public abstract class Stave extends Panel implements JMC, KeyListener {
     public void setMinPitch(int min) {
         this.minPitch = min;
     }
-    
+
     /**
 	 * returns the current maximum MIDI pitch number
 	 */
@@ -366,7 +373,7 @@ public abstract class Stave extends Panel implements JMC, KeyListener {
     public void setMaxPitch(int max) {
         this.maxPitch = max;
     }
-    
+
     /**
 	 * Returns the current next note position in pixels
 	 */
@@ -380,7 +387,7 @@ public abstract class Stave extends Panel implements JMC, KeyListener {
     public void setTotalBeatWidth(int width) {
         this.totalBeatWidth = width;
     }
-    
+
     /**
 	 * Returns the current state of barNumber showing
 	 */
@@ -390,10 +397,11 @@ public abstract class Stave extends Panel implements JMC, KeyListener {
     /**
 	 * Called by outer containers
 	 */
-    public Dimension getPreferredSize() {
+    @Override
+	public Dimension getPreferredSize() {
         return new Dimension( this.getSize().width, this.getSize().height);
     }
-    
+
     /**
 	 * Returns the current state of QuickTime Playback
 	 */
@@ -407,23 +415,25 @@ public abstract class Stave extends Panel implements JMC, KeyListener {
     public void setQtOn(boolean state) {
         this.qtOn = state;
     }
-    
+
     /**
 	 * Called by stave action on mouseUp
 	 * Can be overridden by extending classes
 	 * to add functionality
 	 */
     public void updateChange() {}
-    
+
     // override update for double buffering
-    public void update(Graphics g) {
+    @Override
+	public void update(Graphics g) {
         paint(g);
     };
-    
-    public void paint(Graphics graphics) {
+
+    @Override
+	public void paint(Graphics graphics) {
         // overridden by each class which extends Stave
     }
-    
+
     /**
     * Remove the last note from the phrase
     */
@@ -434,13 +444,13 @@ public abstract class Stave extends Panel implements JMC, KeyListener {
             updateChange();
         }
     }
-    
+
     protected void chooseImage(int pitch,
                                double rhythmValue,
                                int upPitch1,
                                int downPitch,
                                int upPitch2) {
-        if (pitch == Note.REST) { 
+        if (pitch == Note.REST) {
             isNote = false;
             if (rhythmValue <= 0.0) {
                 currImage = delete;
