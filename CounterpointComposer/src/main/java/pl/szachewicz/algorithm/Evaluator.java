@@ -22,6 +22,7 @@ public class Evaluator {
 				int cantusFirmusPitch = cantusFirmus.getNote(i).getPitch();
 				int cantusFirmusPreviousPitch = cantusFirmus.getNote(i-1).getPitch();
 
+				//jeśli jest ruch równoległy: -1 punkt
 				if (
 						(cantusFirmusPitch > cantusFirmusPreviousPitch
 						&& counterpointPitch > counterpointPreviousPitch)
@@ -30,23 +31,31 @@ public class Evaluator {
 					points--;
 				}
 
+				//powtarzanie dźwięku
 				if (counterpointPitch == counterpointPreviousPitch) {
-					points -= 3;
+					points -= 6;
 				}
 
 				int interval = counterpointPitch - counterpointPreviousPitch;
-				if (counterpointPitch - counterpointPreviousPitch > Interval.MAJOR_SECOND.getNumberOfSemitones()) {
+				//nie lubię skoków
+				int counterPointJump = Math.abs(counterpointPitch - counterpointPreviousPitch);
+				if (counterPointJump > Interval.MAJOR_SECOND.getNumberOfSemitones()) {
 					if (interval > Interval.MAJOR_THIRD.getNumberOfSemitones())
 						points -= 7;
 					else
-						points--;
+						points -= 3;
 				}
 
-				if (i > 1) {
-					int counterpointTwoBehind = phrase.getNote(i-2).getPitch();
-					if (counterpointTwoBehind == counterpointPreviousPitch
-							&& counterpointPreviousPitch == counterpointPitch) {
-						points -= 10;
+				//żeby nie było "d-c-d-c-d"
+				if (i > 3) {
+					int counterpoint2 = phrase.getNote(i-2).getPitch();
+					int counterpoint3 = phrase.getNote(i-3).getPitch();
+					int counterpoint4 = phrase.getNote(i-4).getPitch();
+
+					if (Math.signum(counterpoint4 - counterpoint3) == Math.signum(counterpoint2 - counterpointPreviousPitch) &&
+						Math.signum(counterpoint3 - counterpoint2) == Math.signum(counterpointPreviousPitch - counterpointPitch)
+						) {
+						points -= 5;
 					}
 				}
 			}

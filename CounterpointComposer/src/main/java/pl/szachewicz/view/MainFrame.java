@@ -56,11 +56,29 @@ public class MainFrame extends JFrame {
 		JButton generateButton = new JButton(new AbstractAction() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				stavePanel.generateNext();
+				stavePanel.generateRanking();
 			}
 		});
-		generateButton.setText("Generate");
+		generateButton.setText("Generate ranking");
 		buttonsPanel.add(generateButton);
+
+		JButton getNextCounterpointButton = new JButton(new AbstractAction() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				stavePanel.getNextPhrase();
+			}
+		});
+		getNextCounterpointButton.setText("Get next");
+		buttonsPanel.add(getNextCounterpointButton);
+
+		JButton evaluateButton = new JButton(new AbstractAction() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				stavePanel.evaluate();
+			}
+		});
+		evaluateButton.setText("Evaluate");
+		buttonsPanel.add(evaluateButton);
 
 		panel.add(buttonsPanel, BorderLayout.SOUTH);
 		this.add(panel);

@@ -1,14 +1,27 @@
 package pl.szachewicz.algorithm;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import jm.music.data.Phrase;
+import pl.szachewicz.model.EvaluatedPhrase;
 
 public class Ranking {
 	private final Phrase cantusFirmus;
-	private final HashMap<Integer, Phrase> ranking = new HashMap<Integer, Phrase>();
+	//private final HashMap<Integer, Phrase> ranking = new HashMap<Integer, Phrase>();
+
+	//private final List<Integer> bestPhrasesPoints = new ArrayList<Integer>();
+	//private final List<Phrase> bestPhrases = new ArrayList<Phrase>();
+
+	private final List<EvaluatedPhrase> bestPhrases = new ArrayList<EvaluatedPhrase>();
+
 	private final Generator generator;
 	private final Evaluator evaluator;
+
+	private final int numberOfRememberedPhrases = 3;
+
+	private int worseNumberOfPoints = Integer.MAX_VALUE;
+	private int worsePhraseIndex;
 
 	public Ranking(Phrase cantusFirmus) {
 		this.cantusFirmus = cantusFirmus;
@@ -16,20 +29,58 @@ public class Ranking {
 		this.evaluator = new Evaluator(cantusFirmus);
 	}
 
-	public Phrase getTheBestCounterpoint() {
+	protected void recalculateWorstPhrase() {
+		worseNumberOfPoints = Integer.MAX_VALUE;
+
+		for (int i = 0; i < bestPhrases.size(); i++) {
+			int phrasePoints = bestPhrases.get(i).getNumberOfPoints();
+			if (phrasePoints < worseNumberOfPoints) {
+				worseNumberOfPoints = phrasePoints;
+				worsePhraseIndex = i;
+			}
+			i++;
+		}
+	}
+
+	public void generateRanking() {
 		while (generator.hasNext()) {
 			Phrase phrase = generator.generateNext();
 			int points = evaluator.evaluatePhrase(phrase);
 
-			ranking.put(points, phrase);
+			if (bestPhrases.size() >= numberOfRememberedPhrases) {
+				if (points > worseNumberOfPoints) {
+					bestPhrases.add(new EvaluatedPhrase(phrase, points));
+					bestPhrases.remove(worsePhraseIndex);
+					recalculateWorstPhrase();
+				}
+			}
+			else {
+				bestPhrases.add(new EvaluatedPhrase(phrase, points));
+//				bestPhrases.remove(worsePhraseIndex);
+				recalculateWorstPhrase();
+			}
 		}
-
-		int maximum = Integer.MIN_VALUE;
-		for (Integer points: ranking.keySet()) {
-			if (points > maximum)
-				maximum = points;
-		}
-
-		return ranking.get(maximum);
 	}
+
+	public List<EvaluatedPhrase> getBestRanking() {
+		return bestPhrases;
+	}
+
+	/*public Phrase getTheBestCounterpoint() {
+
+		generateRanking();
+
+		int i = 0;
+		int max = Integer.MIN_VALUE;
+		Phrase bestPhrase = null;
+		for (int points: bestPhrasesPoints) {
+			if (points > max) {
+				bestPhrase = bestPhrases.get(i);
+				max = points;
+			}
+			i++;
+		}
+		return bestPhrase;
+	}*/
+
 }

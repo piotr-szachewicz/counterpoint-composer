@@ -14,8 +14,10 @@ public class Generator {
 	private final Phrase cantusFirmus;
 
 	private final List<Interval> availableIntervals;
-	private final int minimumPitch = Pitches.c4;
-	private final int maximumPitch = Pitches.c5;
+
+	private final int minimumPitch = Pitches.c3;
+	private final int maximumPitch = Pitches.c4;
+	private final List<Integer> scale;
 
 	private List<List<Integer>> availablePitches;
 	private final int[] positions;
@@ -32,19 +34,50 @@ public class Generator {
 		availableIntervals.add(Interval.MINOR_SIXTH);
 		availableIntervals.add(Interval.MAJOR_SIXTH);
 
+		scale = new ArrayList<Integer>();
+		scale.add(Pitches.c3);
+		scale.add(Pitches.d3);
+		scale.add(Pitches.e3);
+		scale.add(Pitches.f3);
+		scale.add(Pitches.g3);
+		scale.add(Pitches.a3);
+		scale.add(Pitches.b3);
+		scale.add(Pitches.c4);
+		scale.add(Pitches.d4);
+
 		prepareAvailablePitches();
+	}
+
+	protected void addPitchesIfInScale(List<Integer> result, List<Integer> pitchesToAdd) {
+		for (int pitch: pitchesToAdd) {
+			if (scale.contains(pitch)) {
+				result.add(pitch);
+			}
+		}
+		//pitches.addAll(pitches);
 	}
 
 	protected void prepareAvailablePitches() {
 		availablePitches = new ArrayList<List<Integer>>();
+
+		int noteNumber = 0;
 		for (Note note: cantusFirmus.getNoteArray()) {
 			List<Integer> pitches = new ArrayList<Integer>();
 			int basePitch = note.getPitch();
 
-			for (Interval interval: availableIntervals) {
-				pitches.addAll(Helper.getPitchesForInterval(basePitch, interval, minimumPitch, maximumPitch));
+			if (noteNumber == 0) {
+				addPitchesIfInScale(pitches, Helper.getPitchesForInterval(basePitch, Interval.UNISON, minimumPitch, maximumPitch));
+				addPitchesIfInScale(pitches, Helper.getPitchesForInterval(basePitch, Interval.PERFECT_FIFTH, minimumPitch, maximumPitch));
+				addPitchesIfInScale(pitches, Helper.getPitchesForInterval(basePitch, Interval.OCTAVE, minimumPitch, maximumPitch));
+			}
+			else {
+				for (Interval interval: availableIntervals) {
+					addPitchesIfInScale(pitches, Helper.getPitchesForInterval(basePitch, interval, minimumPitch, maximumPitch));
+				}
 			}
 			availablePitches.add(pitches);
+
+			noteNumber++;
 		}
 	}
 
