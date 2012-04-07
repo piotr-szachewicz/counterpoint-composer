@@ -1,6 +1,7 @@
 package pl.szachewicz.view;
 
 import java.awt.Dimension;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -17,6 +18,7 @@ import jm.util.Write;
 import pl.szachewicz.algorithm.Evaluator;
 import pl.szachewicz.algorithm.Generator;
 import pl.szachewicz.algorithm.Ranking;
+import pl.szachewicz.model.EvaluatedPhrase;
 
 public class StavePanel extends JPanel {
 
@@ -24,6 +26,8 @@ public class StavePanel extends JPanel {
 	private final BassStave bassStave;
 	private Generator generator;
 	private Ranking ranking;
+
+	private int selectedCounterpointIndex = 0;
 
 	public StavePanel() {
 
@@ -37,7 +41,7 @@ public class StavePanel extends JPanel {
 		panel.add(bassStave);
 
 		JScrollPane scrollPane = new JScrollPane(panel);
-		scrollPane.setPreferredSize(new Dimension(MainFrame.WINDOW_WIDTH -40, 250));
+		scrollPane.setPreferredSize(new Dimension(MainFrame.WINDOW_WIDTH -200, 250));
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
@@ -96,20 +100,24 @@ public class StavePanel extends JPanel {
 		Write.midi(getScore(), filePath);
 	}
 
-	public void generateRanking() {
+	public List<EvaluatedPhrase> getRanking() {
+		if (ranking == null)
+			return null;
+		return ranking.getBestRanking();
+	}
+
+	public List<EvaluatedPhrase> generateRanking() {
 		ranking = new Ranking(trebleStave.getPhrase());
 		ranking.generateRanking();
 		selectedCounterpointIndex = -1;
-		getNextPhrase();
+		setPhrase(0);
+
+		return ranking.getBestRanking();
 	}
 
-	private int selectedCounterpointIndex = 0;
-
-	public void getNextPhrase() {
-		selectedCounterpointIndex = (selectedCounterpointIndex + 1) % ranking.getBestRanking().size();
-		Phrase generatedCounterpoint = ranking.getBestRanking().get(selectedCounterpointIndex).getPhrase();
-		int points = ranking.getBestRanking().get(selectedCounterpointIndex).getNumberOfPoints();
-		System.out.println("points " + points);
+	public void setPhrase(int index) {
+		Phrase generatedCounterpoint = ranking.getBestRanking().get(index).getPhrase();
+		System.out.println("index " + index + " points = " + ranking.getBestRanking().get(index).getNumberOfPoints());
 		bassStave.setPhrase(generatedCounterpoint);
 	}
 

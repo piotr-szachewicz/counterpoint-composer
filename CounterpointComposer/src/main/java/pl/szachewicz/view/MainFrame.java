@@ -3,6 +3,7 @@ package pl.szachewicz.view;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -12,13 +13,18 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
-public class MainFrame extends JFrame {
+import pl.szachewicz.model.EvaluatedPhrase;
+
+public class MainFrame extends JFrame implements ListSelectionListener {
 
 	public static int WINDOW_HEIGHT = 370;
-	public static int WINDOW_WIDTH = 900;
+	public static int WINDOW_WIDTH = 990;
 
 	private final StavePanel stavePanel;
+	private final PhraseRankingTablePanel phrasesTablePanel;
 
 	JFileChooser fileChooser = new JFileChooser();
 
@@ -31,7 +37,6 @@ public class MainFrame extends JFrame {
 		createMenu();
 
 		JPanel panel = new JPanel(new BorderLayout());
-		//panel.add(new JLabel("bebe"), BorderLayout.NORTH);
 
 		stavePanel = new StavePanel();
 		panel.add(stavePanel, BorderLayout.CENTER);
@@ -56,20 +61,12 @@ public class MainFrame extends JFrame {
 		JButton generateButton = new JButton(new AbstractAction() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				stavePanel.generateRanking();
+				List<EvaluatedPhrase> phrases = stavePanel.generateRanking();
+				phrasesTablePanel.fillFromModel(phrases);
 			}
 		});
 		generateButton.setText("Generate ranking");
 		buttonsPanel.add(generateButton);
-
-		JButton getNextCounterpointButton = new JButton(new AbstractAction() {
-
-			public void actionPerformed(ActionEvent arg0) {
-				stavePanel.getNextPhrase();
-			}
-		});
-		getNextCounterpointButton.setText("Get next");
-		buttonsPanel.add(getNextCounterpointButton);
 
 		JButton evaluateButton = new JButton(new AbstractAction() {
 
@@ -81,6 +78,12 @@ public class MainFrame extends JFrame {
 		buttonsPanel.add(evaluateButton);
 
 		panel.add(buttonsPanel, BorderLayout.SOUTH);
+
+		//table
+		phrasesTablePanel = new PhraseRankingTablePanel();
+		panel.add(phrasesTablePanel, BorderLayout.WEST);
+		phrasesTablePanel.addSelectionListener(this);
+
 		this.add(panel);
 	}
 
@@ -144,6 +147,15 @@ public class MainFrame extends JFrame {
 	        	File selectedFile = fileChooser.getSelectedFile();
 	        	stavePanel.saveToMidi(selectedFile.getAbsolutePath());
 	        }
+		}
+	}
+
+	public void valueChanged(ListSelectionEvent e) {
+		List<EvaluatedPhrase> ranking = stavePanel.getRanking();
+		if (ranking != null) {
+			int selectedIndex = phrasesTablePanel.getSelectedIndex();
+			if (selectedIndex != -1)
+				stavePanel.setPhrase(selectedIndex);
 		}
 	}
 
