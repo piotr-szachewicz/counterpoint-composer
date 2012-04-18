@@ -5,6 +5,7 @@ import java.util.List;
 
 import jm.music.data.Phrase;
 import pl.szachewicz.model.EvaluatedPhrase;
+import pl.szachewicz.model.preferences.Preferences;
 
 public class Ranking {
 	private final Phrase cantusFirmus;
@@ -23,10 +24,13 @@ public class Ranking {
 	private int worseNumberOfPoints = Integer.MAX_VALUE;
 	private int worsePhraseIndex;
 
-	public Ranking(Phrase cantusFirmus) {
+	public Ranking(Phrase cantusFirmus, Preferences preferences) {
 		this.cantusFirmus = cantusFirmus;
 		this.generator = new Generator(cantusFirmus);
 		this.evaluator = new Evaluator(cantusFirmus);
+
+		generator.setPreferences(preferences);
+		evaluator.setPreferences(preferences);
 	}
 
 	protected void recalculateWorstPhrase() {

@@ -19,8 +19,11 @@ import pl.szachewicz.algorithm.Evaluator;
 import pl.szachewicz.algorithm.Generator;
 import pl.szachewicz.algorithm.Ranking;
 import pl.szachewicz.model.EvaluatedPhrase;
+import pl.szachewicz.model.preferences.Preferences;
 
 public class StavePanel extends JPanel {
+
+	private Preferences preferences;
 
 	private final TrebleStave trebleStave;
 	private final BassStave bassStave;
@@ -79,8 +82,8 @@ public class StavePanel extends JPanel {
 			bassStave.setPhrase(bassPhrase);
 		}
 
-		generator = new Generator(treblePhrase);
-		ranking = new Ranking(treblePhrase);
+		//generator = new Generator(treblePhrase);
+		ranking = new Ranking(treblePhrase, preferences);
 	}
 
 	public void playScore() {
@@ -107,7 +110,7 @@ public class StavePanel extends JPanel {
 	}
 
 	public List<EvaluatedPhrase> generateRanking() {
-		ranking = new Ranking(trebleStave.getPhrase());
+		ranking = new Ranking(trebleStave.getPhrase(), preferences);
 		ranking.generateRanking();
 		selectedCounterpointIndex = -1;
 		setPhrase(0);
@@ -126,5 +129,9 @@ public class StavePanel extends JPanel {
 		Phrase counterPoint = bassStave.getPhrase();
 		int result = evaluator.evaluatePhrase(counterPoint);
 		System.out.println("Evaluation = " + result);
+	}
+
+	public void setPreferences(Preferences preferences) {
+		this.preferences = preferences;
 	}
 }

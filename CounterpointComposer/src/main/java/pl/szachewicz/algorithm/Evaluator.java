@@ -2,10 +2,15 @@ package pl.szachewicz.algorithm;
 
 import jm.music.data.Phrase;
 import pl.szachewicz.model.Interval;
+import pl.szachewicz.model.preferences.Preferences;
 
 public class Evaluator {
 
 	private final Phrase cantusFirmus;
+
+	private final int parallelMovementPunishment = 4;
+	private final int noteRepetitionPunishment = 6;
+	private final int tremoloRepetitionPunishment = 5;
 
 	public Evaluator(Phrase cantusFirmus) {
 		this.cantusFirmus = cantusFirmus;
@@ -28,12 +33,12 @@ public class Evaluator {
 						&& counterpointPitch > counterpointPreviousPitch)
 						|| (cantusFirmusPitch < cantusFirmusPreviousPitch
 						&& counterpointPitch < counterpointPreviousPitch)) {
-					points--;
+					points -= parallelMovementPunishment;
 				}
 
 				//powtarzanie dźwięku
 				if (counterpointPitch == counterpointPreviousPitch) {
-					points -= 6;
+					points -= noteRepetitionPunishment;
 				}
 
 				int interval = counterpointPitch - counterpointPreviousPitch;
@@ -55,12 +60,16 @@ public class Evaluator {
 					if (Math.signum(counterpoint4 - counterpoint3) == Math.signum(counterpoint2 - counterpointPreviousPitch) &&
 						Math.signum(counterpoint3 - counterpoint2) == Math.signum(counterpointPreviousPitch - counterpointPitch)
 						) {
-						points -= 5;
+						points -= tremoloRepetitionPunishment;
 					}
 				}
 			}
 		}
 
 		return points;
+	}
+
+	public void setPreferences(Preferences preferences) {
+
 	}
 }

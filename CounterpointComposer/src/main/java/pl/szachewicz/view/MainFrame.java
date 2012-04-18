@@ -17,6 +17,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import pl.szachewicz.model.EvaluatedPhrase;
+import pl.szachewicz.model.preferences.Preferences;
+import pl.szachewicz.view.preferences.PreferencesDialog;
 
 public class MainFrame extends JFrame implements ListSelectionListener {
 
@@ -26,10 +28,13 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 	private final StavePanel stavePanel;
 	private final PhraseRankingTablePanel phrasesTablePanel;
 
-	JFileChooser fileChooser = new JFileChooser();
+	private final JFileChooser fileChooser = new JFileChooser();
+	private final PreferencesDialog preferencesDialog = new PreferencesDialog();
+	private final Preferences preferences = new Preferences();
 
 	public MainFrame() {
 		super();
+		preferences.setDefaults();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		this.setTitle("Counterpoint composer");
@@ -39,6 +44,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 		JPanel panel = new JPanel(new BorderLayout());
 
 		stavePanel = new StavePanel();
+		stavePanel.setPreferences(preferences);
 		panel.add(stavePanel, BorderLayout.CENTER);
 
 		JPanel buttonsPanel = new JPanel();
@@ -90,6 +96,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 	protected void createMenu() {
 		JMenuBar menuBar = new JMenuBar();
 
+		//File
 		JMenu menu = new JMenu("File");
 		JMenuItem saveMenuItem = new JMenuItem(new SaveAction());
 		menu.add(saveMenuItem);
@@ -99,6 +106,13 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
 		JMenuItem loadMenuItem = new JMenuItem(new LoadJmAction());
 		menu.add(loadMenuItem);
+
+		menuBar.add(menu);
+
+		//Preferences
+		menu = new JMenu("Preferences");
+		JMenuItem editPreferencesMenuItem = new JMenuItem(new EditPreferencesAction());
+		menu.add(editPreferencesMenuItem);
 
 		menuBar.add(menu);
 
@@ -147,6 +161,16 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 	        	File selectedFile = fileChooser.getSelectedFile();
 	        	stavePanel.saveToMidi(selectedFile.getAbsolutePath());
 	        }
+		}
+	}
+
+	class EditPreferencesAction extends AbstractAction {
+		public EditPreferencesAction() {
+			super("Preferences");
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			preferencesDialog.showDialog(preferences);
 		}
 	}
 
