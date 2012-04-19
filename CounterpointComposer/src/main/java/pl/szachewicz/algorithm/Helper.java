@@ -20,8 +20,8 @@ public class Helper {
 		}
 		else {
 			x = Math.floor(x);
-			int inverseSemitones = Interval.OCTAVE.getNumberOfSemitones() - interval.getNumberOfSemitones();
-			interval = Interval.findIntervalByNumberOfSemitones(inverseSemitones);
+			//int inverseSemitones = Interval.OCTAVE.getNumberOfSemitones() - interval.getNumberOfSemitones();
+			//interval = Interval.findIntervalByNumberOfSemitones(inverseSemitones);
 		}
 
 		int pitch = basePitch + 12 * (int)x + interval.getNumberOfSemitones();
