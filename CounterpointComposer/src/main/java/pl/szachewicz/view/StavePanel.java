@@ -1,10 +1,12 @@
 package pl.szachewicz.view;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.TitledBorder;
 
 import jm.gui.cpn.BassStave;
 import jm.gui.cpn.TrebleStave;
@@ -18,6 +20,9 @@ public class StavePanel extends JPanel {
 	private final BassStave bassStave;
 
 	public StavePanel() {
+
+		this.setLayout(new BorderLayout());
+		this.setBorder(new TitledBorder("Score"));
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));

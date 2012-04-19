@@ -53,6 +53,11 @@ public class Controller implements PropertyChangeListener {
 		Write.jm(score, filePath);
 	}
 
+	public void newCounterpoint() {
+		stavePanel.setTrebleStavePhrase(new Phrase());
+		stavePanel.setBassStavePhrase(new Phrase());
+	}
+
 	public void loadScoreFromJMFile(String filePath) {
 		Score score = new Score();
 		Read.jm(score, filePath);

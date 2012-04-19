@@ -3,6 +3,7 @@ package pl.szachewicz.view.preferences;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -13,9 +14,11 @@ public class PreferencesDialog extends AbstractDialog {
 	private GeneratorPreferencesPanel generatorPreferencesPanel;
 	private EvaluatorPreferencesPanel evaluatorPreferencesPanel;
 
-	public PreferencesDialog() {
+	public PreferencesDialog(JFrame owner) {
+		super(owner);
 		this.setModal(true);
 		this.setMinimumSize(new Dimension(800, 650));
+		this.setLocationRelativeTo(owner);
 		this.setTitle("Preferences");
 	}
 

@@ -8,6 +8,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -20,8 +21,15 @@ public abstract class AbstractDialog extends JDialog implements FillableView {
 
 	protected abstract JPanel createInterface();
 
-	public boolean showDialog(Object model) {
+	public AbstractDialog(JFrame owner) {
+		super(owner);
+	}
 
+	public AbstractDialog() {
+
+	}
+
+	public boolean showDialog(Object model) {
 		if (!initialized) {
 			this.setLayout(new BorderLayout());
 			this.add(createInterface(), BorderLayout.CENTER);

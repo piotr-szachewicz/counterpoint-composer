@@ -13,6 +13,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -30,20 +31,29 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 	private PhraseRankingTablePanel phrasesTablePanel;
 
 	private final JFileChooser fileChooser = new JFileChooser();
-	private final PreferencesDialog preferencesDialog = new PreferencesDialog();
+	private final PreferencesDialog preferencesDialog = new PreferencesDialog(this);
 
 	public MainFrame() {
 		super();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		this.setTitle("Counterpoint composer");
+		this.setLocationRelativeTo(null);
 
 		createMenu();
 
 		JPanel panel = new JPanel(new BorderLayout());
 
 		panel.add(getStavePanel(), BorderLayout.CENTER);
+		panel.add(createButtonsPanel(), BorderLayout.SOUTH);
 
+		//table
+		panel.add(getPhrasesTablePanel(), BorderLayout.WEST);
+
+		this.add(panel);
+	}
+
+	protected JPanel createButtonsPanel() {
 		JPanel buttonsPanel = new JPanel();
 		JButton playButton = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
@@ -79,12 +89,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 		evaluateButton.setText("Evaluate");
 		buttonsPanel.add(evaluateButton);
 
-		panel.add(buttonsPanel, BorderLayout.SOUTH);
-
-		//table
-		panel.add(getPhrasesTablePanel(), BorderLayout.WEST);
-
-		this.add(panel);
+		return buttonsPanel;
 	}
 
 	public PhraseRankingTablePanel getPhrasesTablePanel() {
@@ -112,14 +117,22 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
 		//File
 		JMenu menu = new JMenu("File");
+
+		JMenuItem newMenuItem = new JMenuItem(new NewAction());
+		menu.add(newMenuItem);
+
+		menu.add(new JSeparator());
+
 		JMenuItem saveMenuItem = new JMenuItem(new SaveAction());
 		menu.add(saveMenuItem);
 
-		JMenuItem saveToMidiMenuItem = new JMenuItem(new SaveToMidiAction());
-		menu.add(saveToMidiMenuItem);
-
 		JMenuItem loadMenuItem = new JMenuItem(new LoadJmAction());
 		menu.add(loadMenuItem);
+
+		menu.add(new JSeparator());
+
+		JMenuItem saveToMidiMenuItem = new JMenuItem(new SaveToMidiAction());
+		menu.add(saveToMidiMenuItem);
 
 		menuBar.add(menu);
 
@@ -131,6 +144,16 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 		menuBar.add(menu);
 
 		this.setJMenuBar(menuBar);
+	}
+
+	class NewAction extends AbstractAction {
+		public NewAction() {
+			super("New");
+		}
+
+		public void actionPerformed(ActionEvent arg0) {
+			getController().newCounterpoint();
+		}
 	}
 
 	class SaveAction extends AbstractAction {
@@ -146,12 +169,11 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 	        	getController().saveResults(selectedFile.getAbsolutePath());
 	        }
 		}
-
 	}
 
 	class LoadJmAction extends AbstractAction {
 		public LoadJmAction() {
-			super("Load JM");
+			super("Load");
 		}
 
 		public void actionPerformed(ActionEvent arg0) {
@@ -166,7 +188,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
 	class SaveToMidiAction extends AbstractAction {
 		public SaveToMidiAction() {
-			super("Save to MIDI");
+			super("Export to MIDI");
 		}
 
 		public void actionPerformed(ActionEvent e) {
