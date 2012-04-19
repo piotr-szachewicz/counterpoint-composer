@@ -16,8 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import pl.szachewicz.Controller;
 import pl.szachewicz.model.EvaluatedPhrase;
-import pl.szachewicz.model.preferences.Preferences;
 import pl.szachewicz.view.preferences.PreferencesDialog;
 
 public class MainFrame extends JFrame implements ListSelectionListener {
@@ -25,16 +25,15 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 	public static int WINDOW_HEIGHT = 370;
 	public static int WINDOW_WIDTH = 990;
 
-	private final StavePanel stavePanel;
+	private Controller controller;
+	private StavePanel stavePanel;
 	private final PhraseRankingTablePanel phrasesTablePanel;
 
 	private final JFileChooser fileChooser = new JFileChooser();
 	private final PreferencesDialog preferencesDialog = new PreferencesDialog();
-	private final Preferences preferences = new Preferences();
 
 	public MainFrame() {
 		super();
-		preferences.setDefaults();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		this.setTitle("Counterpoint composer");
@@ -43,14 +42,12 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
 		JPanel panel = new JPanel(new BorderLayout());
 
-		stavePanel = new StavePanel();
-		stavePanel.setPreferences(preferences);
-		panel.add(stavePanel, BorderLayout.CENTER);
+		panel.add(getStavePanel(), BorderLayout.CENTER);
 
 		JPanel buttonsPanel = new JPanel();
 		JButton playButton = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				stavePanel.playScore();
+				getController().playScore();
 			}
 		});
 		playButton.setText("Play");
@@ -58,7 +55,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
 		JButton stopButton = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				stavePanel.stopPlaying();
+				getController().stopPlaying();
 			}
 		});
 		stopButton.setText("Stop");
@@ -67,7 +64,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 		JButton generateButton = new JButton(new AbstractAction() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				List<EvaluatedPhrase> phrases = stavePanel.generateRanking();
+				List<EvaluatedPhrase> phrases = getController().generateRanking();
 				phrasesTablePanel.fillFromModel(phrases);
 			}
 		});
@@ -77,7 +74,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 		JButton evaluateButton = new JButton(new AbstractAction() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				stavePanel.evaluate();
+				getController().evaluate();
 			}
 		});
 		evaluateButton.setText("Evaluate");
@@ -91,6 +88,18 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 		phrasesTablePanel.addSelectionListener(this);
 
 		this.add(panel);
+	}
+
+	public StavePanel getStavePanel() {
+		if (stavePanel == null)
+			stavePanel = new StavePanel();
+		return stavePanel;
+	}
+
+	public Controller getController() {
+		if (controller == null)
+			controller = new Controller(getStavePanel());
+		return controller;
 	}
 
 	protected void createMenu() {
@@ -129,7 +138,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 			int returnVal = fileChooser.showSaveDialog(MainFrame.this);
 	        if (returnVal == JFileChooser.APPROVE_OPTION) {
 	        	File selectedFile = fileChooser.getSelectedFile();
-	        	stavePanel.saveResults(selectedFile.getAbsolutePath());
+	        	getController().saveResults(selectedFile.getAbsolutePath());
 	        }
 		}
 
@@ -144,7 +153,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 			int returnVal = fileChooser.showOpenDialog(MainFrame.this);
 	        if (returnVal == JFileChooser.APPROVE_OPTION) {
 	        	File selectedFile = fileChooser.getSelectedFile();
-	        	stavePanel.loadScoreFromJMFile(selectedFile.getAbsolutePath());
+	        	getController().loadScoreFromJMFile(selectedFile.getAbsolutePath());
 	        }
 
 		}
@@ -159,7 +168,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 			int returnVal = fileChooser.showSaveDialog(MainFrame.this);
 	        if (returnVal == JFileChooser.APPROVE_OPTION) {
 	        	File selectedFile = fileChooser.getSelectedFile();
-	        	stavePanel.saveToMidi(selectedFile.getAbsolutePath());
+	        	getController().saveToMidi(selectedFile.getAbsolutePath());
 	        }
 		}
 	}
@@ -170,16 +179,16 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			preferencesDialog.showDialog(preferences);
+			preferencesDialog.showDialog(getController().getPreferences());
 		}
 	}
 
 	public void valueChanged(ListSelectionEvent e) {
-		List<EvaluatedPhrase> ranking = stavePanel.getRanking();
+		List<EvaluatedPhrase> ranking = getController().getRanking();
 		if (ranking != null) {
 			int selectedIndex = phrasesTablePanel.getSelectedIndex();
 			if (selectedIndex != -1)
-				stavePanel.setPhrase(selectedIndex);
+				getController().setPhrase(selectedIndex);
 		}
 	}
 
