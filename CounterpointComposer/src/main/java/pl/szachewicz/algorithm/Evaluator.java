@@ -7,12 +7,7 @@ import pl.szachewicz.model.preferences.Preferences;
 public class Evaluator {
 
 	private final Phrase cantusFirmus;
-
 	private final Preferences preferences;
-
-	private final int parallelMovementPunishment = 4;
-	private final int noteRepetitionPunishment = 6;
-	private final int tremoloRepetitionPunishment = 5;
 
 	public Evaluator(Phrase cantusFirmus, Preferences preferences) {
 		this.cantusFirmus = cantusFirmus;
@@ -36,12 +31,12 @@ public class Evaluator {
 						&& counterpointPitch > counterpointPreviousPitch)
 						|| (cantusFirmusPitch < cantusFirmusPreviousPitch
 						&& counterpointPitch < counterpointPreviousPitch)) {
-					points -= parallelMovementPunishment;
+					points -= preferences.getParallelMovementPunishment();
 				}
 
 				//powtarzanie dźwięku
 				if (counterpointPitch == counterpointPreviousPitch) {
-					points -= noteRepetitionPunishment;
+					points -= preferences.getNoteRepetitionPunishment();
 				}
 
 				//nie lubię skoków
@@ -62,7 +57,7 @@ public class Evaluator {
 					if (Math.signum(counterpoint4 - counterpoint3) == Math.signum(counterpoint2 - counterpointPreviousPitch) &&
 						Math.signum(counterpoint3 - counterpoint2) == Math.signum(counterpointPreviousPitch - counterpointPitch)
 						) {
-						points -= tremoloRepetitionPunishment;
+						points -= preferences.getTrillPunishment();
 					}
 				}
 			}
@@ -71,7 +66,4 @@ public class Evaluator {
 		return points;
 	}
 
-	public void setPreferences(Preferences preferences) {
-
-	}
 }

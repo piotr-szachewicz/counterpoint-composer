@@ -15,8 +15,8 @@ public class PreferencesDialog extends AbstractDialog {
 
 	public PreferencesDialog() {
 		this.setModal(true);
-		//this.setPreferredSize(new Dimension(400, 300));
 		this.setMinimumSize(new Dimension(800, 650));
+		this.setTitle("Preferences");
 	}
 
 	@Override

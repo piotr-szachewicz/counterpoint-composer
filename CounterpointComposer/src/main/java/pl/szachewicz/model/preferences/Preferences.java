@@ -20,6 +20,28 @@ public class Preferences {
 	//evaluator
 	private List<NoteJumpPunishmentRange> punishments;
 
+	private int parallelMovementPunishment = 4;
+	private int noteRepetitionPunishment = 6;
+	private int trillPunishment = 5;
+
+	public int getParallelMovementPunishment() {
+		return parallelMovementPunishment;
+	}
+	public void setParallelMovementPunishment(int parallelMovementPunishment) {
+		this.parallelMovementPunishment = parallelMovementPunishment;
+	}
+	public int getNoteRepetitionPunishment() {
+		return noteRepetitionPunishment;
+	}
+	public void setNoteRepetitionPunishment(int noteRepetitionPunishment) {
+		this.noteRepetitionPunishment = noteRepetitionPunishment;
+	}
+	public int getTrillPunishment() {
+		return trillPunishment;
+	}
+	public void setTrillPunishment(int tremoloRepetitionPunishment) {
+		this.trillPunishment = tremoloRepetitionPunishment;
+	}
 	public List<NoteJumpPunishmentRange> getPunishments() {
 		return punishments;
 	}

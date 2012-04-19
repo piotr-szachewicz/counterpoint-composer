@@ -23,9 +23,10 @@ public class Generator {
 	private final int[] positions;
 	private boolean incrementEnd = false;
 
-	public Generator(Phrase cantusFirmus) {
+	public Generator(Phrase cantusFirmus, Preferences preferences) {
 		this.cantusFirmus = cantusFirmus;
 		positions = new int[cantusFirmus.getSize()];
+		setPreferences(preferences);
 	}
 
 	protected List<Integer> getScale() {

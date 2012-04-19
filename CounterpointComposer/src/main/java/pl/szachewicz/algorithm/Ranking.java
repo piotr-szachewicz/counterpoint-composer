@@ -26,10 +26,8 @@ public class Ranking {
 
 	public Ranking(Phrase cantusFirmus, Preferences preferences) {
 		this.cantusFirmus = cantusFirmus;
-		this.generator = new Generator(cantusFirmus);
+		this.generator = new Generator(cantusFirmus, preferences);
 		this.evaluator = new Evaluator(cantusFirmus, preferences);
-		generator.setPreferences(preferences);
-		evaluator.setPreferences(preferences);
 	}
 
 	protected void recalculateWorstPhrase() {
