@@ -44,7 +44,7 @@ public class PhraseRankingTableModel extends DefaultTableModel {
 		EvaluatedPhrase phrase = phrases.get(row);
 
 		switch(column) {
-			case 0: return "Phrase " + row;
+			case 0: return "Phrase " + (row+1);
 			case 1: return phrase.getNumberOfPoints();
 		}
 		return null;

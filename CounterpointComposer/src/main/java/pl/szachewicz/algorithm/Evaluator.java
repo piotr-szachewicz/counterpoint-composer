@@ -16,7 +16,10 @@ public class Evaluator {
 		this.preferences = preferences;
 	}
 
-	public int evaluatePhrase(Phrase phrase) {
+	public int evaluatePhrase(Phrase phraseForEvaluation) {
+
+		Phrase phrase = phraseForEvaluation.copy();
+
 		evaluationLog = new StringBuilder();
 		int points = 0;
 

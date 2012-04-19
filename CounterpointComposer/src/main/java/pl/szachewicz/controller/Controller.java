@@ -13,6 +13,7 @@ import pl.szachewicz.algorithm.Evaluator;
 import pl.szachewicz.algorithm.Ranking;
 import pl.szachewicz.model.EvaluatedPhrase;
 import pl.szachewicz.model.preferences.Preferences;
+import pl.szachewicz.view.Dialogs;
 import pl.szachewicz.view.MainFrame;
 import pl.szachewicz.view.PhraseRankingTablePanel;
 import pl.szachewicz.view.StavePanel;
@@ -80,11 +81,20 @@ public class Controller implements PropertyChangeListener {
 	}
 
 	public void evaluate() {
-		Evaluator evaluator = new Evaluator(stavePanel.getTrebleStavePhrase(), preferences);
+		Phrase cantusFirmus = stavePanel.getTrebleStavePhrase();
 		Phrase counterPoint = stavePanel.getBassStavePhrase();
-		evaluator.evaluatePhrase(counterPoint);
 
-		String evaluationLog = evaluator.getEvaluationLog();
+		String evaluationLog = "";
+
+		if (cantusFirmus.size() != counterPoint.size()) {
+			Dialogs.showErrorDialog("Cantus firmus and counterpoint must of equal lengths.");
+		}
+		else {
+			Evaluator evaluator = new Evaluator(cantusFirmus, preferences);
+			evaluator.evaluatePhrase(counterPoint);
+			evaluationLog = evaluator.getEvaluationLog();
+		}
+
 		mainFrame.getConsolePanel().fillViewFromModel(evaluationLog);
 	}
 
