@@ -3,10 +3,12 @@ package pl.szachewicz.algorithm;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import jm.music.data.Phrase;
 import pl.szachewicz.model.EvaluatedPhrase;
+import pl.szachewicz.model.EvaluatedPhraseComparator;
 import pl.szachewicz.model.preferences.Preferences;
 
 public class Ranking {
@@ -23,7 +25,7 @@ public class Ranking {
 	private final Generator generator;
 	private final Evaluator evaluator;
 
-	private final int numberOfRememberedPhrases = 3;
+	private final int numberOfRememberedPhrases = 15;
 
 	private int worseNumberOfPoints = Integer.MAX_VALUE;
 	private int worsePhraseIndex;
@@ -68,6 +70,12 @@ public class Ranking {
 			}
 			fireProgressChanged();
 		}
+		sortBestCounterpointRanking();
+	}
+
+	protected void sortBestCounterpointRanking() {
+		Collections.sort(bestPhrases, new EvaluatedPhraseComparator());
+		Collections.reverse(bestPhrases);
 	}
 
 	public void setCanceled(boolean canceled) {
