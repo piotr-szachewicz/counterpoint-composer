@@ -1,5 +1,5 @@
 /*
- 
+
 < This Java Class is part of the jMusic API>
 
 Copyright (C) 2000 Andrew Sorensen & Andrew Brown
@@ -21,35 +21,26 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 package jm.midi;
 
-import java.lang.InterruptedException;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-
 import java.util.Enumeration;
-import java.util.Vector;
 import java.util.Stack;
 
+import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MetaEventListener;
 import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Synthesizer;
 import javax.sound.midi.Track;
 
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiUnavailableException;
-
-import javax.sound.sampled.AudioSystem;
-
 import jm.JMC;
-import jm.music.data.Score;
+import jm.music.data.Note;
 import jm.music.data.Part;
 import jm.music.data.Phrase;
-import jm.music.data.Note;
-import javax.sound.midi.spi.MidiFileWriter;
+import jm.music.data.Score;
 
 /**
  * MidiSynth.java
@@ -62,7 +53,7 @@ import javax.sound.midi.spi.MidiFileWriter;
 public class MidiSynth implements JMC, MetaEventListener {
 
     /** Pulses per quarter note value */
-    private short m_ppqn;
+    private final short m_ppqn;
     /** The Synthesizer we are using */
     private Synthesizer m_synth;
 	/** The Sequence we are using */
@@ -74,7 +65,7 @@ public class MidiSynth implements JMC, MetaEventListener {
     /** The overall (Score) tempo value */
     private float m_masterTempo;
     /** All previous tempos */
-    private Stack m_tempoHistory;
+    private final Stack m_tempoHistory;
     /** The diff. beteen the score and part tempi */
     private double trackTempoRatio = 1.0;
     /** The diff. between the score and phrase tempi */
@@ -83,9 +74,9 @@ public class MidiSynth implements JMC, MetaEventListener {
     private String scoreTitle;
 	/** Sequence is playiong flag */
 	private boolean isPlaying = false;
-	
+
 	private Boolean msCycle = false;
-	
+
 	private Boolean update = false;
 	private Score updateScore;
 
@@ -110,7 +101,7 @@ public class MidiSynth implements JMC, MetaEventListener {
     /**
     * Plays the jMusic score data via the JavaSound MIDI synthesizer
     * @param Score score - data to change to SMF
-    * @exception Exception 
+    * @exception Exception
     */
     public void play(Score score) throws InvalidMidiDataException {
         if (null == m_sequencer) {
@@ -161,7 +152,7 @@ public class MidiSynth implements JMC, MetaEventListener {
 
    /**
     * Plays back the already computed sequencer via a MIDI synthesizer
-    * @exception Exception 
+    * @exception Exception
     */
     private void rePlay() {
 		if (null == m_sequencer) {
@@ -241,7 +232,7 @@ public class MidiSynth implements JMC, MetaEventListener {
 		if (metaEvent.getType() == StopType) {
 			if (msCycle) {
 				rePlay();
-			} else { 
+			} else {
 				stop();
 			}
 		}
@@ -253,9 +244,9 @@ public class MidiSynth implements JMC, MetaEventListener {
     public void stop() {
 		msCycle = false;
 		isPlaying = false;
-		if (m_sequencer != null & m_sequencer.isOpen()) {
+		if (m_sequencer != null && m_sequencer.isOpen()) {
 			m_sequencer.stop();
-		}  
+		}
 		System.out.println("jMusic MidiSynth: Stopped JavaSound MIDI playback");
     }
 
@@ -326,7 +317,7 @@ public class MidiSynth implements JMC, MetaEventListener {
 							int value,
 							long tick)
 		throws InvalidMidiDataException{
-		
+
 		ShortMessage msg = new ShortMessage();
 		msg.setMessage(0xB0 + channel, controlNum, value);
 		MidiEvent evt = new MidiEvent(msg, tick);
@@ -337,7 +328,7 @@ public class MidiSynth implements JMC, MetaEventListener {
     * Converts jmusic score data into a MIDI Sequence
     * @param Score score - data to play
     * @return Sequence to be played
-    * @exception Exception 
+    * @exception Exception
     */
     protected Sequence scoreToSeq(Score score)
         throws InvalidMidiDataException {
@@ -374,7 +365,7 @@ public class MidiSynth implements JMC, MetaEventListener {
 			//System.out.println("jMusic MidiSynth notification: Part TempoEvent (BPM) = " + tempo);
             if (tempo != Part.DEFAULT_TEMPO) {
                 m_currentTempo = tempo;
-            } else if (tempo < Part.DEFAULT_TEMPO) 
+            } else if (tempo < Part.DEFAULT_TEMPO)
                 System.out.println("jMusic MidiSynth error: Part TempoEvent (BPM) too low = " + tempo);
 
             trackTempoRatio = m_masterTempo/m_currentTempo;
@@ -382,14 +373,14 @@ public class MidiSynth implements JMC, MetaEventListener {
             int instrument = inst.getInstrument();
             if (instrument == NO_INSTRUMENT) instrument = 0;
 
-            Enumeration phrases = inst.getPhraseList().elements(); 
+            Enumeration phrases = inst.getPhraseList().elements();
             double max = 0;
             double currentTime = 0.0;
-	    
-	    // 
+
+	    //
 	    // One track per Part
 	    /////////////
-            Track currTrack=sequence.createTrack(); 
+            Track currTrack=sequence.createTrack();
             while(phrases.hasMoreElements()) {
                 /////////////////////////////////////////////////
                 // Each phrase represents a new Track element
@@ -418,8 +409,8 @@ public class MidiSynth implements JMC, MetaEventListener {
 
                 elementTempoRatio = m_masterTempo/m_currentTempo;
 
-                double lastPanPosition = -1.0;  
-                int offSetTime = 0;          
+                double lastPanPosition = -1.0;
+                int offSetTime = 0;
                 /// Each note
                 Enumeration notes = phrase.getNoteList().elements();
                 while(notes.hasMoreElements()) {
@@ -442,7 +433,7 @@ public class MidiSynth implements JMC, MetaEventListener {
                         continue;
                     }
 
-                    long onTick = (long)(phraseTick);
+                    long onTick = (phraseTick);
                     // pan
                     if (note.getPan() != lastPanPosition) {
 			evt = createCChangeEvent(currChannel, 10, (int)(note.getPan()*127), onTick);
@@ -463,10 +454,10 @@ public class MidiSynth implements JMC, MetaEventListener {
                     // TODO:  Should this be ticks since we have tempo stuff
                     // to worry about
                     //System.out.println("offtick = " + offTick + " ppq = " +
-			//	       m_ppqn + " score length = " + score.getEndTime() + 
+			//	       m_ppqn + " score length = " + score.getEndTime() +
 			//	       " length * ppq = " + (m_ppqn * score.getEndTime()));
-                    if ((double)offTick > longestTime) {
-                        longestTime = (double)offTick;
+                    if (offTick > longestTime) {
+                        longestTime = offTick;
                         longestTrack = currTrack;
                         //longestRatio = trackTempoRatio;
                     }
@@ -492,7 +483,7 @@ public class MidiSynth implements JMC, MetaEventListener {
         }
 
         return sequence;
-    } 
+    }
 
     private boolean initSynthesizer() {
         if (null == m_synth) {
@@ -516,6 +507,7 @@ public class MidiSynth implements JMC, MetaEventListener {
     }
 
 	/** Close off all open JavaSound playback objects */
+	@Override
 	public void finalize() {
 		m_seq = null;
 		m_sequencer.close();

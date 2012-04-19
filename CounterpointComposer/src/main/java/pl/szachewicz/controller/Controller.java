@@ -49,6 +49,8 @@ public class Controller implements PropertyChangeListener {
 	public void newCounterpoint() {
 		stavePanel.setTrebleStavePhrase(new Phrase());
 		stavePanel.setBassStavePhrase(new Phrase());
+		mainFrame.getConsolePanel().fillViewFromModel("");
+		mainFrame.getPhrasesTablePanel().fillFromModel(null);
 	}
 
 	public void playScore() {
@@ -61,7 +63,7 @@ public class Controller implements PropertyChangeListener {
 	}
 
 	public void stopPlaying() {
-		Play.stopMidi();
+			Play.stopMidi();
 	}
 
 	public void generateRanking() {
@@ -72,15 +74,18 @@ public class Controller implements PropertyChangeListener {
 
 	public void setPhrase(int index) {
 		Phrase generatedCounterpoint = ranking.getBestRanking().get(index).getPhrase();
-		System.out.println("index " + index + " points = " + ranking.getBestRanking().get(index).getNumberOfPoints());
+		//System.out.println("index " + index + " points = " + ranking.getBestRanking().get(index).getNumberOfPoints());
 		stavePanel.setBassStavePhrase(generatedCounterpoint);
+		evaluate();
 	}
 
 	public void evaluate() {
 		Evaluator evaluator = new Evaluator(stavePanel.getTrebleStavePhrase(), preferences);
 		Phrase counterPoint = stavePanel.getBassStavePhrase();
-		int result = evaluator.evaluatePhrase(counterPoint);
-		System.out.println("Evaluation = " + result);
+		evaluator.evaluatePhrase(counterPoint);
+
+		String evaluationLog = evaluator.getEvaluationLog();
+		mainFrame.getConsolePanel().fillViewFromModel(evaluationLog);
 	}
 
 	public void setPreferences(Preferences preferences) {
@@ -97,7 +102,8 @@ public class Controller implements PropertyChangeListener {
 			try {
 				ranking = generateRankingWorker.get();
 				phrasesTablePanel.fillFromModel(ranking.getBestRanking());
-				setPhrase(0);
+				if (ranking.getBestRanking().size() > 0)
+					setPhrase(0);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -111,7 +117,6 @@ public class Controller implements PropertyChangeListener {
 	public void loadScoreFromJMFile(String filePath) {
 		ioController.loadScoreFromJMFile(filePath);
 	}
-
 
 	public void saveToMidi(String filePath) {
 		ioController.saveToMidi(filePath);

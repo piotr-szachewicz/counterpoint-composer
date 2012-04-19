@@ -9,13 +9,19 @@ public class Evaluator {
 	private final Phrase cantusFirmus;
 	private final Preferences preferences;
 
+	private StringBuilder evaluationLog;
+
 	public Evaluator(Phrase cantusFirmus, Preferences preferences) {
 		this.cantusFirmus = cantusFirmus;
 		this.preferences = preferences;
 	}
 
 	public int evaluatePhrase(Phrase phrase) {
+		evaluationLog = new StringBuilder();
 		int points = 0;
+
+		evaluationLog.append("==================\n");
+		evaluationLog.append("Phrase evaluation:\n");
 
 		for (int i = 0; i < phrase.size(); i++) {
 			int counterpointPitch = phrase.getNote(i).getPitch();
@@ -32,11 +38,13 @@ public class Evaluator {
 						|| (cantusFirmusPitch < cantusFirmusPreviousPitch
 						&& counterpointPitch < counterpointPreviousPitch)) {
 					points -= preferences.getParallelMovementPunishment();
+					log(i-1, i, "parallel movement", preferences.getParallelMovementPunishment());
 				}
 
 				//powtarzanie dźwięku
 				if (counterpointPitch == counterpointPreviousPitch) {
 					points -= preferences.getNoteRepetitionPunishment();
+					log(i-1, i, "note repetition  ", preferences.getNoteRepetitionPunishment());
 				}
 
 				//nie lubię skoków
@@ -45,6 +53,8 @@ public class Evaluator {
 				for (NoteJumpPunishmentRange range: preferences.getPunishments()) {
 					if (counterPointJump >= range.getMinSemitones() && counterPointJump <= range.getMaxSemitones()) {
 						points -= range.getPunishment();
+						if (range.getPunishment() != 0)
+							log(i-1, i, "jump punishment  ", range.getPunishment());
 					}
 				}
 
@@ -58,12 +68,31 @@ public class Evaluator {
 						Math.signum(counterpoint3 - counterpoint2) == Math.signum(counterpointPreviousPitch - counterpointPitch)
 						) {
 						points -= preferences.getTrillPunishment();
+						log(i-4, i, "trill", preferences.getTrillPunishment());
 					}
 				}
 			}
 		}
+		evaluationLog.append("SUMMARY points: " + points + "\n");
+		evaluationLog.append("==================\n");
 
 		return points;
+	}
+
+	protected void log(Integer startNote, Integer lastNote, String problem, double punishment) {
+		evaluationLog.append("Notes ");
+		evaluationLog.append(startNote+1);
+		evaluationLog.append("-");
+		evaluationLog.append(lastNote+1);
+		evaluationLog.append("\t");
+		evaluationLog.append(problem);
+		evaluationLog.append("\t");
+		evaluationLog.append(-punishment);
+		evaluationLog.append("\n");
+	}
+
+	public String getEvaluationLog() {
+		return evaluationLog.toString();
 	}
 
 }

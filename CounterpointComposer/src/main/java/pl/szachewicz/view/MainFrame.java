@@ -1,6 +1,7 @@
 package pl.szachewicz.view;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.List;
@@ -14,6 +15,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -23,12 +25,13 @@ import pl.szachewicz.view.preferences.PreferencesDialog;
 
 public class MainFrame extends JFrame implements ListSelectionListener {
 
-	public static int WINDOW_HEIGHT = 370;
+	public static int WINDOW_HEIGHT = 570;
 	public static int WINDOW_WIDTH = 990;
 
 	private Controller controller;
 	private StavePanel stavePanel;
 	private PhraseRankingTablePanel phrasesTablePanel;
+	private ConsolePanel consolePanel;
 
 	private final JFileChooser fileChooser = new JFileChooser();
 	private final PreferencesDialog preferencesDialog = new PreferencesDialog(this);
@@ -42,19 +45,26 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
 		createMenu();
 
-		JPanel panel = new JPanel(new BorderLayout());
+		JPanel northPanel = new JPanel(new BorderLayout());
+		northPanel.add(getStavePanel(), BorderLayout.CENTER);
+		northPanel.add(getPhrasesTablePanel(), BorderLayout.WEST);
 
-		panel.add(getStavePanel(), BorderLayout.CENTER);
-		panel.add(createButtonsPanel(), BorderLayout.SOUTH);
+		JPanel southPanel = new JPanel(new BorderLayout());
+		southPanel.add(createButtonsPanel(), BorderLayout.EAST);
+		southPanel.add(getConsolePanel(), BorderLayout.CENTER);
 
-		//table
-		panel.add(getPhrasesTablePanel(), BorderLayout.WEST);
+		this.setLayout(new BorderLayout());
+		this.add(northPanel, BorderLayout.CENTER);
+		this.add(southPanel, BorderLayout.SOUTH);
 
-		this.add(panel);
+		this.add(northPanel);
 	}
 
 	protected JPanel createButtonsPanel() {
 		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setBorder(new TitledBorder("Controls"));
+		buttonsPanel.setLayout(new GridLayout(4, 1, 10, 10));
+
 		JButton playButton = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				getController().playScore();
@@ -90,6 +100,12 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 		buttonsPanel.add(evaluateButton);
 
 		return buttonsPanel;
+	}
+
+	public ConsolePanel getConsolePanel() {
+		if (consolePanel == null)
+			consolePanel = new ConsolePanel();
+		return consolePanel;
 	}
 
 	public PhraseRankingTablePanel getPhrasesTablePanel() {

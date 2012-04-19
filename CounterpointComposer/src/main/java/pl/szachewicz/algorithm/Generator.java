@@ -76,6 +76,9 @@ public class Generator {
 
 			noteNumber++;
 		}
+
+		if (availablePitches.size() == 0)
+			incrementEnd = true;
 		System.out.println("number of possible phrases: " + numberOfPossiblePhrases);
 		currentPhraseNumber = new BigInteger("1");
 	}

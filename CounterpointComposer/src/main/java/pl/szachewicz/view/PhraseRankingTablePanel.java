@@ -1,6 +1,8 @@
 package pl.szachewicz.view;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -28,6 +30,7 @@ public class PhraseRankingTablePanel extends JPanel {
 	}
 
 	protected void initialize() {
+		this.setLayout(new BorderLayout());
 		TitledBorder border = new TitledBorder("Best phrases");
 		this.setBorder(border);
 
@@ -43,7 +46,12 @@ public class PhraseRankingTablePanel extends JPanel {
 	}
 
 	public void fillFromModel(List<EvaluatedPhrase> phrases) {
-		tableModel.setPhrases(phrases);
+		if (phrases != null && phrases.size() > 0) {
+			tableModel.setPhrases(phrases);
+			table.setRowSelectionInterval(0, 0);
+		}
+		else
+			tableModel.setPhrases(new ArrayList<EvaluatedPhrase>());
 	}
 
 	public int getSelectedIndex() {
