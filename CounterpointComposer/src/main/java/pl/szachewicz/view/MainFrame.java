@@ -27,7 +27,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
 	private Controller controller;
 	private StavePanel stavePanel;
-	private final PhraseRankingTablePanel phrasesTablePanel;
+	private PhraseRankingTablePanel phrasesTablePanel;
 
 	private final JFileChooser fileChooser = new JFileChooser();
 	private final PreferencesDialog preferencesDialog = new PreferencesDialog();
@@ -64,8 +64,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 		JButton generateButton = new JButton(new AbstractAction() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				List<EvaluatedPhrase> phrases = getController().generateRanking();
-				phrasesTablePanel.fillFromModel(phrases);
+				getController().generateRanking();
 			}
 		});
 		generateButton.setText("Generate ranking");
@@ -83,11 +82,17 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 		panel.add(buttonsPanel, BorderLayout.SOUTH);
 
 		//table
-		phrasesTablePanel = new PhraseRankingTablePanel();
-		panel.add(phrasesTablePanel, BorderLayout.WEST);
-		phrasesTablePanel.addSelectionListener(this);
+		panel.add(getPhrasesTablePanel(), BorderLayout.WEST);
 
 		this.add(panel);
+	}
+
+	public PhraseRankingTablePanel getPhrasesTablePanel() {
+		if (phrasesTablePanel == null) {
+			phrasesTablePanel = new PhraseRankingTablePanel();
+			phrasesTablePanel.addSelectionListener(this);
+		}
+		return phrasesTablePanel;
 	}
 
 	public StavePanel getStavePanel() {
@@ -98,7 +103,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
 	public Controller getController() {
 		if (controller == null)
-			controller = new Controller(getStavePanel());
+			controller = new Controller(this);
 		return controller;
 	}
 

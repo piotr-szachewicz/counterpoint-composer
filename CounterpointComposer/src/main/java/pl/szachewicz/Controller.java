@@ -1,6 +1,11 @@
 package pl.szachewicz;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import javax.swing.SwingWorker.StateValue;
 
 import jm.music.data.Part;
 import jm.music.data.Phrase;
@@ -12,18 +17,30 @@ import pl.szachewicz.algorithm.Evaluator;
 import pl.szachewicz.algorithm.Ranking;
 import pl.szachewicz.model.EvaluatedPhrase;
 import pl.szachewicz.model.preferences.Preferences;
+import pl.szachewicz.view.MainFrame;
+import pl.szachewicz.view.PhraseRankingTablePanel;
 import pl.szachewicz.view.StavePanel;
+import pl.szachewicz.worker.GenerateRankingWorker;
 
-public class Controller {
+public class Controller implements PropertyChangeListener {
+
+	//mainFrame elements
+	private final MainFrame mainFrame;
+	private final StavePanel stavePanel;
+	private final PhraseRankingTablePanel phrasesTablePanel;
 
 	private Preferences preferences = new Preferences();
-	private final StavePanel stavePanel;
 	private Ranking ranking;
+
+	private GenerateRankingWorker generateRankingWorker;
 
 	private int selectedCounterpointIndex = 0;
 
-	public Controller(StavePanel stavePanel) {
-		this.stavePanel = stavePanel;
+	public Controller(MainFrame mainFrame) {
+		this.mainFrame = mainFrame;
+		this.stavePanel = mainFrame.getStavePanel();
+		this.phrasesTablePanel = mainFrame.getPhrasesTablePanel();
+
 		preferences.setDefaults();
 	}
 
@@ -50,7 +67,7 @@ public class Controller {
 			stavePanel.setBassStavePhrase(bassPhrase);
 		}
 
-		ranking = new Ranking(treblePhrase, preferences);
+		//ranking = new Ranking(treblePhrase, preferences);
 	}
 
 	public void playScore() {
@@ -70,19 +87,11 @@ public class Controller {
 		Write.midi(stavePanel.getScore(), filePath);
 	}
 
-	public List<EvaluatedPhrase> getRanking() {
-		if (ranking == null)
-			return null;
-		return ranking.getBestRanking();
-	}
-
-	public List<EvaluatedPhrase> generateRanking() {
-		ranking = new Ranking(stavePanel.getTrebleStavePhrase(), preferences);
-		ranking.generateRanking();
+	public void generateRanking() {
 		selectedCounterpointIndex = -1;
-		setPhrase(0);
-
-		return ranking.getBestRanking();
+		generateRankingWorker = new GenerateRankingWorker(mainFrame, stavePanel.getTrebleStavePhrase(), preferences);
+		generateRankingWorker.addPropertyChangeListener(this);
+		generateRankingWorker.execute();
 	}
 
 	public void setPhrase(int index) {
@@ -100,5 +109,27 @@ public class Controller {
 
 	public void setPreferences(Preferences preferences) {
 		this.preferences = preferences;
+	}
+
+	public List<EvaluatedPhrase> getRanking() {
+		return ranking.getBestRanking();
+	}
+
+	public void propertyChange(PropertyChangeEvent event) {
+
+		if (generateRankingWorker.getState() == StateValue.DONE) {
+			try {
+				ranking = generateRankingWorker.get();
+				phrasesTablePanel.fillFromModel(ranking.getBestRanking());
+				setPhrase(0);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
 	}
 }

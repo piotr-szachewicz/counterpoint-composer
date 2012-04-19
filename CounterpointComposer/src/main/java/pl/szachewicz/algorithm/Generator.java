@@ -85,6 +85,11 @@ public class Generator {
 		if (incrementEnd)
 			return null;
 
+		/*System.out.print("[");
+		for (int position: positions) {
+			System.out.print(position + ", ");
+		}
+		System.out.println("] " + currentPhraseNumber + " / " + numberOfPossiblePhrases);*/
 		Phrase phrase = new Phrase();
 		for (int i = 0; i < cantusFirmus.getSize(); i++) {
 
@@ -106,10 +111,10 @@ public class Generator {
 		int i = positions.length - 1;
 		positions[i]++;
 
-		for (; i > 0; i--) {
+		for (; i >= 0; i--) {
 			if (positions[i] >= availablePitches.get(i).size()) {
 				positions[i] = 0;
-				if (i - 1 > 0)
+				if (i - 1 >= 0)
 					positions[i-1]++;
 				else
 					incrementEnd = true;

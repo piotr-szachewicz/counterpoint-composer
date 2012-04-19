@@ -1,5 +1,7 @@
 package pl.szachewicz.algorithm;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +15,8 @@ public class Ranking {
 
 	//private final List<Integer> bestPhrasesPoints = new ArrayList<Integer>();
 	//private final List<Phrase> bestPhrases = new ArrayList<Phrase>();
+	private final PropertyChangeSupport pcSupport;
+	public static final String PROGRESS_PROPERTY = "progressProperty";
 
 	private final List<EvaluatedPhrase> bestPhrases = new ArrayList<EvaluatedPhrase>();
 
@@ -24,10 +28,13 @@ public class Ranking {
 	private int worseNumberOfPoints = Integer.MAX_VALUE;
 	private int worsePhraseIndex;
 
+	private boolean canceled = false;
+
 	public Ranking(Phrase cantusFirmus, Preferences preferences) {
 		this.cantusFirmus = cantusFirmus;
 		this.generator = new Generator(cantusFirmus, preferences);
 		this.evaluator = new Evaluator(cantusFirmus, preferences);
+		this.pcSupport = new PropertyChangeSupport(this);
 	}
 
 	protected void recalculateWorstPhrase() {
@@ -44,7 +51,7 @@ public class Ranking {
 	}
 
 	public void generateRanking() {
-		while (generator.hasNext()) {
+		while (generator.hasNext() && !canceled) {
 			Phrase phrase = generator.generateNext();
 			int points = evaluator.evaluatePhrase(phrase);
 
@@ -57,10 +64,22 @@ public class Ranking {
 			}
 			else {
 				bestPhrases.add(new EvaluatedPhrase(phrase, points));
-//				bestPhrases.remove(worsePhraseIndex);
 				recalculateWorstPhrase();
 			}
+			fireProgressChanged();
 		}
+	}
+
+	public void setCanceled(boolean canceled) {
+		this.canceled = canceled;
+	}
+
+	private void fireProgressChanged() {
+		pcSupport.firePropertyChange(PROGRESS_PROPERTY, null, generator.getPercentageComplete());
+	}
+
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		pcSupport.addPropertyChangeListener(listener);
 	}
 
 	public List<EvaluatedPhrase> getBestRanking() {
