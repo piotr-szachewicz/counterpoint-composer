@@ -1,5 +1,6 @@
 package pl.szachewicz.algorithm;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,6 +24,9 @@ public class Generator {
 	private final int[] positions;
 	private boolean incrementEnd = false;
 
+	private BigInteger numberOfPossiblePhrases;
+	private BigInteger currentPhraseNumber;
+
 	public Generator(Phrase cantusFirmus, Preferences preferences) {
 		this.cantusFirmus = cantusFirmus;
 		positions = new int[cantusFirmus.getSize()];
@@ -39,13 +43,13 @@ public class Generator {
 				result.add(pitch);
 			}
 		}
-		//pitches.addAll(pitches);
 	}
 
 	protected void prepareAvailablePitches() {
 		availablePitches = new ArrayList<List<Integer>>();
 
 		int noteNumber = 0;
+		numberOfPossiblePhrases = new BigInteger("1");
 		for (Note note: cantusFirmus.getNoteArray()) {
 			List<Integer> pitches = new ArrayList<Integer>();
 			int basePitch = note.getPitch();
@@ -67,8 +71,13 @@ public class Generator {
 
 			availablePitches.add(pitches);
 
+			BigInteger b = new BigInteger(Integer.toString(pitches.size()));
+			numberOfPossiblePhrases = numberOfPossiblePhrases.multiply(b);
+
 			noteNumber++;
 		}
+		System.out.println("number of possible phrases: " + numberOfPossiblePhrases);
+		currentPhraseNumber = new BigInteger("1");
 	}
 
 	public Phrase generateNext() {
@@ -88,6 +97,7 @@ public class Generator {
 			}
 		}
 		incrementPositions();
+		currentPhraseNumber = currentPhraseNumber.add(new BigInteger("1")); //++
 
 		return phrase;
 	}
@@ -123,4 +133,19 @@ public class Generator {
 
 		prepareAvailablePitches();
 	}
+
+	public BigInteger getCurrentPhraseNumber() {
+		return currentPhraseNumber;
+	}
+
+	public BigInteger getNumberOfPossiblePhrases() {
+		return numberOfPossiblePhrases;
+	}
+
+	public int getPercentageComplete() {
+		BigInteger multBy100 = currentPhraseNumber.multiply(new BigInteger("100"));
+		BigInteger percentage = multBy100.divide(numberOfPossiblePhrases);
+		return percentage.intValue();
+	}
+
 }

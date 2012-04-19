@@ -26,8 +26,8 @@ public class PhraseRankingTableModel extends DefaultTableModel {
 	@Override
 	public String getColumnName(int column) {
 		switch (column) {
-		case 0: return "Points";
-		case 1: return "Phrase";
+		case 0: return "Phrase";
+		case 1: return "Points";
 		}
 		return null;
 	}
@@ -44,8 +44,8 @@ public class PhraseRankingTableModel extends DefaultTableModel {
 		EvaluatedPhrase phrase = phrases.get(row);
 
 		switch(column) {
-			case 0: return phrase.getNumberOfPoints();
-			case 1: return "Phrase " + row;
+			case 0: return "Phrase " + row;
+			case 1: return phrase.getNumberOfPoints();
 		}
 		return null;
 	}

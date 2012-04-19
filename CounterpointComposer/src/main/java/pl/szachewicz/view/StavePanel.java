@@ -16,7 +16,6 @@ import jm.util.Play;
 import jm.util.Read;
 import jm.util.Write;
 import pl.szachewicz.algorithm.Evaluator;
-import pl.szachewicz.algorithm.Generator;
 import pl.szachewicz.algorithm.Ranking;
 import pl.szachewicz.model.EvaluatedPhrase;
 import pl.szachewicz.model.preferences.Preferences;
@@ -27,7 +26,6 @@ public class StavePanel extends JPanel {
 
 	private final TrebleStave trebleStave;
 	private final BassStave bassStave;
-	private Generator generator;
 	private Ranking ranking;
 
 	private int selectedCounterpointIndex = 0;
@@ -82,7 +80,6 @@ public class StavePanel extends JPanel {
 			bassStave.setPhrase(bassPhrase);
 		}
 
-		//generator = new Generator(treblePhrase);
 		ranking = new Ranking(treblePhrase, preferences);
 	}
 
