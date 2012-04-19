@@ -45,7 +45,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>pl.szachewicz.CounterpointComposerApplication</mainClass>
+                            <mainClass>pl.szachewicz.Application</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
