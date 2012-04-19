@@ -1,4 +1,4 @@
-package pl.szachewicz.view;
+package pl.szachewicz.view.abstractcomponents;
 
 import javax.swing.JPanel;
 

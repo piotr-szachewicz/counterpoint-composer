@@ -1,4 +1,4 @@
-package pl.szachewicz.view.preferences;
+package pl.szachewicz.view.preferences.evaluator;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -14,7 +14,7 @@ import javax.swing.border.TitledBorder;
 import pl.szachewicz.model.preferences.NoteJumpPunishmentRange;
 import pl.szachewicz.model.preferences.NoteJumpsPunishmentsTableModel;
 import pl.szachewicz.model.preferences.Preferences;
-import pl.szachewicz.view.AbstractPanel;
+import pl.szachewicz.view.abstractcomponents.AbstractPanel;
 
 public class NoteJumpPunishmentsPanel extends AbstractPanel implements ActionListener, KeyListener {
 

@@ -1,4 +1,4 @@
-package pl.szachewicz.view.preferences;
+package pl.szachewicz.view.preferences.generator;
 
 import pl.szachewicz.model.preferences.Preferences;
 

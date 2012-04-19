@@ -1,4 +1,4 @@
-package pl.szachewicz.view.preferences;
+package pl.szachewicz.view.preferences.evaluator;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -7,7 +7,7 @@ import javax.swing.JSpinner;
 import javax.swing.border.TitledBorder;
 
 import pl.szachewicz.model.preferences.Preferences;
-import pl.szachewicz.view.AbstractPanel;
+import pl.szachewicz.view.abstractcomponents.AbstractPanel;
 
 public class EvaluatorParametersPanel extends AbstractPanel {
 

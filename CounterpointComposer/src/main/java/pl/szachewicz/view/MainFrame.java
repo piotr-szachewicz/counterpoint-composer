@@ -17,7 +17,7 @@ import javax.swing.JSeparator;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import pl.szachewicz.Controller;
+import pl.szachewicz.controller.Controller;
 import pl.szachewicz.model.EvaluatedPhrase;
 import pl.szachewicz.view.preferences.PreferencesDialog;
 

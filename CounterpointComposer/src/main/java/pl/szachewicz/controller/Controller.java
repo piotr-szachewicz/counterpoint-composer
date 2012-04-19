@@ -1,4 +1,4 @@
-package pl.szachewicz;
+package pl.szachewicz.controller;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -7,12 +7,8 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.SwingWorker.StateValue;
 
-import jm.music.data.Part;
 import jm.music.data.Phrase;
-import jm.music.data.Score;
 import jm.util.Play;
-import jm.util.Read;
-import jm.util.Write;
 import pl.szachewicz.algorithm.Evaluator;
 import pl.szachewicz.algorithm.Ranking;
 import pl.szachewicz.model.EvaluatedPhrase;
@@ -24,6 +20,8 @@ import pl.szachewicz.worker.GenerateRankingWorker;
 
 public class Controller implements PropertyChangeListener {
 
+	private final IOController ioController;
+
 	//mainFrame elements
 	private final MainFrame mainFrame;
 	private final StavePanel stavePanel;
@@ -34,12 +32,12 @@ public class Controller implements PropertyChangeListener {
 
 	private GenerateRankingWorker generateRankingWorker;
 
-	private int selectedCounterpointIndex = 0;
-
 	public Controller(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
 		this.stavePanel = mainFrame.getStavePanel();
 		this.phrasesTablePanel = mainFrame.getPhrasesTablePanel();
+
+		ioController = new IOController(stavePanel);
 
 		preferences.setDefaults();
 	}
@@ -48,31 +46,9 @@ public class Controller implements PropertyChangeListener {
 		return preferences;
 	}
 
-	public void saveResults(String filePath) {
-		Score score = stavePanel.getScore();
-		Write.jm(score, filePath);
-	}
-
 	public void newCounterpoint() {
 		stavePanel.setTrebleStavePhrase(new Phrase());
 		stavePanel.setBassStavePhrase(new Phrase());
-	}
-
-	public void loadScoreFromJMFile(String filePath) {
-		Score score = new Score();
-		Read.jm(score, filePath);
-
-		Part[] parts = score.getPartArray();
-
-		Phrase treblePhrase = parts[0].getPhrase(0);
-		stavePanel.setTrebleStavePhrase(treblePhrase);
-
-		if (parts.length > 1 && parts[1].getPhrase(0) != null) {
-			Phrase bassPhrase = parts[1].getPhrase(0);
-			stavePanel.setBassStavePhrase(bassPhrase);
-		}
-
-		//ranking = new Ranking(treblePhrase, preferences);
 	}
 
 	public void playScore() {
@@ -88,12 +64,7 @@ public class Controller implements PropertyChangeListener {
 		Play.stopMidi();
 	}
 
-	public void saveToMidi(String filePath) {
-		Write.midi(stavePanel.getScore(), filePath);
-	}
-
 	public void generateRanking() {
-		selectedCounterpointIndex = -1;
 		generateRankingWorker = new GenerateRankingWorker(mainFrame, stavePanel.getTrebleStavePhrase(), preferences);
 		generateRankingWorker.addPropertyChangeListener(this);
 		generateRankingWorker.execute();
@@ -135,6 +106,19 @@ public class Controller implements PropertyChangeListener {
 				e.printStackTrace();
 			}
 		}
-
 	}
+
+	public void loadScoreFromJMFile(String filePath) {
+		ioController.loadScoreFromJMFile(filePath);
+	}
+
+
+	public void saveToMidi(String filePath) {
+		ioController.saveToMidi(filePath);
+	}
+
+	public void saveResults(String filePath) {
+		ioController.saveResults(filePath);
+	}
+
 }

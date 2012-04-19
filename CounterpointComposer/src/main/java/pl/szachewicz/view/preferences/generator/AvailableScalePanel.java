@@ -1,4 +1,4 @@
-package pl.szachewicz.view.preferences;
+package pl.szachewicz.view.preferences.generator;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -22,7 +22,7 @@ import jm.music.data.Note;
 import jm.music.data.Phrase;
 import pl.szachewicz.model.preferences.Preferences;
 import pl.szachewicz.model.preferences.StaveType;
-import pl.szachewicz.view.AbstractPanel;
+import pl.szachewicz.view.abstractcomponents.AbstractPanel;
 
 public class AvailableScalePanel extends AbstractPanel implements ItemListener {
 

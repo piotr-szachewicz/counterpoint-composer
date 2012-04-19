@@ -7,7 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import pl.szachewicz.view.AbstractDialog;
+import pl.szachewicz.view.abstractcomponents.AbstractDialog;
+import pl.szachewicz.view.preferences.evaluator.EvaluatorPreferencesPanel;
+import pl.szachewicz.view.preferences.generator.GeneratorPreferencesPanel;
 
 public class PreferencesDialog extends AbstractDialog {
 

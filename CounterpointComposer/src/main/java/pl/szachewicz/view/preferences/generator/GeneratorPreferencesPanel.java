@@ -1,11 +1,11 @@
-package pl.szachewicz.view.preferences;
+package pl.szachewicz.view.preferences.generator;
 
 import java.awt.GridLayout;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import pl.szachewicz.view.AbstractPanel;
+import pl.szachewicz.view.abstractcomponents.AbstractPanel;
 
 public class GeneratorPreferencesPanel extends AbstractPanel {
 

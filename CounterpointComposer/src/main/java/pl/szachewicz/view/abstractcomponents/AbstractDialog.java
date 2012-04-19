@@ -1,4 +1,4 @@
-package pl.szachewicz.view;
+package pl.szachewicz.view.abstractcomponents;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;

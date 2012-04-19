@@ -1,8 +1,8 @@
-package pl.szachewicz.view.preferences;
+package pl.szachewicz.view.preferences.evaluator;
 
 import javax.swing.BoxLayout;
 
-import pl.szachewicz.view.AbstractPanel;
+import pl.szachewicz.view.abstractcomponents.AbstractPanel;
 
 public class EvaluatorPreferencesPanel extends AbstractPanel {
 

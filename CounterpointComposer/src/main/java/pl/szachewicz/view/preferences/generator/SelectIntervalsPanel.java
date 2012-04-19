@@ -1,4 +1,4 @@
-package pl.szachewicz.view.preferences;
+package pl.szachewicz.view.preferences.generator;
 
 import java.awt.BorderLayout;
 
@@ -7,7 +7,7 @@ import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 
 import pl.szachewicz.model.preferences.IntervalTableModel;
-import pl.szachewicz.view.AbstractPanel;
+import pl.szachewicz.view.abstractcomponents.AbstractPanel;
 
 public abstract class SelectIntervalsPanel extends AbstractPanel{
 
