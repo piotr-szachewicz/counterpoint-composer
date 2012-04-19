@@ -1,19 +1,22 @@
 package pl.szachewicz.algorithm;
 
 import jm.music.data.Phrase;
-import pl.szachewicz.model.Interval;
+import pl.szachewicz.model.preferences.NoteJumpPunishmentRange;
 import pl.szachewicz.model.preferences.Preferences;
 
 public class Evaluator {
 
 	private final Phrase cantusFirmus;
 
+	private final Preferences preferences;
+
 	private final int parallelMovementPunishment = 4;
 	private final int noteRepetitionPunishment = 6;
 	private final int tremoloRepetitionPunishment = 5;
 
-	public Evaluator(Phrase cantusFirmus) {
+	public Evaluator(Phrase cantusFirmus, Preferences preferences) {
 		this.cantusFirmus = cantusFirmus;
+		this.preferences = preferences;
 	}
 
 	public int evaluatePhrase(Phrase phrase) {
@@ -41,14 +44,13 @@ public class Evaluator {
 					points -= noteRepetitionPunishment;
 				}
 
-				int interval = counterpointPitch - counterpointPreviousPitch;
 				//nie lubię skoków
+				int interval = counterpointPitch - counterpointPreviousPitch;
 				int counterPointJump = Math.abs(counterpointPitch - counterpointPreviousPitch);
-				if (counterPointJump > Interval.MAJOR_SECOND.getNumberOfSemitones()) {
-					if (interval > Interval.MAJOR_THIRD.getNumberOfSemitones())
-						points -= 7;
-					else
-						points -= 3;
+				for (NoteJumpPunishmentRange range: preferences.getPunishments()) {
+					if (counterPointJump >= range.getMinSemitones() && counterPointJump <= range.getMaxSemitones()) {
+						points -= range.getPunishment();
+					}
 				}
 
 				//żeby nie było "d-c-d-c-d"

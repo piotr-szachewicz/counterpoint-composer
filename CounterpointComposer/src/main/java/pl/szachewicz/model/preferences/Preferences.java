@@ -8,6 +8,7 @@ import pl.szachewicz.model.Interval;
 
 public class Preferences {
 
+	//generator
 	private StaveType cantusFirmusStaveType;
 
 	private List<Interval> startNoteIntervals;
@@ -16,6 +17,15 @@ public class Preferences {
 
 	private List<Integer> scale;
 
+	//evaluator
+	private List<NoteJumpPunishmentRange> punishments;
+
+	public List<NoteJumpPunishmentRange> getPunishments() {
+		return punishments;
+	}
+	public void setPunishments(List<NoteJumpPunishmentRange> punishments) {
+		this.punishments = punishments;
+	}
 	public List<Interval> getAvailableIntervals() {
 		return availableIntervals;
 	}
@@ -86,6 +96,13 @@ public class Preferences {
 		scale.add(Pitches.b3);
 		scale.add(Pitches.c4);
 		scale.add(Pitches.d4);
+
+		//evaluator
+		punishments = new ArrayList<NoteJumpPunishmentRange>();
+
+		punishments.add(new NoteJumpPunishmentRange(Interval.UNISON, Interval.MAJOR_SECOND, 0));
+		punishments.add(new NoteJumpPunishmentRange(Interval.MINOR_THIRD, Interval.PERFECT_FIFTH, 2));
+		punishments.add(new NoteJumpPunishmentRange(Interval.MINOR_SIXTH, Interval.OCTAVE, 8));
 	}
 
 }

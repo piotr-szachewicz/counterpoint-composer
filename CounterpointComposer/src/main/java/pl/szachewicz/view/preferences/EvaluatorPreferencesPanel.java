@@ -108,13 +108,12 @@ public class EvaluatorPreferencesPanel extends AbstractPanel {
 	}
 
 	public void fillViewFromModel(Object model) {
-		// TODO Auto-generated method stub
+		noteJumpsPunishmentsPreferencesPanel.fillViewFromModel(model);
 
 	}
 
 	public void fillModelFromView(Object model) {
-		// TODO Auto-generated method stub
-
+		noteJumpsPunishmentsPreferencesPanel.fillModelFromView(model);
 	}
 
 }

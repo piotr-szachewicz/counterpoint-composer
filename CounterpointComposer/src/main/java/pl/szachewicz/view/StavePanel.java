@@ -125,7 +125,7 @@ public class StavePanel extends JPanel {
 	}
 
 	public void evaluate() {
-		Evaluator evaluator = new Evaluator(trebleStave.getPhrase());
+		Evaluator evaluator = new Evaluator(trebleStave.getPhrase(), preferences);
 		Phrase counterPoint = bassStave.getPhrase();
 		int result = evaluator.evaluatePhrase(counterPoint);
 		System.out.println("Evaluation = " + result);

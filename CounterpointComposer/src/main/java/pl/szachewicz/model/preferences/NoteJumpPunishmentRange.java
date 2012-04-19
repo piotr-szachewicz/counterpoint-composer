@@ -1,5 +1,7 @@
 package pl.szachewicz.model.preferences;
 
+import pl.szachewicz.model.Interval;
+
 
 public class NoteJumpPunishmentRange {
 
@@ -16,6 +18,13 @@ public class NoteJumpPunishmentRange {
 		super();
 		this.minSemitones = minSemitones;
 		this.maxSemitones = maxSemitones;
+		this.punishment = punishment;
+	}
+
+	public NoteJumpPunishmentRange(Interval minInterval, Interval maxInterval, double punishment) {
+		super();
+		this.minSemitones = minInterval.getNumberOfSemitones();
+		this.maxSemitones = maxInterval.getNumberOfSemitones();
 		this.punishment = punishment;
 	}
 

@@ -7,11 +7,25 @@ import javax.swing.table.AbstractTableModel;
 
 public class NoteJumpsPunishmentsTableModel extends AbstractTableModel {
 
-	private final List<NoteJumpPunishmentRange> punishments = new ArrayList<NoteJumpPunishmentRange>();
+	private List<NoteJumpPunishmentRange> punishments = new ArrayList<NoteJumpPunishmentRange>();
 
 	public void addItem(NoteJumpPunishmentRange jumpPunishment) {
 		punishments.add(jumpPunishment);
 		fireTableDataChanged();
+	}
+
+	public void removeElement(int index) {
+		punishments.remove(index);
+		fireTableDataChanged();
+	}
+
+	public void setPunishments(List<NoteJumpPunishmentRange> punishments) {
+		this.punishments = punishments;
+		fireTableDataChanged();
+	}
+
+	public List<NoteJumpPunishmentRange> getPunishments() {
+		return punishments;
 	}
 
 	public int getColumnCount() {
