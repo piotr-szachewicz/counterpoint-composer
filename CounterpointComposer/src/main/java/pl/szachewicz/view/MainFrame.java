@@ -134,21 +134,17 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 		//File
 		JMenu menu = new JMenu("File");
 
-		JMenuItem newMenuItem = new JMenuItem(new NewAction());
-		menu.add(newMenuItem);
+		menu.add(new JMenuItem(new NewAction()));
 
 		menu.add(new JSeparator());
-
-		JMenuItem saveMenuItem = new JMenuItem(new SaveAction());
-		menu.add(saveMenuItem);
-
-		JMenuItem loadMenuItem = new JMenuItem(new LoadJmAction());
-		menu.add(loadMenuItem);
+		menu.add(new SaveAction());
+		menu.add(new JMenuItem(new LoadJmAction()));
 
 		menu.add(new JSeparator());
+		menu.add(new JMenuItem(new SaveToMidiAction()));
 
-		JMenuItem saveToMidiMenuItem = new JMenuItem(new SaveToMidiAction());
-		menu.add(saveToMidiMenuItem);
+		menu.add(new JSeparator());
+		menu.add(new JMenuItem(new ExitProgrammAction()));
 
 		menuBar.add(menu);
 
@@ -224,6 +220,18 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 		public void actionPerformed(ActionEvent e) {
 			preferencesDialog.showDialog(getController().getPreferences());
 		}
+	}
+
+	class ExitProgrammAction extends AbstractAction {
+		public ExitProgrammAction() {
+			super("Exit");
+		}
+
+		public void actionPerformed(ActionEvent arg0) {
+			MainFrame.this.setVisible(false);
+			System.exit(0);
+		}
+
 	}
 
 	public void valueChanged(ListSelectionEvent e) {
