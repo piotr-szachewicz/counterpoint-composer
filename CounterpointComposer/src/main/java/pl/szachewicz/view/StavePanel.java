@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 
+import jm.constants.RhythmValues;
 import jm.gui.cpn.BassStave;
 import jm.gui.cpn.TrebleStave;
 import jm.music.data.Part;
@@ -28,7 +29,9 @@ public class StavePanel extends JPanel {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
 		trebleStave = new TrebleStave();
+		trebleStave.setAvailableRhythmValues(new double[] {RhythmValues.QUARTER_NOTE});
 		bassStave = new BassStave();
+		bassStave.setAvailableRhythmValues(new double[] {RhythmValues.QUARTER_NOTE});
 
 		panel.add(trebleStave);
 		panel.add(bassStave);

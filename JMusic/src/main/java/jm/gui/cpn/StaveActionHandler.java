@@ -20,19 +20,31 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
 
-// Some GPL changes for jMusic CPN Written by Al Christians 
+// Some GPL changes for jMusic CPN Written by Al Christians
 // (achrist@easystreet.com).
 
 package jm.gui.cpn;
 
-import java.awt.*;
-import java.awt.event.*;
-import jm.music.data.*;
+import java.awt.Cursor;
+import java.awt.Frame;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+
 import jm.JMC;
+import jm.music.data.Note;
+import jm.music.data.Phrase;
 
 public class StaveActionHandler implements JMC, MouseListener, MouseMotionListener, ActionListener, KeyListener {
 
-	private Stave theApp;
+	private final Stave theApp;
 	private int selectedNote = -1;
 	private boolean topTimeSelected = false, keySelected = false;
 	private int clickedPosY, clickedPosX, storedPitch = 72;
@@ -40,39 +52,43 @@ public class StaveActionHandler implements JMC, MouseListener, MouseMotionListen
 		100.5, 100.25, 0.0, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 3.0, 4.0};
     private boolean  button1Down  = false;
 
-    private PopupMenu  noteContextMenu;
-    
-    private MenuItem   editNote,
+    private final PopupMenu  noteContextMenu;
+
+    private final MenuItem   editNote,
                        repeatNote,
                        makeRest,
-                       deleteNote; 
-    
-	
+                       deleteNote;
+
+
 	// constructor
 	StaveActionHandler(Stave stave) {
 		theApp = stave;
-		
+
         noteContextMenu = new PopupMenu();
-        
+
         editNote = new MenuItem("Edit Note");
         editNote.addActionListener(this);
-        noteContextMenu.add(editNote );       
-        
+        noteContextMenu.add(editNote );
+
         repeatNote = new MenuItem("Repeat Note");
         repeatNote.addActionListener(this);
-        noteContextMenu.add(repeatNote ); 		
-        
+        noteContextMenu.add(repeatNote );
+
         makeRest = new MenuItem("Change to Rest");
         makeRest.addActionListener(this);
-        noteContextMenu.add(makeRest);       
-        
+        noteContextMenu.add(makeRest);
+
         deleteNote = new MenuItem("Delete Note");
         deleteNote.addActionListener(this);
-        noteContextMenu.add(deleteNote );       
-        
+        noteContextMenu.add(deleteNote );
+
         theApp.add(noteContextMenu);
     }
-    
+
+	public void setAvailableRhythmValues(double[] rhythmValues) {
+		this.rhythmValues = rhythmValues;
+	}
+
     boolean inNoteArea( MouseEvent e ) {
         Integer lastX;
         if (theApp.notePositions.size() < 2) {
@@ -80,9 +96,9 @@ public class StaveActionHandler implements JMC, MouseListener, MouseMotionListen
         } else {
             lastX = (Integer)theApp.notePositions.elementAt(theApp.notePositions.size() -2);
         }
-        return (e.getX() <= lastX.intValue() + 15) && 
+        return (e.getX() <= lastX.intValue() + 15) &&
                (e.getX() < theApp.getTotalBeatWidth() + 50);
-    }        
+    }
 
     private void searchForSelectedNote(MouseEvent e) {
         Integer tempX;
@@ -90,10 +106,10 @@ public class StaveActionHandler implements JMC, MouseListener, MouseMotionListen
         for(int i=0;i< theApp.notePositions.size(); i += 2) {
             tempX = (Integer)theApp.notePositions.elementAt(i);
             tempY = (Integer)theApp.notePositions.elementAt(i+1);
-            if((e.getX() > tempX.intValue()) && 
-               (e.getX() < tempX.intValue() + 15) && 
-               ( e.getY() + theApp.staveDelta > 
-                    tempY.intValue() + 22) && 
+            if((e.getX() > tempX.intValue()) &&
+               (e.getX() < tempX.intValue() + 15) &&
+               ( e.getY() + theApp.staveDelta >
+                    tempY.intValue() + 22) &&
                (e.getY() + theApp.staveDelta < tempY.intValue()+35)){
                selectedNote = i/2;
                clickedPosY = e.getY() + theApp.staveDelta;
@@ -106,23 +122,23 @@ public class StaveActionHandler implements JMC, MouseListener, MouseMotionListen
 
 	// Mouse Listener stubs
 	public void mouseClicked(MouseEvent e) {
-        if ((((e.getModifiers() & InputEvent.BUTTON2_MASK) != 0)) && 
+        if ((((e.getModifiers() & InputEvent.BUTTON2_MASK) != 0)) &&
                 inNoteArea(e)) {
             searchForSelectedNote(e);
-            if ((selectedNote >= 0) && 
+            if ((selectedNote >= 0) &&
                 (selectedNote < theApp.getPhrase().size())) {
-                noteContextMenu.show(theApp, e.getX(), e.getY());                            
-            }                    
+                noteContextMenu.show(theApp, e.getX(), e.getY());
+            }
         }
     }
-    
+
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
 	//mouseMotionListener stubs
 	public void mouseMoved(MouseEvent e) {}
 
 	public void mousePressed(MouseEvent e) {
-        if (e.isPopupTrigger() ||  
+        if (e.isPopupTrigger() ||
 	       ((e.getModifiers() & InputEvent.BUTTON2_MASK) != 0) ||
 		   (!theApp.editable)) return;
         button1Down  = true;
@@ -149,7 +165,7 @@ public class StaveActionHandler implements JMC, MouseListener, MouseMotionListen
 			clickedPosY = e.getY()  + theApp.staveDelta;
 			clickedPosX = e.getX();
 		} else {
-		    searchForSelectedNote(e);  
+		    searchForSelectedNote(e);
             theApp.setCursor(new Cursor(Cursor.MOVE_CURSOR));
             // check for a click on a note  - head?
 		}
@@ -168,7 +184,7 @@ public class StaveActionHandler implements JMC, MouseListener, MouseMotionListen
 					boolean white = true;
 					for(int k=0;k<blackNotes.length;k++) {
 						if(newPitch%12 == blackNotes[k]) newPitch--;
-					}					
+					}
 					Note n = new Note(newPitch ,1.0);
 					Phrase phr = theApp.getPhrase();
 					phr.getNoteList().insertElementAt(n, j/2 + 1);
@@ -201,9 +217,9 @@ public class StaveActionHandler implements JMC, MouseListener, MouseMotionListen
 			clickedPosX = e.getX();
 		}
 	}
-		
+
 	public void mouseDragged(MouseEvent e) {
-        if ((!button1Down) || (!theApp.editable)) 
+        if ((!button1Down) || (!theApp.editable))
             return;
 		//theApp.dragNote(e.getX(), e.getY());
 		if (selectedNote >= 0) {
@@ -239,11 +255,11 @@ public class StaveActionHandler implements JMC, MouseListener, MouseMotionListen
 				// find current rhythm value and update RV
 				for(int i=0; i<rhythmValues.length - 1;i++) {
 					if(tempRV == rhythmValues[i]) {
-                        n.setRhythmValue(rhythmValues[i + 1]); 
+                        n.setRhythmValue(rhythmValues[i + 1]);
                         // update duration value
 						n.setDuration(n.getRhythmValue()*0.9);
                     }
-				}				
+				}
 				clickedPosX = e.getX();
 				// update pitch
 				if (n.getRhythmValue() > 100.0) {
@@ -285,7 +301,7 @@ public class StaveActionHandler implements JMC, MouseListener, MouseMotionListen
 					theApp.repaint();
 				}
 			}
-		} 
+		}
 		// check for time signature change
 		if (topTimeSelected) {
 			//increase?
@@ -295,7 +311,7 @@ public class StaveActionHandler implements JMC, MouseListener, MouseMotionListen
 				if (theApp.getMetre() < 1.0) theApp.setMetre(1.0);
                 theApp.getPhrase()
                 .setNumerator(
-                  (new 
+                  (new
                     Double(
                         Math.round(theApp.getMetre())
                     )
@@ -312,7 +328,7 @@ public class StaveActionHandler implements JMC, MouseListener, MouseMotionListen
 				if (theApp.getMetre() > 9.0) theApp.setMetre(9.0);
                 theApp.getPhrase()
                 .setNumerator(
-                  (new 
+                  (new
                     Double(
                         Math.round(theApp.getMetre())
                     )
@@ -343,7 +359,7 @@ public class StaveActionHandler implements JMC, MouseListener, MouseMotionListen
 			}
 		}
 	}
-	
+
 	public void mouseReleased(MouseEvent e) {
 	    button1Down = false;
 		if(!theApp.editable) return;
@@ -361,41 +377,41 @@ public class StaveActionHandler implements JMC, MouseListener, MouseMotionListen
 		keySelected = false;
 		theApp.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	}
-	
-	public void actionPerformed(ActionEvent e) { 
-        Phrase phrase   = theApp.getPhrase();         
+
+	public void actionPerformed(ActionEvent e) {
+        Phrase phrase   = theApp.getPhrase();
         Note note       = phrase.getNote(selectedNote);
         if (e.getSource() == editNote) {
-            Frame      editorFrame 
+            Frame      editorFrame
                 = new Frame( "Edit this Note");
-            editorFrame.setSize( 400, 400);                  
+            editorFrame.setSize( 400, 400);
             editorFrame.setResizable(true);
             NoteEditor noteEditor
-                 = new NoteEditor(editorFrame);            
+                 = new NoteEditor(editorFrame);
             noteEditor.editNote(note, 20, 20);
-        }	       
+        }
         else if (e.getSource() == repeatNote) {
             Note newNote  = note.copy();
             phrase.getNoteList().insertElementAt(
-                newNote, 
-                selectedNote  
+                newNote,
+                selectedNote
             );
-        }          
+        }
         else if (e.getSource() == makeRest) {
             note.setFrequency(Note.REST);
-        }          
+        }
         else if (e.getSource() == deleteNote) {
             phrase.getNoteList().removeElementAt(selectedNote);
-        }          
-        selectedNote = -1;                                                    
+        }
+        selectedNote = -1;
         theApp.repaint();
     }
-	
+
 	// key listener stubs
 	public void keyPressed(KeyEvent e) {}
-	
+
 	public void keyReleased(KeyEvent e) {}
-	
+
 	public void keyTyped(KeyEvent e) {
 //        System.out.println(e.getKeyChar());
 		if(e.getKeyChar() == '\b') theApp.deleteLastNote();

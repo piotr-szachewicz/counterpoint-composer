@@ -62,6 +62,7 @@ public abstract class Stave extends JPanel implements JMC, KeyListener {
 
     protected boolean isNote = false;
 
+    StaveActionHandler handleActions;
 
     // for double buffering
     public Image image;
@@ -153,7 +154,7 @@ public abstract class Stave extends JPanel implements JMC, KeyListener {
         //System.out.println("Max size is "+this.getMaximumSize().width +" "+ this.getMaximumSize().height);
 
         // register the listerners
-        StaveActionHandler handleActions = new StaveActionHandler(this);
+        handleActions = new StaveActionHandler(this);
         this.addMouseListener(handleActions);
         this.addMouseMotionListener(handleActions);
 //        this.addKeyListener(handleActions);
@@ -192,6 +193,10 @@ public abstract class Stave extends JPanel implements JMC, KeyListener {
         tieOver = images.getTieOver();
         tieUnder = images.getTieUnder();
     }
+
+	public void setAvailableRhythmValues(double[] rhythmValues) {
+		handleActions.setAvailableRhythmValues(rhythmValues);
+	}
 
     /*
     * Puts rests at the start of an phrase that does not
