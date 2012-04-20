@@ -71,14 +71,16 @@ public class Generator {
 
 			availablePitches.add(pitches);
 
+			if (pitches.size() == 0) {
+				pitches.add(Pitches.REST);
+			}
+
 			BigInteger b = new BigInteger(Integer.toString(pitches.size()));
 			numberOfPossiblePhrases = numberOfPossiblePhrases.multiply(b);
 
 			noteNumber++;
 		}
 
-		if (availablePitches.size() == 0)
-			incrementEnd = true;
 		System.out.println("number of possible phrases: " + numberOfPossiblePhrases);
 		currentPhraseNumber = new BigInteger("1");
 	}
@@ -88,21 +90,17 @@ public class Generator {
 		if (incrementEnd)
 			return null;
 
-		/*System.out.print("[");
+		System.out.print("[");
 		for (int position: positions) {
 			System.out.print(position + ", ");
 		}
-		System.out.println("] " + currentPhraseNumber + " / " + numberOfPossiblePhrases);*/
+		System.out.println("] " + currentPhraseNumber + " / " + numberOfPossiblePhrases);
 		Phrase phrase = new Phrase();
 		for (int i = 0; i < cantusFirmus.getSize(); i++) {
 
 			List<Integer> pitches = availablePitches.get(i);
-			if (i >= positions.length) {
-				phrase.add(new Note(Pitches.REST, RhythmValues.QUARTER_NOTE));
-			}
-			else {
-				phrase.add(new Note(pitches.get(positions[i]), RhythmValues.QUARTER_NOTE));
-			}
+			phrase.add(new Note(pitches.get(positions[i]), RhythmValues.QUARTER_NOTE));
+
 		}
 		incrementPositions();
 		currentPhraseNumber = currentPhraseNumber.add(new BigInteger("1")); //++
