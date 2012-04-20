@@ -40,8 +40,12 @@ public class Evaluator {
 						&& counterpointPitch > counterpointPreviousPitch)
 						|| (cantusFirmusPitch < cantusFirmusPreviousPitch
 						&& counterpointPitch < counterpointPreviousPitch)) {
-					points -= preferences.getParallelMovementPunishment();
-					log(i-1, i, "parallel movement", preferences.getParallelMovementPunishment());
+
+					int semitones = Math.abs(cantusFirmusPitch - counterpointPitch);
+					int punishment = preferences.getPunishmentForParallelMovement(semitones);
+
+					points -= punishment;
+					log(i-1, i, "parallel movement", punishment);
 				}
 
 				//powtarzanie dźwięku

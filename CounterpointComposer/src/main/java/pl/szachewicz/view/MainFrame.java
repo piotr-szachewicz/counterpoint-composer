@@ -41,6 +41,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		this.setTitle("Counterpoint composer");
+		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 
 		createMenu();

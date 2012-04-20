@@ -1,6 +1,7 @@
 package pl.szachewicz.model.preferences;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import jm.constants.Pitches;
@@ -20,15 +21,24 @@ public class Preferences {
 	//evaluator
 	private List<NoteJumpPunishmentRange> punishments;
 
-	private int parallelMovementPunishment = 4;
+	private int defaultParallelMovementPunishment = 4;
 	private int noteRepetitionPunishment = 6;
 	private int trillPunishment = 5;
 
+	private HashMap<Interval, Integer> parallelMovementPunishmentsMap = new HashMap<Interval, Integer>();;
+
 	public int getParallelMovementPunishment() {
-		return parallelMovementPunishment;
+		return defaultParallelMovementPunishment;
 	}
 	public void setParallelMovementPunishment(int parallelMovementPunishment) {
-		this.parallelMovementPunishment = parallelMovementPunishment;
+		this.defaultParallelMovementPunishment = parallelMovementPunishment;
+	}
+	public HashMap<Interval, Integer> getParallelMovementPunishmentsMap() {
+		return parallelMovementPunishmentsMap;
+	}
+	public void setParallelMovementPunishmentsMap(
+			HashMap<Interval, Integer> parallelMovementPunishmentsMap) {
+		this.parallelMovementPunishmentsMap = parallelMovementPunishmentsMap;
 	}
 	public int getNoteRepetitionPunishment() {
 		return noteRepetitionPunishment;
@@ -129,6 +139,25 @@ public class Preferences {
 
 		punishments.add(new NoteJumpPunishmentRange(Interval.MAJOR_SEVENTH, Interval.MAJOR_SEVENTH, 12));
 		punishments.add(new NoteJumpPunishmentRange(Interval.MINOR_SEVENTH, Interval.MINOR_SEVENTH, 12));
+
+		parallelMovementPunishmentsMap = new HashMap<Interval, Integer>();
+		parallelMovementPunishmentsMap.put(Interval.PERFECT_FIFTH, 30);
+		parallelMovementPunishmentsMap.put(Interval.UNISON, 30);
+		parallelMovementPunishmentsMap.put(Interval.OCTAVE, 30);
+	}
+
+	public int getPunishmentForParallelMovement(int harmonyIntervalInSemitones) {
+		if (harmonyIntervalInSemitones > Interval.OCTAVE.getNumberOfSemitones()) {
+			return defaultParallelMovementPunishment;
+		}
+		else {
+			Interval interval = Interval.findIntervalByNumberOfSemitones(harmonyIntervalInSemitones);
+			Integer punishment = parallelMovementPunishmentsMap.get(interval);
+			if (punishment != null)
+				return punishment;
+			else
+				return defaultParallelMovementPunishment;
+		}
 	}
 
 }
