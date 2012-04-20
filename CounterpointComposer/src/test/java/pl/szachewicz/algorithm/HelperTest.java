@@ -1,8 +1,8 @@
 package pl.szachewicz.algorithm;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.List;
+
+import jm.constants.Pitches;
 
 import org.junit.Test;
 
@@ -12,13 +12,15 @@ public class HelperTest {
 
 	@Test
 	public void getPitchesForIntervalTest() {
-		List<Integer> pitchesForInterval = Helper.getPitchesForInterval(60, Interval.MAJOR_SECOND, 26, 50);
 
-		assertEquals(3, pitchesForInterval.size());
-		assertEquals(26, (int)pitchesForInterval.get(0));
-		assertEquals(38, (int)pitchesForInterval.get(1));
-		assertEquals(50, (int)pitchesForInterval.get(2));
+		List<Integer> pitchesForInterval = Helper.getPitchesForInterval(Pitches.c4, Interval.MINOR_THIRD, Pitches.f1, Pitches.g6);
 
+		pitchesForInterval.contains(Pitches.a3);
+		pitchesForInterval.contains(Pitches.a2);
+		pitchesForInterval.contains(Pitches.a1);
+		pitchesForInterval.contains(Pitches.ef4);
+		pitchesForInterval.contains(Pitches.ef5);
+		pitchesForInterval.contains(Pitches.ef6);
 
 	}
 }

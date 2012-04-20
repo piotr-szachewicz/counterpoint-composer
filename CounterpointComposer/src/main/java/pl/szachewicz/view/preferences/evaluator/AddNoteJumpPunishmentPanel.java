@@ -1,24 +1,25 @@
 package pl.szachewicz.view.preferences.evaluator;
 
-import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.border.TitledBorder;
 
+import pl.szachewicz.model.Interval;
 import pl.szachewicz.model.preferences.NoteJumpPunishmentRange;
 import pl.szachewicz.view.abstractcomponents.AbstractPanel;
 
 public class AddNoteJumpPunishmentPanel extends AbstractPanel {
 
-	private JSpinner minSpinner;
-	private JSpinner maxSpinner;
+	private JComboBox minIntervalComboBox;
+	private JComboBox maxIntervalComboBox;
 	private JSpinner punishmentSpinner;
 	private JButton addButton;
 
@@ -53,8 +54,8 @@ public class AddNoteJumpPunishmentPanel extends AbstractPanel {
 
 		hGroup.addGroup(
 		        layout.createParallelGroup()
-		        .addComponent(getMinSpinner())
-		        .addComponent(getMaxSpinner())
+		        .addComponent(getMinInterval())
+		        .addComponent(getMaxInterval())
 		        .addComponent(getPunishmentSpinner())
 		);
 
@@ -65,13 +66,13 @@ public class AddNoteJumpPunishmentPanel extends AbstractPanel {
 		vGroup.addGroup(
 				layout.createParallelGroup(Alignment.BASELINE)
 				.addComponent(minLabel)
-				.addComponent(getMinSpinner())
+				.addComponent(getMinInterval())
 			);
 
 		vGroup.addGroup(
 				layout.createParallelGroup(Alignment.BASELINE)
 				.addComponent(maxLabel)
-				.addComponent(getMaxSpinner())
+				.addComponent(getMaxInterval())
 			);
 
 		vGroup.addGroup(
@@ -85,18 +86,18 @@ public class AddNoteJumpPunishmentPanel extends AbstractPanel {
 		return panel;
 	}
 
-	public JSpinner getMinSpinner() {
-		if (minSpinner == null)
-			minSpinner = new JSpinner();
-		return minSpinner;
+	public JComboBox getMinInterval() {
+		if (minIntervalComboBox == null) {
+			minIntervalComboBox = new JComboBox(Interval.values());
+		}
+		return minIntervalComboBox;
 	}
 
-	public JSpinner getMaxSpinner() {
-		if (maxSpinner == null) {
-			maxSpinner = new JSpinner();
-			maxSpinner.setMinimumSize(new Dimension(70, 10));
+	public JComboBox getMaxInterval() {
+		if (maxIntervalComboBox == null) {
+			maxIntervalComboBox = new JComboBox(Interval.valuesWithMoreThanOctave());
 		}
-		return maxSpinner;
+		return maxIntervalComboBox;
 	}
 
 	public JSpinner getPunishmentSpinner() {
@@ -112,10 +113,21 @@ public class AddNoteJumpPunishmentPanel extends AbstractPanel {
 		return addButton;
 	}
 
+	protected int getSemitonesFromComboBox(JComboBox comboBox) {
+		Object selectedItem = comboBox.getSelectedItem();
+		if (selectedItem instanceof Interval) {
+			return ((Interval) selectedItem).getNumberOfSemitones();
+		}
+		else {
+			return Integer.MAX_VALUE; //infinity
+		}
+	}
+
 	public NoteJumpPunishmentRange getPunishment() {
 		NoteJumpPunishmentRange punishment = new NoteJumpPunishmentRange();
-		punishment.setMinSemitones((Integer) getMinSpinner().getValue());
-		punishment.setMaxSemitones((Integer) getMaxSpinner().getValue());
+
+		punishment.setMinSemitones(getSemitonesFromComboBox(getMinInterval()));
+		punishment.setMaxSemitones(getSemitonesFromComboBox(getMaxInterval()));
 		punishment.setPunishment((Integer) getPunishmentSpinner().getValue());
 		return punishment;
 	}

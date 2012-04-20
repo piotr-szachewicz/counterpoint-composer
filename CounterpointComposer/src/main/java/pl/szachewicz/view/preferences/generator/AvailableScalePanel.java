@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 
 import jm.JMC;
+import jm.constants.RhythmValues;
 import jm.gui.cpn.BassStave;
 import jm.gui.cpn.Stave;
 import jm.gui.cpn.TrebleStave;
@@ -36,7 +37,7 @@ public class AvailableScalePanel extends AbstractPanel implements ItemListener {
 	public AvailableScalePanel() {
 		super();
 		this.setLayout(new BorderLayout());
-		this.setBorder(new TitledBorder("Scale"));
+		this.setBorder(new TitledBorder("Counterpoint scale"));
 		this.add(createStavePanel(), BorderLayout.CENTER);
 
 		JPanel panel = new JPanel();
@@ -49,7 +50,9 @@ public class AvailableScalePanel extends AbstractPanel implements ItemListener {
 		//stavePanel.setLayout(new BoxLayout(stavePanel, BoxLayout.Y_AXIS));
 
 		trebleStave = new TrebleStave();
+		trebleStave.setAvailableRhythmValues(new double[] {RhythmValues.QUARTER_NOTE});
 		bassStave = new BassStave();
+		bassStave.setAvailableRhythmValues(new double[] {RhythmValues.QUARTER_NOTE});
 
 		stavePanel.add(trebleStave, StaveType.TREBLE.toString());
 		stavePanel.add(bassStave, StaveType.BASS.toString());

@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import pl.szachewicz.model.Interval;
+
 public class NoteJumpsPunishmentsTableModel extends AbstractTableModel {
 
 	private List<NoteJumpPunishmentRange> punishments = new ArrayList<NoteJumpPunishmentRange>();
@@ -50,8 +52,12 @@ public class NoteJumpsPunishmentsTableModel extends AbstractTableModel {
 		NoteJumpPunishmentRange punishment = punishments.get(row);
 
 		switch(col) {
-			case 0: return punishment.getMinSemitones();
-			case 1: return punishment.getMaxSemitones();
+			case 0: return Interval.findIntervalByNumberOfSemitones(punishment.getMinSemitones());
+			case 1:
+				if (punishment.getMaxSemitones() == Integer.MAX_VALUE)
+					return Interval.MORE_THAN_OCTAVE;
+				else
+					return Interval.findIntervalByNumberOfSemitones(punishment.getMaxSemitones());
 			case 2: return punishment.getPunishment();
 		}
 		return null;

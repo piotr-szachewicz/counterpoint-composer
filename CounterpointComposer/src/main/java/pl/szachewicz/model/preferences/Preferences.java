@@ -122,9 +122,13 @@ public class Preferences {
 		//evaluator
 		punishments = new ArrayList<NoteJumpPunishmentRange>();
 
-		punishments.add(new NoteJumpPunishmentRange(Interval.UNISON, Interval.MAJOR_SECOND, 0));
 		punishments.add(new NoteJumpPunishmentRange(Interval.MINOR_THIRD, Interval.PERFECT_FIFTH, 2));
+		punishments.add(new NoteJumpPunishmentRange(Interval.TRITONE, Interval.TRITONE, 20));
+
 		punishments.add(new NoteJumpPunishmentRange(Interval.MINOR_SIXTH, Interval.OCTAVE, 8));
+
+		punishments.add(new NoteJumpPunishmentRange(Interval.MAJOR_SEVENTH, Interval.MAJOR_SEVENTH, 12));
+		punishments.add(new NoteJumpPunishmentRange(Interval.MINOR_SEVENTH, Interval.MINOR_SEVENTH, 12));
 	}
 
 }

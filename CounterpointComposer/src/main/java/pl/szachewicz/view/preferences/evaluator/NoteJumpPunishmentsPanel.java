@@ -24,7 +24,7 @@ public class NoteJumpPunishmentsPanel extends AbstractPanel implements ActionLis
 
 	public NoteJumpPunishmentsPanel() {
 		setLayout(new BorderLayout());
-		setBorder(new TitledBorder("Note jumps punishments"));
+		setBorder(new TitledBorder("Note jumps punishments (for semitone min-max ranges)"));
 		add(new JScrollPane(getPunishmentsTable()), BorderLayout.CENTER);
 		add(getAddPunishmentPanel(), BorderLayout.EAST);
 	}

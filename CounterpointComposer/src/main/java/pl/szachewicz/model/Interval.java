@@ -17,6 +17,8 @@ public enum Interval {
 	MAJOR_SEVENTH(11),
 	OCTAVE(12);
 
+	public static String MORE_THAN_OCTAVE = "> OCTAVE";
+
 	private int numberOfSemitones;
 	private String symbol;
 	private String name;
@@ -44,5 +46,16 @@ public enum Interval {
 
 	public int getNumberOfSemitones() {
 		return numberOfSemitones;
+	}
+
+	public static Object[] valuesWithMoreThanOctave() {
+		Object[] val = new Object[Interval.values().length+1];
+		int i = 0;
+		for (; i < Interval.values().length; i++) {
+			val[i] = Interval.values()[i];
+		}
+		val[i] = Interval.MORE_THAN_OCTAVE;
+
+		return val;
 	}
 }
