@@ -9,13 +9,13 @@ import javax.swing.border.TitledBorder;
 import pl.szachewicz.model.preferences.Preferences;
 import pl.szachewicz.view.abstractcomponents.AbstractPanel;
 
-public class EvaluatorParametersPanel extends AbstractPanel {
+public class OtherEvaluatorParametersPanel extends AbstractPanel {
 
 	private JSpinner parallelMovementPunishmentSpinner;
 	private JSpinner noteRepetitionPunishmentSpinner;
 	private JSpinner trillPunishmentSpinner;
 
-	public EvaluatorParametersPanel() {
+	public OtherEvaluatorParametersPanel() {
 		createInterface();
 	}
 

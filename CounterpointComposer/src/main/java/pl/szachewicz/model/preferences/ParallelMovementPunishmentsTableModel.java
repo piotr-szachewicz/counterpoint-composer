@@ -1,15 +1,30 @@
 package pl.szachewicz.model.preferences;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.table.AbstractTableModel;
 
 public class ParallelMovementPunishmentsTableModel extends AbstractTableModel {
+
+	private List<ParallelMovementPunishment> punishments = new ArrayList<ParallelMovementPunishment>();
+
+	public void setPunishments(List<ParallelMovementPunishment> punishments) {
+		this.punishments = punishments;
+		fireTableDataChanged();
+	}
+
+	public void addItem(ParallelMovementPunishment punishment) {
+		punishments.add(punishment);
+		fireTableDataChanged();
+	}
 
 	public int getColumnCount() {
 		return 2;
 	}
 
 	public int getRowCount() {
-		return 0;
+		return punishments.size();
 	}
 
 	@Override
@@ -21,8 +36,22 @@ public class ParallelMovementPunishmentsTableModel extends AbstractTableModel {
 		return null;
 	}
 
-	public Object getValueAt(int arg0, int arg1) {
+	public Object getValueAt(int row, int col) {
+		ParallelMovementPunishment punishment = punishments.get(row);
+		switch(col) {
+		case 0: return punishment.getInterval();
+		case 1: return punishment.getPunishment();
+		}
 		return null;
+	}
+
+	public List<ParallelMovementPunishment> getPunishments() {
+		return punishments;
+	}
+
+	public void removeElement(int index) {
+		punishments.remove(index);
+		fireTableDataChanged();
 	}
 
 }

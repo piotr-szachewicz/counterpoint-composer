@@ -1,7 +1,6 @@
 package pl.szachewicz.model.preferences;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import jm.constants.Pitches;
@@ -25,7 +24,8 @@ public class Preferences {
 	private int noteRepetitionPunishment = 6;
 	private int trillPunishment = 5;
 
-	private HashMap<Interval, Integer> parallelMovementPunishmentsMap = new HashMap<Interval, Integer>();;
+	//private HashMap<Interval, Integer> parallelMovementPunishmentsMap = new HashMap<Interval, Integer>();;
+	private List<ParallelMovementPunishment> parallelMovementPunishments = new ArrayList<ParallelMovementPunishment>();
 
 	public int getParallelMovementPunishment() {
 		return defaultParallelMovementPunishment;
@@ -33,12 +33,11 @@ public class Preferences {
 	public void setParallelMovementPunishment(int parallelMovementPunishment) {
 		this.defaultParallelMovementPunishment = parallelMovementPunishment;
 	}
-	public HashMap<Interval, Integer> getParallelMovementPunishmentsMap() {
-		return parallelMovementPunishmentsMap;
+	public List<ParallelMovementPunishment> getParallelMovementPunishments() {
+		return parallelMovementPunishments;
 	}
-	public void setParallelMovementPunishmentsMap(
-			HashMap<Interval, Integer> parallelMovementPunishmentsMap) {
-		this.parallelMovementPunishmentsMap = parallelMovementPunishmentsMap;
+	public void setParallelMovementPunishments(List<ParallelMovementPunishment> list) {
+		this.parallelMovementPunishments = list;
 	}
 	public int getNoteRepetitionPunishment() {
 		return noteRepetitionPunishment;
@@ -140,24 +139,25 @@ public class Preferences {
 		punishments.add(new NoteJumpPunishmentRange(Interval.MAJOR_SEVENTH, Interval.MAJOR_SEVENTH, 12));
 		punishments.add(new NoteJumpPunishmentRange(Interval.MINOR_SEVENTH, Interval.MINOR_SEVENTH, 12));
 
-		parallelMovementPunishmentsMap = new HashMap<Interval, Integer>();
-		parallelMovementPunishmentsMap.put(Interval.PERFECT_FIFTH, 30);
-		parallelMovementPunishmentsMap.put(Interval.UNISON, 30);
-		parallelMovementPunishmentsMap.put(Interval.OCTAVE, 30);
+		parallelMovementPunishments.add(new ParallelMovementPunishment(Interval.PERFECT_FIFTH, 30));
+		parallelMovementPunishments.add(new ParallelMovementPunishment(Interval.UNISON, 30));
+		parallelMovementPunishments.add(new ParallelMovementPunishment(Interval.OCTAVE, 30));
 	}
 
 	public int getPunishmentForParallelMovement(int harmonyIntervalInSemitones) {
-		if (harmonyIntervalInSemitones > Interval.OCTAVE.getNumberOfSemitones()) {
+
+		Interval interval = Interval.findIntervalByNumberOfSemitones(harmonyIntervalInSemitones);
+
+		Integer punishment = null;
+		for (ParallelMovementPunishment pmPunishment: parallelMovementPunishments) {
+			if (interval.equals(pmPunishment.getInterval())) {
+				punishment = pmPunishment.getPunishment();
+			}
+		}
+		if (punishment != null)
+			return punishment;
+		else
 			return defaultParallelMovementPunishment;
-		}
-		else {
-			Interval interval = Interval.findIntervalByNumberOfSemitones(harmonyIntervalInSemitones);
-			Integer punishment = parallelMovementPunishmentsMap.get(interval);
-			if (punishment != null)
-				return punishment;
-			else
-				return defaultParallelMovementPunishment;
-		}
 	}
 
 }
