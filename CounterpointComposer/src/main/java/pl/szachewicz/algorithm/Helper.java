@@ -7,10 +7,26 @@ import pl.szachewicz.model.Interval;
 
 public class Helper {
 
+	private static final boolean LOGGING_ENABLED = false;
+
+	public static void debug(String message) {
+		if (LOGGING_ENABLED) {
+			System.out.print(message);
+		}
+	}
+
 	public static List<Integer> getPitchesForInterval(int basePitch,
 			Interval interval, int minimumPitch, int maximumPitch) {
 
 		List<Integer> pitches = new ArrayList<Integer>();
+
+		if (interval.equals(Interval.UNISON)) {
+			if (minimumPitch <= basePitch
+				&& basePitch <= maximumPitch) {
+					pitches.add(basePitch);
+				}
+			return pitches;
+		}
 
 		if (basePitch > minimumPitch) {
 			int currentPitch = basePitch - interval.getNumberOfSemitones();

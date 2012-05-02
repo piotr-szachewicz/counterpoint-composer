@@ -47,7 +47,6 @@ public class GenerateRankingWorker extends SwingWorker<Ranking, Void> implements
 				ranking.setCanceled(true);
 			}
 		}
-
 	}
 
 }

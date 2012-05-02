@@ -1,5 +1,7 @@
 package pl.szachewicz.algorithm;
 
+import static pl.szachewicz.algorithm.Helper.debug;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -94,11 +96,12 @@ public class Generator {
 		if (incrementEnd)
 			return null;
 
-		/*System.out.print("[");
+		debug("[");
 		for (int position: positions) {
-			System.out.print(position + ", ");
+			debug(position + ", ");
 		}
-		System.out.println("] " + currentPhraseNumber + " / " + numberOfPossiblePhrases);*/
+		debug("] " + currentPhraseNumber + " / " + numberOfPossiblePhrases);
+
 		Phrase phrase = new Phrase();
 		for (int i = 0; i < cantusFirmus.getSize(); i++) {
 

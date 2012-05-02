@@ -1,5 +1,7 @@
 package pl.szachewicz.algorithm;
 
+import static pl.szachewicz.algorithm.Helper.debug;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -56,18 +58,22 @@ public class Ranking {
 		while (generator.hasNext() && !canceled) {
 			Phrase phrase = generator.generateNext();
 			int points = evaluator.evaluatePhrase(phrase);
+			debug(" - " + points);
 
 			if (bestPhrases.size() >= numberOfRememberedPhrases) {
 				if (points > worseNumberOfPoints) {
+					debug(" - ADDED (better than " + worseNumberOfPoints + ")");
 					bestPhrases.add(new EvaluatedPhrase(phrase, points));
 					bestPhrases.remove(worsePhraseIndex);
 					recalculateWorstPhrase();
 				}
 			}
 			else {
+				debug(" - ADDED");
 				bestPhrases.add(new EvaluatedPhrase(phrase, points));
 				recalculateWorstPhrase();
 			}
+			debug("\n");
 			fireProgressChanged();
 		}
 		sortBestCounterpointRanking();
