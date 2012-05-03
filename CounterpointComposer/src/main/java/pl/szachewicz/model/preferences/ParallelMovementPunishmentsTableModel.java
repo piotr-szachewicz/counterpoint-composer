@@ -1,6 +1,7 @@
 package pl.szachewicz.model.preferences;
 
 import pl.szachewicz.model.Interval;
+import pl.szachewicz.view.Dialogs;
 
 public class ParallelMovementPunishmentsTableModel extends AbstractPunishmentTableModel<ParallelMovementPunishment> {
 
@@ -42,6 +43,15 @@ public class ParallelMovementPunishmentsTableModel extends AbstractPunishmentTab
 				//ignore - do not change the value
 			}
 		}
+	}
+
+	@Override
+	public void removeElement(int index) {
+		if (punishments.get(index).getInterval() == null) {
+			Dialogs.showErrorDialog("Default parallel punishment movement cannot be deleted");
+			return;
+		}
+		super.removeElement(index);
 	}
 
 }
