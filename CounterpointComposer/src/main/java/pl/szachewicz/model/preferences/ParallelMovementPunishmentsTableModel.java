@@ -67,7 +67,7 @@ public class ParallelMovementPunishmentsTableModel extends AbstractTableModel {
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		if (columnIndex == 1) {
 			try{
-				punishments.get(rowIndex).setPunishment(Double.parseDouble((String) aValue));
+				punishments.get(rowIndex).setPunishment(Float.parseFloat((String) aValue));
 			} catch(Exception e) {
 				//ignore - do not change the value
 			}

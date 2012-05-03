@@ -9,17 +9,17 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
 import javax.swing.border.TitledBorder;
 
 import pl.szachewicz.model.Interval;
 import pl.szachewicz.model.preferences.ParallelMovementPunishment;
 import pl.szachewicz.view.abstractcomponents.AbstractPanel;
+import pl.szachewicz.view.controls.PunishmentSpinner;
 
 public class AddParallelMovementPunishmentPanel extends AbstractPanel {
 
 	private JComboBox intervalComboBox;
-	private JSpinner punishmentSpinner;
+	private PunishmentSpinner punishmentSpinner;
 	private JButton addPunishmentButton;
 
 	public AddParallelMovementPunishmentPanel() {
@@ -83,9 +83,9 @@ public class AddParallelMovementPunishmentPanel extends AbstractPanel {
 		return intervalComboBox;
 	}
 
-	public JSpinner getPunishmentSpinner() {
+	public PunishmentSpinner getPunishmentSpinner() {
 		if (punishmentSpinner == null)
-			punishmentSpinner = new JSpinner();
+			punishmentSpinner = new PunishmentSpinner();
 		return punishmentSpinner;
 	}
 
@@ -107,7 +107,7 @@ public class AddParallelMovementPunishmentPanel extends AbstractPanel {
 
 	public ParallelMovementPunishment getPunishment() {
 		Interval interval = (Interval) getIntervalComboBox().getSelectedItem();
-		int punishment = (Integer) getPunishmentSpinner().getValue();
+		float punishment = getPunishmentSpinner().getValue();
 
 		return new ParallelMovementPunishment(interval, punishment);
 	}

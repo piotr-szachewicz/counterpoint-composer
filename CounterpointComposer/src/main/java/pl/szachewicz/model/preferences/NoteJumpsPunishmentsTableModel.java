@@ -71,7 +71,7 @@ public class NoteJumpsPunishmentsTableModel extends AbstractTableModel {
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		if (columnIndex == 2) {
-			punishments.get(rowIndex).setPunishment(Double.parseDouble((String) aValue));
+			punishments.get(rowIndex).setPunishment(Float.parseFloat((String) aValue));
 		}
 	}
 

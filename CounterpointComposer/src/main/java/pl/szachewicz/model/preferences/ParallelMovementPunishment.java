@@ -5,9 +5,9 @@ import pl.szachewicz.model.Interval;
 public class ParallelMovementPunishment {
 
 	private Interval interval;
-	private double punishment;
+	private float punishment;
 
-	public ParallelMovementPunishment(Interval interval, double punishment) {
+	public ParallelMovementPunishment(Interval interval, float punishment) {
 		this.interval = interval;
 		this.punishment = punishment;
 	}
@@ -18,10 +18,10 @@ public class ParallelMovementPunishment {
 	public void setInterval(Interval interval) {
 		this.interval = interval;
 	}
-	public double getPunishment() {
+	public float getPunishment() {
 		return punishment;
 	}
-	public void setPunishment(double punishment) {
+	public void setPunishment(float punishment) {
 		this.punishment = punishment;
 	}
 

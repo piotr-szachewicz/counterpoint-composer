@@ -8,20 +8,20 @@ public class NoteJumpPunishmentRange {
 	private int minSemitones;
 	private int maxSemitones;
 
-	private double punishment;
+	private float punishment;
 
 	public NoteJumpPunishmentRange() {
 	}
 
 	public NoteJumpPunishmentRange(int minSemitones, int maxSemitones,
-			double punishment) {
+			float punishment) {
 		super();
 		this.minSemitones = minSemitones;
 		this.maxSemitones = maxSemitones;
 		this.punishment = punishment;
 	}
 
-	public NoteJumpPunishmentRange(Interval minInterval, Interval maxInterval, double punishment) {
+	public NoteJumpPunishmentRange(Interval minInterval, Interval maxInterval, float punishment) {
 		super();
 		this.minSemitones = minInterval.getNumberOfSemitones();
 		this.maxSemitones = maxInterval.getNumberOfSemitones();
@@ -44,11 +44,11 @@ public class NoteJumpPunishmentRange {
 		this.maxSemitones = maxSemitones;
 	}
 
-	public double getPunishment() {
+	public float getPunishment() {
 		return punishment;
 	}
 
-	public void setPunishment(double punishment) {
+	public void setPunishment(float punishment) {
 		this.punishment = punishment;
 	}
 

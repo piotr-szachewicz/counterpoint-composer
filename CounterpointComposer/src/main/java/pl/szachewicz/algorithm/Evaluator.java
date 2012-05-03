@@ -1,5 +1,6 @@
 package pl.szachewicz.algorithm;
 
+import jm.constants.Pitches;
 import jm.music.data.Phrase;
 import pl.szachewicz.model.preferences.NoteJumpPunishmentRange;
 import pl.szachewicz.model.preferences.Preferences;
@@ -28,6 +29,11 @@ public class Evaluator {
 
 		for (int i = 0; i < phrase.size(); i++) {
 			int counterpointPitch = phrase.getNote(i).getPitch();
+
+			if (counterpointPitch == Pitches.REST) {
+				evaluationLog.append("Note " + (i+1) + "\tThere's a rest in the counterpoint - the available intervals + scale is too strict - there are no notes in the given scale that fulfill the available intervals restriction.\n");
+				continue;
+			}
 
 			if (i > 0) {
 				int counterpointPreviousPitch = phrase.getNote(i-1).getPitch();
@@ -79,6 +85,7 @@ public class Evaluator {
 					}
 				}
 			}
+
 		}
 		evaluationLog.append("SUMMARY points: " + points + "\n");
 		evaluationLog.append("==================\n");

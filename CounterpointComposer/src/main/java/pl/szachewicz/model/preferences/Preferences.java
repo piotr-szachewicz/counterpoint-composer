@@ -20,10 +20,9 @@ public class Preferences {
 	//evaluator
 	private List<NoteJumpPunishmentRange> punishments;
 
-	private int noteRepetitionPunishment = 6;
-	private int trillPunishment = 5;
+	private float noteRepetitionPunishment = 6;
+	private float trillPunishment = 5;
 
-	//private HashMap<Interval, Integer> parallelMovementPunishmentsMap = new HashMap<Interval, Integer>();;
 	private List<ParallelMovementPunishment> parallelMovementPunishments = new ArrayList<ParallelMovementPunishment>();
 
 	public List<ParallelMovementPunishment> getParallelMovementPunishments() {
@@ -32,16 +31,16 @@ public class Preferences {
 	public void setParallelMovementPunishments(List<ParallelMovementPunishment> list) {
 		this.parallelMovementPunishments = list;
 	}
-	public int getNoteRepetitionPunishment() {
+	public float getNoteRepetitionPunishment() {
 		return noteRepetitionPunishment;
 	}
-	public void setNoteRepetitionPunishment(int noteRepetitionPunishment) {
+	public void setNoteRepetitionPunishment(float noteRepetitionPunishment) {
 		this.noteRepetitionPunishment = noteRepetitionPunishment;
 	}
-	public int getTrillPunishment() {
+	public float getTrillPunishment() {
 		return trillPunishment;
 	}
-	public void setTrillPunishment(int tremoloRepetitionPunishment) {
+	public void setTrillPunishment(float tremoloRepetitionPunishment) {
 		this.trillPunishment = tremoloRepetitionPunishment;
 	}
 	public List<NoteJumpPunishmentRange> getPunishments() {
@@ -138,11 +137,11 @@ public class Preferences {
 		parallelMovementPunishments.add(new ParallelMovementPunishment(null, 4));
 	}
 
-	public double getPunishmentForParallelMovement(int harmonyIntervalInSemitones) {
+	public float getPunishmentForParallelMovement(int harmonyIntervalInSemitones) {
 
 		Interval interval = Interval.findIntervalByNumberOfSemitones(harmonyIntervalInSemitones);
 
-		Double punishment = null;
+		Float punishment = null;
 		for (ParallelMovementPunishment pmPunishment: parallelMovementPunishments) {
 			if (interval.equals(pmPunishment.getInterval())) {
 				punishment = pmPunishment.getPunishment();
@@ -155,13 +154,13 @@ public class Preferences {
 		}
 	}
 
-	public double getDefaultParallelMovementPunishment() {
+	public float getDefaultParallelMovementPunishment() {
 		for (ParallelMovementPunishment pmPunishment: parallelMovementPunishments) {
 			if (pmPunishment.getInterval() == null) {
 				return pmPunishment.getPunishment();
 			}
 		}
-		return 0.0;
+		return 0.0F;
 	}
 
 }

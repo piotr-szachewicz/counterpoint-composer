@@ -3,16 +3,16 @@ package pl.szachewicz.view.preferences.evaluator;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
-import javax.swing.JSpinner;
 import javax.swing.border.TitledBorder;
 
 import pl.szachewicz.model.preferences.Preferences;
 import pl.szachewicz.view.abstractcomponents.AbstractPanel;
+import pl.szachewicz.view.controls.PunishmentSpinner;
 
 public class OtherEvaluatorParametersPanel extends AbstractPanel {
 
-	private JSpinner noteRepetitionPunishmentSpinner;
-	private JSpinner trillPunishmentSpinner;
+	private PunishmentSpinner noteRepetitionPunishmentSpinner;
+	private PunishmentSpinner trillPunishmentSpinner;
 
 	public OtherEvaluatorParametersPanel() {
 		createInterface();
@@ -63,15 +63,15 @@ public class OtherEvaluatorParametersPanel extends AbstractPanel {
 		layout.setVerticalGroup(vGroup);
 	}
 
-	public JSpinner getNoteRepetitionPunishmentSpinner() {
+	public PunishmentSpinner getNoteRepetitionPunishmentSpinner() {
 		if (noteRepetitionPunishmentSpinner == null)
-			noteRepetitionPunishmentSpinner = new JSpinner();
+			noteRepetitionPunishmentSpinner = new PunishmentSpinner();
 		return noteRepetitionPunishmentSpinner;
 	}
 
-	public JSpinner getTrillPunishmentSpinner() {
+	public PunishmentSpinner getTrillPunishmentSpinner() {
 		if (trillPunishmentSpinner == null)
-			trillPunishmentSpinner = new JSpinner();
+			trillPunishmentSpinner = new PunishmentSpinner();
 		return trillPunishmentSpinner;
 	}
 
@@ -85,8 +85,8 @@ public class OtherEvaluatorParametersPanel extends AbstractPanel {
 	public void fillModelFromView(Object model) {
 		Preferences preferences = (Preferences) model;
 
-		preferences.setNoteRepetitionPunishment((Integer) getNoteRepetitionPunishmentSpinner().getValue());
-		preferences.setTrillPunishment((Integer) getTrillPunishmentSpinner().getValue());
+		preferences.setNoteRepetitionPunishment(getNoteRepetitionPunishmentSpinner().getValue());
+		preferences.setTrillPunishment(getTrillPunishmentSpinner().getValue());
 	}
 
 }

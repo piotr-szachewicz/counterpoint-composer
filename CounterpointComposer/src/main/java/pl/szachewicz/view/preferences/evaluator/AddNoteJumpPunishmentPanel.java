@@ -9,18 +9,18 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
 import javax.swing.border.TitledBorder;
 
 import pl.szachewicz.model.Interval;
 import pl.szachewicz.model.preferences.NoteJumpPunishmentRange;
 import pl.szachewicz.view.abstractcomponents.AbstractPanel;
+import pl.szachewicz.view.controls.PunishmentSpinner;
 
 public class AddNoteJumpPunishmentPanel extends AbstractPanel {
 
 	private JComboBox minIntervalComboBox;
 	private JComboBox maxIntervalComboBox;
-	private JSpinner punishmentSpinner;
+	private PunishmentSpinner punishmentSpinner;
 	private JButton addButton;
 
 	public AddNoteJumpPunishmentPanel() {
@@ -100,9 +100,9 @@ public class AddNoteJumpPunishmentPanel extends AbstractPanel {
 		return maxIntervalComboBox;
 	}
 
-	public JSpinner getPunishmentSpinner() {
+	public PunishmentSpinner getPunishmentSpinner() {
 		if (punishmentSpinner == null)
-			punishmentSpinner = new JSpinner();
+			punishmentSpinner = new PunishmentSpinner();
 		return punishmentSpinner;
 	}
 
@@ -128,7 +128,7 @@ public class AddNoteJumpPunishmentPanel extends AbstractPanel {
 
 		punishment.setMinSemitones(getSemitonesFromComboBox(getMinInterval()));
 		punishment.setMaxSemitones(getSemitonesFromComboBox(getMaxInterval()));
-		punishment.setPunishment((Integer) getPunishmentSpinner().getValue());
+		punishment.setPunishment(punishmentSpinner.getValue());
 		return punishment;
 	}
 
