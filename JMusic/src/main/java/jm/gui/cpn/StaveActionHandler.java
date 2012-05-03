@@ -54,10 +54,10 @@ public class StaveActionHandler implements JMC, MouseListener, MouseMotionListen
 
     private final PopupMenu  noteContextMenu;
 
-    private final MenuItem   editNote,
+    private MenuItem   editNote,
                        repeatNote,
-                       makeRest,
-                       deleteNote;
+                       makeRest;
+	private final MenuItem deleteNote;
 
 
 	// constructor
@@ -66,7 +66,7 @@ public class StaveActionHandler implements JMC, MouseListener, MouseMotionListen
 
         noteContextMenu = new PopupMenu();
 
-        editNote = new MenuItem("Edit Note");
+        /*editNote = new MenuItem("Edit Note");
         editNote.addActionListener(this);
         noteContextMenu.add(editNote );
 
@@ -76,7 +76,7 @@ public class StaveActionHandler implements JMC, MouseListener, MouseMotionListen
 
         makeRest = new MenuItem("Change to Rest");
         makeRest.addActionListener(this);
-        noteContextMenu.add(makeRest);
+        noteContextMenu.add(makeRest);*/
 
         deleteNote = new MenuItem("Delete Note");
         deleteNote.addActionListener(this);
@@ -122,7 +122,8 @@ public class StaveActionHandler implements JMC, MouseListener, MouseMotionListen
 
 	// Mouse Listener stubs
 	public void mouseClicked(MouseEvent e) {
-        if ((((e.getModifiers() & InputEvent.BUTTON2_MASK) != 0)) &&
+
+        if ((e.getButton() == MouseEvent.BUTTON3) &&
                 inNoteArea(e)) {
             searchForSelectedNote(e);
             if ((selectedNote >= 0) &&
