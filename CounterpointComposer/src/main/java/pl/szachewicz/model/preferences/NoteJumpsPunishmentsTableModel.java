@@ -39,6 +39,11 @@ public class NoteJumpsPunishmentsTableModel extends AbstractTableModel {
 	}
 
 	@Override
+	public boolean isCellEditable(int rowIndex, int columnIndex) {
+		return columnIndex == 2;
+	}
+
+	@Override
 	public String getColumnName(int column) {
 		switch(column) {
 		case 0: return "min";
@@ -61,6 +66,13 @@ public class NoteJumpsPunishmentsTableModel extends AbstractTableModel {
 			case 2: return punishment.getPunishment();
 		}
 		return null;
+	}
+
+	@Override
+	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+		if (columnIndex == 2) {
+			punishments.get(rowIndex).setPunishment(Double.parseDouble((String) aValue));
+		}
 	}
 
 }

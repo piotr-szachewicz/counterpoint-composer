@@ -42,7 +42,7 @@ public class Evaluator {
 						&& counterpointPitch < counterpointPreviousPitch)) {
 
 					int semitones = Math.abs(cantusFirmusPitch - counterpointPitch);
-					int punishment = preferences.getPunishmentForParallelMovement(semitones);
+					double punishment = preferences.getPunishmentForParallelMovement(semitones);
 
 					points -= punishment;
 					log(i-1, i, "parallel movement", punishment);

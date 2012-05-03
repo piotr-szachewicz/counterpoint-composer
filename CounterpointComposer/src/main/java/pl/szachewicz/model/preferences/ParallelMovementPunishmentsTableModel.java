@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import pl.szachewicz.model.Interval;
+
 public class ParallelMovementPunishmentsTableModel extends AbstractTableModel {
 
 	private List<ParallelMovementPunishment> punishments = new ArrayList<ParallelMovementPunishment>();
@@ -39,7 +41,9 @@ public class ParallelMovementPunishmentsTableModel extends AbstractTableModel {
 	public Object getValueAt(int row, int col) {
 		ParallelMovementPunishment punishment = punishments.get(row);
 		switch(col) {
-		case 0: return punishment.getInterval();
+		case 0:
+			Interval interval = punishment.getInterval();
+			return interval == null ? "Default" : interval;
 		case 1: return punishment.getPunishment();
 		}
 		return null;
@@ -52,6 +56,22 @@ public class ParallelMovementPunishmentsTableModel extends AbstractTableModel {
 	public void removeElement(int index) {
 		punishments.remove(index);
 		fireTableDataChanged();
+	}
+
+	@Override
+	public boolean isCellEditable(int rowIndex, int columnIndex) {
+		return columnIndex == 1;
+	}
+
+	@Override
+	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+		if (columnIndex == 1) {
+			try{
+				punishments.get(rowIndex).setPunishment(Double.parseDouble((String) aValue));
+			} catch(Exception e) {
+				//ignore - do not change the value
+			}
+		}
 	}
 
 }

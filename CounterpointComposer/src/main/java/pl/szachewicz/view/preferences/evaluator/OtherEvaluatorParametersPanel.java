@@ -11,7 +11,6 @@ import pl.szachewicz.view.abstractcomponents.AbstractPanel;
 
 public class OtherEvaluatorParametersPanel extends AbstractPanel {
 
-	private JSpinner parallelMovementPunishmentSpinner;
 	private JSpinner noteRepetitionPunishmentSpinner;
 	private JSpinner trillPunishmentSpinner;
 
@@ -28,7 +27,6 @@ public class OtherEvaluatorParametersPanel extends AbstractPanel {
 		layout.setAutoCreateContainerGaps(true);
 		layout.setAutoCreateGaps(true);
 
-		JLabel parallelMovementLabel = new JLabel("Paralell movement punishment");
 		JLabel noteRepetitionLabel = new JLabel("Note repetition punishment");
 		JLabel tremoloPunishmentLabel = new JLabel("Trill punishment");
 
@@ -36,14 +34,12 @@ public class OtherEvaluatorParametersPanel extends AbstractPanel {
 
 		hGroup.addGroup(
 		        layout.createParallelGroup()
-		        .addComponent(parallelMovementLabel)
 		        .addComponent(noteRepetitionLabel)
 		        .addComponent(tremoloPunishmentLabel)
 		);
 
 		hGroup.addGroup(
 		        layout.createParallelGroup()
-		        .addComponent(getParallelMovementPunishmentSpinner())
 		        .addComponent(getNoteRepetitionPunishmentSpinner())
 		        .addComponent(getTrillPunishmentSpinner())
 		);
@@ -51,12 +47,6 @@ public class OtherEvaluatorParametersPanel extends AbstractPanel {
 		layout.setHorizontalGroup(hGroup);
 
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
-
-		vGroup.addGroup(
-				layout.createParallelGroup(Alignment.BASELINE)
-				.addComponent(parallelMovementLabel)
-				.addComponent(getParallelMovementPunishmentSpinner())
-			);
 
 		vGroup.addGroup(
 				layout.createParallelGroup(Alignment.BASELINE)
@@ -71,12 +61,6 @@ public class OtherEvaluatorParametersPanel extends AbstractPanel {
 			);
 
 		layout.setVerticalGroup(vGroup);
-	}
-
-	public JSpinner getParallelMovementPunishmentSpinner() {
-		if (parallelMovementPunishmentSpinner == null)
-			parallelMovementPunishmentSpinner = new JSpinner();
-		return parallelMovementPunishmentSpinner;
 	}
 
 	public JSpinner getNoteRepetitionPunishmentSpinner() {
@@ -94,7 +78,6 @@ public class OtherEvaluatorParametersPanel extends AbstractPanel {
 	public void fillViewFromModel(Object model) {
 		Preferences preferences = (Preferences) model;
 
-		getParallelMovementPunishmentSpinner().setValue(preferences.getParallelMovementPunishment());
 		getNoteRepetitionPunishmentSpinner().setValue(preferences.getNoteRepetitionPunishment());
 		getTrillPunishmentSpinner().setValue(preferences.getTrillPunishment());
 	}
@@ -102,7 +85,6 @@ public class OtherEvaluatorParametersPanel extends AbstractPanel {
 	public void fillModelFromView(Object model) {
 		Preferences preferences = (Preferences) model;
 
-		preferences.setParallelMovementPunishment((Integer) getParallelMovementPunishmentSpinner().getValue());
 		preferences.setNoteRepetitionPunishment((Integer) getNoteRepetitionPunishmentSpinner().getValue());
 		preferences.setTrillPunishment((Integer) getTrillPunishmentSpinner().getValue());
 	}

@@ -20,19 +20,12 @@ public class Preferences {
 	//evaluator
 	private List<NoteJumpPunishmentRange> punishments;
 
-	private int defaultParallelMovementPunishment = 4;
 	private int noteRepetitionPunishment = 6;
 	private int trillPunishment = 5;
 
 	//private HashMap<Interval, Integer> parallelMovementPunishmentsMap = new HashMap<Interval, Integer>();;
 	private List<ParallelMovementPunishment> parallelMovementPunishments = new ArrayList<ParallelMovementPunishment>();
 
-	public int getParallelMovementPunishment() {
-		return defaultParallelMovementPunishment;
-	}
-	public void setParallelMovementPunishment(int parallelMovementPunishment) {
-		this.defaultParallelMovementPunishment = parallelMovementPunishment;
-	}
 	public List<ParallelMovementPunishment> getParallelMovementPunishments() {
 		return parallelMovementPunishments;
 	}
@@ -142,13 +135,14 @@ public class Preferences {
 		parallelMovementPunishments.add(new ParallelMovementPunishment(Interval.PERFECT_FIFTH, 30));
 		parallelMovementPunishments.add(new ParallelMovementPunishment(Interval.UNISON, 30));
 		parallelMovementPunishments.add(new ParallelMovementPunishment(Interval.OCTAVE, 30));
+		parallelMovementPunishments.add(new ParallelMovementPunishment(null, 4));
 	}
 
-	public int getPunishmentForParallelMovement(int harmonyIntervalInSemitones) {
+	public double getPunishmentForParallelMovement(int harmonyIntervalInSemitones) {
 
 		Interval interval = Interval.findIntervalByNumberOfSemitones(harmonyIntervalInSemitones);
 
-		Integer punishment = null;
+		Double punishment = null;
 		for (ParallelMovementPunishment pmPunishment: parallelMovementPunishments) {
 			if (interval.equals(pmPunishment.getInterval())) {
 				punishment = pmPunishment.getPunishment();
@@ -156,8 +150,18 @@ public class Preferences {
 		}
 		if (punishment != null)
 			return punishment;
-		else
-			return defaultParallelMovementPunishment;
+		else {
+			return getDefaultParallelMovementPunishment();
+		}
+	}
+
+	public double getDefaultParallelMovementPunishment() {
+		for (ParallelMovementPunishment pmPunishment: parallelMovementPunishments) {
+			if (pmPunishment.getInterval() == null) {
+				return pmPunishment.getPunishment();
+			}
+		}
+		return 0.0;
 	}
 
 }
