@@ -30,7 +30,7 @@ public class PreferencesDialog extends AbstractDialog implements PropertyChangeL
 	public PreferencesDialog(JFrame owner) {
 		super(owner);
 		this.setModal(true);
-		this.setMinimumSize(new Dimension(800, 650));
+		this.setMinimumSize(new Dimension(800, 700));
 		this.setLocationRelativeTo(owner);
 		this.setTitle("Preferences");
 	}

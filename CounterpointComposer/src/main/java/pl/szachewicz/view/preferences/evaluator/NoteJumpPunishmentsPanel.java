@@ -34,13 +34,13 @@ public class NoteJumpPunishmentsPanel extends AbstractPunishmentTablePanel<NoteJ
 	public void fillViewFromModel(Object model) {
 		Preferences preferences = (Preferences) model;
 
-		tableModel.setPunishments(preferences.getPunishments());
+		tableModel.setPunishments(preferences.getNoteJumpPunishments());
 	}
 
 	public void fillModelFromView(Object model) {
 		Preferences preferences = (Preferences) model;
 
-		preferences.setPunishments(tableModel.getPunishments());
+		preferences.setNoteJumpPunishments(tableModel.getPunishments());
 	}
 
 }

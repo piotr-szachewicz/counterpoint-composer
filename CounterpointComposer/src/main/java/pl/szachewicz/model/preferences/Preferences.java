@@ -21,7 +21,7 @@ public class Preferences {
 	private List<Integer> scale;
 
 	//evaluator
-	private List<NoteJumpPunishment> punishments;
+	private List<NoteJumpPunishment> noteJumpPunishments;
 
 	private float noteRepetitionPunishment = 6;
 	private float trillPunishment = 5;
@@ -38,7 +38,7 @@ public class Preferences {
 		this.lastNoteIntervals = other.lastNoteIntervals;
 
 		this.scale = other.scale;
-		this.punishments = other.punishments;
+		this.noteJumpPunishments = other.noteJumpPunishments;
 		this.trillPunishment = other.trillPunishment;
 		this.parallelMovementPunishments = other.parallelMovementPunishments;
 	}
@@ -61,11 +61,11 @@ public class Preferences {
 	public void setTrillPunishment(float tremoloRepetitionPunishment) {
 		this.trillPunishment = tremoloRepetitionPunishment;
 	}
-	public List<NoteJumpPunishment> getPunishments() {
-		return punishments;
+	public List<NoteJumpPunishment> getNoteJumpPunishments() {
+		return noteJumpPunishments;
 	}
-	public void setPunishments(List<NoteJumpPunishment> punishments) {
-		this.punishments = punishments;
+	public void setNoteJumpPunishments(List<NoteJumpPunishment> punishments) {
+		this.noteJumpPunishments = punishments;
 	}
 	public List<Interval> getAvailableIntervals() {
 		return availableIntervals;
@@ -118,11 +118,12 @@ public class Preferences {
 		cantusFirmusStaveType = StaveType.TREBLE;
 
 		availableIntervals = new ArrayList<Interval>();
-		availableIntervals.add(Interval.PERFECT_FIFTH);
 		availableIntervals.add(Interval.MINOR_THIRD);
 		availableIntervals.add(Interval.MAJOR_THIRD);
+		availableIntervals.add(Interval.PERFECT_FIFTH);
 		availableIntervals.add(Interval.MINOR_SIXTH);
 		availableIntervals.add(Interval.MAJOR_SIXTH);
+		availableIntervals.add(Interval.OCTAVE);
 
 		startNoteIntervals = new ArrayList<Interval>();
 		startNoteIntervals.add(Interval.UNISON);
@@ -146,19 +147,19 @@ public class Preferences {
 		scale.add(Pitches.d4);
 
 		//evaluator
-		punishments = new ArrayList<NoteJumpPunishment>();
+		noteJumpPunishments = new ArrayList<NoteJumpPunishment>();
 
-		punishments.add(new NoteJumpPunishment(Interval.MINOR_THIRD, Interval.PERFECT_FIFTH, 2));
-		punishments.add(new NoteJumpPunishment(Interval.TRITONE, Interval.TRITONE, 20));
+		noteJumpPunishments.add(new NoteJumpPunishment(Interval.MINOR_THIRD, Interval.PERFECT_FOURTH, 2));
+		noteJumpPunishments.add(new NoteJumpPunishment(Interval.TRITONE, Interval.TRITONE, 20));
 
-		punishments.add(new NoteJumpPunishment(Interval.MINOR_SIXTH, Interval.OCTAVE, 8));
+		noteJumpPunishments.add(new NoteJumpPunishment(Interval.PERFECT_FIFTH, Interval.MAJOR_SIXTH, 8));
 
-		punishments.add(new NoteJumpPunishment(Interval.MAJOR_SEVENTH, Interval.MAJOR_SEVENTH, 12));
-		punishments.add(new NoteJumpPunishment(Interval.MINOR_SEVENTH, Interval.MINOR_SEVENTH, 12));
+		noteJumpPunishments.add(new NoteJumpPunishment(Interval.MINOR_SEVENTH, Interval.MAJOR_SEVENTH, 12));
+		noteJumpPunishments.add(new NoteJumpPunishment(Interval.OCTAVE.getNumberOfSemitones(), Integer.MAX_VALUE, 30));
 
 		parallelMovementPunishments = new ArrayList<ParallelMovementPunishment>();
-		parallelMovementPunishments.add(new ParallelMovementPunishment(Interval.PERFECT_FIFTH, 30));
 		parallelMovementPunishments.add(new ParallelMovementPunishment(Interval.UNISON, 30));
+		parallelMovementPunishments.add(new ParallelMovementPunishment(Interval.PERFECT_FIFTH, 30));
 		parallelMovementPunishments.add(new ParallelMovementPunishment(Interval.OCTAVE, 30));
 		parallelMovementPunishments.add(new ParallelMovementPunishment(null, 4));
 	}

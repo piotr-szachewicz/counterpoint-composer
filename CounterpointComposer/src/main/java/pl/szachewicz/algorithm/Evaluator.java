@@ -64,7 +64,7 @@ public class Evaluator {
 				//nie lubię skoków
 				int interval = counterpointPitch - counterpointPreviousPitch;
 				int counterPointJump = Math.abs(counterpointPitch - counterpointPreviousPitch);
-				for (NoteJumpPunishment range: preferences.getPunishments()) {
+				for (NoteJumpPunishment range: preferences.getNoteJumpPunishments()) {
 					if (counterPointJump >= range.getMinSemitones() && counterPointJump <= range.getMaxSemitones()) {
 						points -= range.getPunishment();
 						if (range.getPunishment() != 0)

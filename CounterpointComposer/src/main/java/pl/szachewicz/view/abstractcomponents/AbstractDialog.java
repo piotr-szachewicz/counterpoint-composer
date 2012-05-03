@@ -41,11 +41,7 @@ public abstract class AbstractDialog extends JDialog implements FillableView {
 		}
 
 		fillViewFromModel(model);
-
-		System.out.println("setting visible");
 		this.setVisible(true);
-		System.out.println("END");
-
 		fillModelFromView(model);
 
 		return closedWithOk;

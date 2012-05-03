@@ -29,7 +29,6 @@ public class PreferencesManager {
 
 	public static void savePreferencesToFile(Preferences preferences, File file) {
 		String xml = createXStream().toXML(preferences);
-		System.out.println(xml);
 
 		BufferedWriter writer;
 		try {

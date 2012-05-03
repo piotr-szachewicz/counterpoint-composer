@@ -23,7 +23,7 @@ public class ParallelMovementPunishmentsTableModel extends AbstractPunishmentTab
 		switch(col) {
 		case 0:
 			Interval interval = punishment.getInterval();
-			return interval == null ? "Default" : interval;
+			return interval == null ? "Other" : interval;
 		case 1: return punishment.getPunishment();
 		}
 		return null;
