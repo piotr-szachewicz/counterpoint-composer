@@ -1,15 +1,13 @@
 package pl.szachewicz.algorithm;
 
-import java.text.DecimalFormat;
-
 import jm.constants.Pitches;
 import jm.music.data.Phrase;
 import pl.szachewicz.model.preferences.NoteJumpPunishment;
 import pl.szachewicz.model.preferences.Preferences;
+import pl.szachewicz.utils.FormatUtils;
 
 public class Evaluator {
 
-	private static DecimalFormat format = new DecimalFormat("#.##");
 	private final Phrase cantusFirmus;
 	private final Preferences preferences;
 
@@ -20,12 +18,12 @@ public class Evaluator {
 		this.preferences = preferences;
 	}
 
-	public int evaluatePhrase(Phrase phraseForEvaluation) {
+	public float evaluatePhrase(Phrase phraseForEvaluation) {
 
 		Phrase phrase = phraseForEvaluation.copy();
 
 		evaluationLog = new StringBuilder();
-		int points = 0;
+		float points = 0;
 
 		evaluationLog.append("==================\n");
 		evaluationLog.append("Phrase evaluation:\n");
@@ -51,7 +49,7 @@ public class Evaluator {
 						&& counterpointPitch < counterpointPreviousPitch)) {
 
 					int semitones = Math.abs(cantusFirmusPitch - counterpointPitch);
-					double punishment = preferences.getPunishmentForParallelMovement(semitones);
+					float punishment = preferences.getPunishmentForParallelMovement(semitones);
 
 					points -= punishment;
 					log(i-1, i, "parallel movement", punishment);
@@ -96,7 +94,7 @@ public class Evaluator {
 		return points;
 	}
 
-	protected void log(Integer startNote, Integer lastNote, String problem, double punishment) {
+	protected void log(Integer startNote, Integer lastNote, String problem, float punishment) {
 		evaluationLog.append("Notes ");
 		evaluationLog.append(startNote+1);
 		evaluationLog.append("-");
@@ -104,8 +102,7 @@ public class Evaluator {
 		evaluationLog.append("\t");
 		evaluationLog.append(problem);
 		evaluationLog.append("\t");
-		evaluationLog.append("-");
-		evaluationLog.append(format.format(punishment));
+		evaluationLog.append("-" + FormatUtils.format(punishment));
 		evaluationLog.append("\n");
 	}
 

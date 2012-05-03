@@ -15,10 +15,7 @@ import pl.szachewicz.model.preferences.Preferences;
 
 public class Ranking {
 	private final Phrase cantusFirmus;
-	//private final HashMap<Integer, Phrase> ranking = new HashMap<Integer, Phrase>();
 
-	//private final List<Integer> bestPhrasesPoints = new ArrayList<Integer>();
-	//private final List<Phrase> bestPhrases = new ArrayList<Phrase>();
 	private final PropertyChangeSupport pcSupport;
 	public static final String PROGRESS_PROPERTY = "progressProperty";
 
@@ -29,7 +26,7 @@ public class Ranking {
 
 	private final int numberOfRememberedPhrases = 15;
 
-	private int worseNumberOfPoints = Integer.MAX_VALUE;
+	private float worseNumberOfPoints = Float.MAX_VALUE;
 	private int worsePhraseIndex;
 
 	private boolean canceled = false;
@@ -45,7 +42,7 @@ public class Ranking {
 		worseNumberOfPoints = Integer.MAX_VALUE;
 
 		for (int i = 0; i < bestPhrases.size(); i++) {
-			int phrasePoints = bestPhrases.get(i).getNumberOfPoints();
+			float phrasePoints = bestPhrases.get(i).getNumberOfPoints();
 			if (phrasePoints < worseNumberOfPoints) {
 				worseNumberOfPoints = phrasePoints;
 				worsePhraseIndex = i;
@@ -57,7 +54,7 @@ public class Ranking {
 	public void generateRanking() {
 		while (generator.hasNext() && !canceled) {
 			Phrase phrase = generator.generateNext();
-			int points = evaluator.evaluatePhrase(phrase);
+			float points = evaluator.evaluatePhrase(phrase);
 			debug(" - " + points);
 
 			if (bestPhrases.size() >= numberOfRememberedPhrases) {
@@ -99,22 +96,5 @@ public class Ranking {
 	public List<EvaluatedPhrase> getBestRanking() {
 		return bestPhrases;
 	}
-
-	/*public Phrase getTheBestCounterpoint() {
-
-		generateRanking();
-
-		int i = 0;
-		int max = Integer.MIN_VALUE;
-		Phrase bestPhrase = null;
-		for (int points: bestPhrasesPoints) {
-			if (points > max) {
-				bestPhrase = bestPhrases.get(i);
-				max = points;
-			}
-			i++;
-		}
-		return bestPhrase;
-	}*/
 
 }

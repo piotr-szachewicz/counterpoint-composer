@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
+import pl.szachewicz.utils.FormatUtils;
+
 public class PhraseRankingTableModel extends DefaultTableModel {
 
 	private List<EvaluatedPhrase> phrases = new ArrayList<EvaluatedPhrase>();
@@ -45,7 +47,7 @@ public class PhraseRankingTableModel extends DefaultTableModel {
 
 		switch(column) {
 			case 0: return "Phrase " + (row+1);
-			case 1: return phrase.getNumberOfPoints();
+			case 1: return FormatUtils.format(phrase.getNumberOfPoints());
 		}
 		return null;
 	}

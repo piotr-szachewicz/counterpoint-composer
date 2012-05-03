@@ -5,9 +5,9 @@ import jm.music.data.Phrase;
 public class EvaluatedPhrase {
 
 	private Phrase phrase;
-	private int numberOfPoints;
+	private float numberOfPoints;
 
-	public EvaluatedPhrase(Phrase phrase, int numberOfPoints) {
+	public EvaluatedPhrase(Phrase phrase, float numberOfPoints) {
 		super();
 		this.phrase = phrase;
 		this.numberOfPoints = numberOfPoints;
@@ -21,11 +21,11 @@ public class EvaluatedPhrase {
 		this.phrase = phrase;
 	}
 
-	public int getNumberOfPoints() {
+	public float getNumberOfPoints() {
 		return numberOfPoints;
 	}
 
-	public void setNumberOfPoints(int numberOfPoints) {
+	public void setNumberOfPoints(float numberOfPoints) {
 		this.numberOfPoints = numberOfPoints;
 	}
 
