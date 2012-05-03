@@ -25,6 +25,7 @@ public class IntervalTableModel extends AbstractTableModel {
 					selections[i] = true;
 			}
 		}
+		fireTableDataChanged();
 	}
 
 	public List<Interval> getSelectedIntervals() {

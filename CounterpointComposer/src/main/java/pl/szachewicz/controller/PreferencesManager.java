@@ -17,7 +17,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 public class PreferencesManager {
 
-	private static String preferencesFileName = "preferences.xml";
+	private static String defaultPreferencesFileName = "preferences.xml";
 
 	protected static XStream createXStream() {
 		XStream xstream = new XStream(new DomDriver());
@@ -27,11 +27,10 @@ public class PreferencesManager {
 		return xstream;
 	}
 
-	public static void savePreferences(Preferences preferences) {
+	public static void savePreferencesToFile(Preferences preferences, File file) {
 		String xml = createXStream().toXML(preferences);
 		System.out.println(xml);
 
-		File file = new File(preferencesFileName);
 		BufferedWriter writer;
 		try {
 			writer = new BufferedWriter(new FileWriter(file));
@@ -42,13 +41,16 @@ public class PreferencesManager {
 		}
 	}
 
-	public static Preferences loadPreferences() {
+	public static void savePreferences(Preferences preferences) {
+		savePreferencesToFile(preferences, new File(defaultPreferencesFileName));
+	}
+
+	public static Preferences loadPreferencesFromFile(File file) {
 		Preferences preferences = null;
-		File file = new File(preferencesFileName);
 
 		FileInputStream fin;
 		try {
-			fin = new FileInputStream (preferencesFileName);
+			fin = new FileInputStream (file);
 			preferences = (Preferences) createXStream().fromXML(fin);
 			fin.close();
 		} catch (FileNotFoundException e) {
@@ -65,5 +67,9 @@ public class PreferencesManager {
 		}
 
 		return preferences;
+	}
+
+	public static Preferences loadPreferences() {
+		return loadPreferencesFromFile(new File(defaultPreferencesFileName));
 	}
 }

@@ -28,6 +28,21 @@ public class Preferences {
 
 	private List<ParallelMovementPunishment> parallelMovementPunishments = new ArrayList<ParallelMovementPunishment>();
 
+	public Preferences() {
+	}
+
+	public void copyFrom(Preferences other) {
+		this.cantusFirmusStaveType = other.cantusFirmusStaveType;
+		this.startNoteIntervals = other.startNoteIntervals;
+		this.availableIntervals = other.availableIntervals;
+		this.lastNoteIntervals = other.lastNoteIntervals;
+
+		this.scale = other.scale;
+		this.punishments = other.punishments;
+		this.trillPunishment = other.trillPunishment;
+		this.parallelMovementPunishments = other.parallelMovementPunishments;
+	}
+
 	public List<ParallelMovementPunishment> getParallelMovementPunishments() {
 		return parallelMovementPunishments;
 	}
@@ -141,6 +156,7 @@ public class Preferences {
 		punishments.add(new NoteJumpPunishment(Interval.MAJOR_SEVENTH, Interval.MAJOR_SEVENTH, 12));
 		punishments.add(new NoteJumpPunishment(Interval.MINOR_SEVENTH, Interval.MINOR_SEVENTH, 12));
 
+		parallelMovementPunishments = new ArrayList<ParallelMovementPunishment>();
 		parallelMovementPunishments.add(new ParallelMovementPunishment(Interval.PERFECT_FIFTH, 30));
 		parallelMovementPunishments.add(new ParallelMovementPunishment(Interval.UNISON, 30));
 		parallelMovementPunishments.add(new ParallelMovementPunishment(Interval.OCTAVE, 30));
