@@ -22,6 +22,7 @@ import jm.gui.cpn.Stave;
 import jm.gui.cpn.TrebleStave;
 import jm.music.data.Note;
 import jm.music.data.Phrase;
+import pl.szachewicz.model.ValidationErrors;
 import pl.szachewicz.model.preferences.Preferences;
 import pl.szachewicz.model.preferences.StaveType;
 import pl.szachewicz.view.abstractcomponents.AbstractPanel;
@@ -116,6 +117,15 @@ public class AvailableScalePanel extends AbstractPanel implements ItemListener {
 			scale.add(note.getPitch());
 		}
 		preferences.setScale(scale);
+	}
+
+	@Override
+	public boolean validateView(ValidationErrors errors) {
+		if (getCurrentStave().getPhrase().getSize() == 0) {
+			errors.addError("Counterpoint scale cannot be empty - please add some notes!");
+			return false;
+		}
+		return true;
 	}
 
 }

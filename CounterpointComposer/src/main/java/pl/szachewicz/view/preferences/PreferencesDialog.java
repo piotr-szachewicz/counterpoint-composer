@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import pl.szachewicz.model.ValidationErrors;
 import pl.szachewicz.view.abstractcomponents.AbstractDialog;
 import pl.szachewicz.view.preferences.evaluator.EvaluatorPreferencesPanel;
 import pl.szachewicz.view.preferences.generator.GeneratorPreferencesPanel;
@@ -58,6 +59,18 @@ public class PreferencesDialog extends AbstractDialog {
 	public void fillModelFromView(Object model) {
 		generatorPreferencesPanel.fillModelFromView(model);
 		evaluatorPreferencesPanel.fillModelFromView(model);
+	}
+
+	@Override
+	protected boolean validateDialog(ValidationErrors errors) {
+		boolean ok = true;
+
+		if (!generatorPreferencesPanel.validateView(errors))
+			ok = false;
+		else if (!evaluatorPreferencesPanel.validateView(errors))
+			ok = false;
+
+		return ok;
 	}
 
 }

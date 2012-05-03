@@ -12,6 +12,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import pl.szachewicz.model.ValidationErrors;
+import pl.szachewicz.view.Dialogs;
+
 public abstract class AbstractDialog extends JDialog implements FillableView {
 
 	private boolean initialized = false;
@@ -73,10 +76,19 @@ public abstract class AbstractDialog extends JDialog implements FillableView {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			closedWithOk = true;
-			setVisible(false);
+			ValidationErrors errors = new ValidationErrors();
+			if (validateDialog(errors)) {
+				closedWithOk = true;
+				setVisible(false);
+			} else {
+				Dialogs.showErrors(errors);
+			}
 		}
 
+	}
+
+	protected boolean validateDialog(ValidationErrors errors) {
+		return true;
 	}
 
 }

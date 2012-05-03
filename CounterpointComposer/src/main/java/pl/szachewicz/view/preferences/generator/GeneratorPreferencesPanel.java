@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import pl.szachewicz.model.ValidationErrors;
 import pl.szachewicz.view.abstractcomponents.AbstractPanel;
 
 public class GeneratorPreferencesPanel extends AbstractPanel {
@@ -44,6 +45,14 @@ public class GeneratorPreferencesPanel extends AbstractPanel {
 		startNoteIntervalsPanel.fillModelFromView(model);
 		availableIntervalsPanel.fillModelFromView(model);
 		lastNoteIntervalsPanel.fillModelFromView(model);
+	}
+
+	@Override
+	public boolean validateView(ValidationErrors errors) {
+		return scalePanel.validateView(errors)
+				&& startNoteIntervalsPanel.validateView(errors)
+				&& availableIntervalsPanel.validateView(errors)
+				&& lastNoteIntervalsPanel.validateView(errors);
 	}
 
 }
