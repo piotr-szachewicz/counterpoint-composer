@@ -63,6 +63,8 @@ public class MainFrame extends JFrame implements ListSelectionListener, WindowLi
 		this.add(southPanel, BorderLayout.SOUTH);
 
 		this.add(northPanel);
+
+		getStavePanel().updatePreferences(getController().getPreferences());
 	}
 
 	protected JPanel createButtonsPanel() {
@@ -128,8 +130,9 @@ public class MainFrame extends JFrame implements ListSelectionListener, WindowLi
 	}
 
 	public Controller getController() {
-		if (controller == null)
+		if (controller == null) {
 			controller = new Controller(this);
+		}
 		return controller;
 	}
 
@@ -224,6 +227,7 @@ public class MainFrame extends JFrame implements ListSelectionListener, WindowLi
 
 		public void actionPerformed(ActionEvent e) {
 			preferencesDialog.showDialog(getController().getPreferences());
+			stavePanel.updatePreferences(controller.getPreferences());
 		}
 	}
 

@@ -14,6 +14,8 @@ import jm.gui.cpn.TrebleStave;
 import jm.music.data.Part;
 import jm.music.data.Phrase;
 import jm.music.data.Score;
+import pl.szachewicz.model.preferences.Preferences;
+import pl.szachewicz.model.preferences.StaveType;
 
 public class StavePanel extends JPanel {
 
@@ -29,8 +31,11 @@ public class StavePanel extends JPanel {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
 		trebleStave = new TrebleStave();
+		trebleStave.setTitle("cf");
 		trebleStave.setAvailableRhythmValues(new double[] {RhythmValues.QUARTER_NOTE});
+
 		bassStave = new BassStave();
+		bassStave.setTitle("cf");
 		bassStave.setAvailableRhythmValues(new double[] {RhythmValues.QUARTER_NOTE});
 
 		panel.add(trebleStave);
@@ -69,6 +74,13 @@ public class StavePanel extends JPanel {
 
 	public void setBassStavePhrase(Phrase phrase) {
 		bassStave.setPhrase(phrase);
+	}
+
+	public void updatePreferences(Preferences preferences) {
+		boolean trebleCantusFirmus = preferences.getCantusFirmusStaveType() == StaveType.TREBLE;
+
+		trebleStave.setDisplayTitle(trebleCantusFirmus);
+		bassStave.setDisplayTitle(!trebleCantusFirmus);
 	}
 
 }
