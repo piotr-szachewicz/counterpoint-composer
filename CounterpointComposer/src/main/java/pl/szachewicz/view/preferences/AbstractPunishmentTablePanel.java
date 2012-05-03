@@ -1,10 +1,10 @@
 package pl.szachewicz.view.preferences;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -16,7 +16,7 @@ import pl.szachewicz.model.preferences.Punishment;
 import pl.szachewicz.view.abstractcomponents.AbstractPanel;
 import pl.szachewicz.view.preferences.evaluator.AddPunishmentToTableAbstractPanel;
 
-public abstract class AbstractPunishmentTablePanel<T extends Punishment> extends AbstractPanel implements KeyListener, ActionListener {
+public abstract class AbstractPunishmentTablePanel<T extends Punishment> extends AbstractPanel implements KeyListener, PropertyChangeListener {
 
 	protected JTable punishmentsTable;
 	protected AbstractPunishmentTableModel<T> tableModel;
@@ -28,7 +28,8 @@ public abstract class AbstractPunishmentTablePanel<T extends Punishment> extends
 		add(new JScrollPane(getPunishmentsTable()), BorderLayout.CENTER);
 		add(getAddPunishmentPanel(), BorderLayout.EAST);
 
-		getAddPunishmentPanel().addActionListener(this);
+		getAddPunishmentPanel().addPropertyChangeListener(AddPunishmentToTableAbstractPanel.ADD_BUTTON_PRESSED, this);
+		getAddPunishmentPanel().addPropertyChangeListener(AddPunishmentToTableAbstractPanel.REMOVE_BUTTON_PRESSED, this);
 	}
 
 	protected abstract String getTitle();
@@ -45,16 +46,10 @@ public abstract class AbstractPunishmentTablePanel<T extends Punishment> extends
 	public abstract AbstractPunishmentTableModel getTableModel();
 	public abstract AddPunishmentToTableAbstractPanel getAddPunishmentPanel();
 
-	public void actionPerformed(ActionEvent event) {
-		getTableModel().addItem(getAddPunishmentPanel().getPunishment());
-	}
-
 	public void keyPressed(KeyEvent event) {
 
 		if (event.getKeyCode() == KeyEvent.VK_DELETE) {
-			ListSelectionModel selectionModel = punishmentsTable.getSelectionModel();
-			int index = selectionModel.getMinSelectionIndex();
-			tableModel.removeElement(index);
+			removeSelectedElement();
 		}
 	}
 
@@ -62,6 +57,21 @@ public abstract class AbstractPunishmentTablePanel<T extends Punishment> extends
 	}
 
 	public void keyTyped(KeyEvent event) {
+	}
+
+	public void propertyChange(PropertyChangeEvent event) {
+		if (AddPunishmentToTableAbstractPanel.ADD_BUTTON_PRESSED.equals(event.getPropertyName())) {
+			getTableModel().addItem(getAddPunishmentPanel().getPunishment());
+		} else if (AddPunishmentToTableAbstractPanel.REMOVE_BUTTON_PRESSED.equals(event.getPropertyName())){
+			removeSelectedElement();
+		}
+	}
+
+	protected void removeSelectedElement() {
+		ListSelectionModel selectionModel = punishmentsTable.getSelectionModel();
+		int index = selectionModel.getMinSelectionIndex();
+		if (index != -1)
+			tableModel.removeElement(index);
 	}
 
 }
