@@ -2,6 +2,9 @@ package pl.szachewicz.model.preferences;
 
 import pl.szachewicz.model.Interval;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+@XStreamAlias(value="noteJumpPunishment")
 public class NoteJumpPunishment extends Punishment {
 
 	private int minSemitones;

@@ -40,7 +40,8 @@ public class Controller implements PropertyChangeListener {
 
 		ioController = new IOController(stavePanel);
 
-		preferences.setDefaults();
+		//preferences.setDefaults();
+		preferences = PreferencesManager.loadPreferences();
 	}
 
 	public Preferences getPreferences() {

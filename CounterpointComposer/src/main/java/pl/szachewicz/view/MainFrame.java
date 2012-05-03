@@ -3,6 +3,8 @@ package pl.szachewicz.view;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.util.List;
 
@@ -20,10 +22,11 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import pl.szachewicz.controller.Controller;
+import pl.szachewicz.controller.PreferencesManager;
 import pl.szachewicz.model.EvaluatedPhrase;
 import pl.szachewicz.view.preferences.PreferencesDialog;
 
-public class MainFrame extends JFrame implements ListSelectionListener {
+public class MainFrame extends JFrame implements ListSelectionListener, WindowListener {
 
 	public static int WINDOW_HEIGHT = 570;
 	public static int WINDOW_WIDTH = 990;
@@ -38,6 +41,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
 	public MainFrame() {
 		super();
+		this.addWindowListener(this);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		this.setTitle("Counterpoint composer");
@@ -242,6 +246,29 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 			if (selectedIndex != -1)
 				getController().setPhrase(selectedIndex);
 		}
+	}
+
+	public void windowActivated(WindowEvent e) {
+	}
+
+	public void windowClosed(WindowEvent e) {
+		PreferencesManager.savePreferences(controller.getPreferences());
+	}
+
+	public void windowClosing(WindowEvent e) {
+		PreferencesManager.savePreferences(controller.getPreferences());
+	}
+
+	public void windowDeactivated(WindowEvent e) {
+	}
+
+	public void windowDeiconified(WindowEvent e) {
+	}
+
+	public void windowIconified(WindowEvent e) {
+	}
+
+	public void windowOpened(WindowEvent e) {
 	}
 
 }

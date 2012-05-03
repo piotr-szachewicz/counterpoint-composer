@@ -2,6 +2,9 @@ package pl.szachewicz.model.preferences;
 
 import pl.szachewicz.model.Interval;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+@XStreamAlias(value="parallelMovementPunishment")
 public class ParallelMovementPunishment extends Punishment {
 
 	private Interval interval;

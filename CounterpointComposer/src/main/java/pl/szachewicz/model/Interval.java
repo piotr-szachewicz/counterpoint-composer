@@ -1,6 +1,9 @@
 package pl.szachewicz.model;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+
+@XStreamAlias(value="interval")
 public enum Interval {
 
 	UNISON(0),

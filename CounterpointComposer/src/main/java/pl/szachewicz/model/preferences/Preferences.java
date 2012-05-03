@@ -6,6 +6,9 @@ import java.util.List;
 import jm.constants.Pitches;
 import pl.szachewicz.model.Interval;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+@XStreamAlias(value="preferences")
 public class Preferences {
 
 	//generator
