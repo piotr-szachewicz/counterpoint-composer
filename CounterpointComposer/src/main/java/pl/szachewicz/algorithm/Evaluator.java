@@ -2,7 +2,7 @@ package pl.szachewicz.algorithm;
 
 import jm.constants.Pitches;
 import jm.music.data.Phrase;
-import pl.szachewicz.model.preferences.NoteJumpPunishmentRange;
+import pl.szachewicz.model.preferences.NoteJumpPunishment;
 import pl.szachewicz.model.preferences.Preferences;
 
 public class Evaluator {
@@ -63,7 +63,7 @@ public class Evaluator {
 				//nie lubię skoków
 				int interval = counterpointPitch - counterpointPreviousPitch;
 				int counterPointJump = Math.abs(counterpointPitch - counterpointPreviousPitch);
-				for (NoteJumpPunishmentRange range: preferences.getPunishments()) {
+				for (NoteJumpPunishment range: preferences.getPunishments()) {
 					if (counterPointJump >= range.getMinSemitones() && counterPointJump <= range.getMaxSemitones()) {
 						points -= range.getPunishment();
 						if (range.getPunishment() != 0)

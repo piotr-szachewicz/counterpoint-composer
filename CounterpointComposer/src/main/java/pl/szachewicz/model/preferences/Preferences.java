@@ -18,7 +18,7 @@ public class Preferences {
 	private List<Integer> scale;
 
 	//evaluator
-	private List<NoteJumpPunishmentRange> punishments;
+	private List<NoteJumpPunishment> punishments;
 
 	private float noteRepetitionPunishment = 6;
 	private float trillPunishment = 5;
@@ -43,10 +43,10 @@ public class Preferences {
 	public void setTrillPunishment(float tremoloRepetitionPunishment) {
 		this.trillPunishment = tremoloRepetitionPunishment;
 	}
-	public List<NoteJumpPunishmentRange> getPunishments() {
+	public List<NoteJumpPunishment> getPunishments() {
 		return punishments;
 	}
-	public void setPunishments(List<NoteJumpPunishmentRange> punishments) {
+	public void setPunishments(List<NoteJumpPunishment> punishments) {
 		this.punishments = punishments;
 	}
 	public List<Interval> getAvailableIntervals() {
@@ -121,15 +121,15 @@ public class Preferences {
 		scale.add(Pitches.d4);
 
 		//evaluator
-		punishments = new ArrayList<NoteJumpPunishmentRange>();
+		punishments = new ArrayList<NoteJumpPunishment>();
 
-		punishments.add(new NoteJumpPunishmentRange(Interval.MINOR_THIRD, Interval.PERFECT_FIFTH, 2));
-		punishments.add(new NoteJumpPunishmentRange(Interval.TRITONE, Interval.TRITONE, 20));
+		punishments.add(new NoteJumpPunishment(Interval.MINOR_THIRD, Interval.PERFECT_FIFTH, 2));
+		punishments.add(new NoteJumpPunishment(Interval.TRITONE, Interval.TRITONE, 20));
 
-		punishments.add(new NoteJumpPunishmentRange(Interval.MINOR_SIXTH, Interval.OCTAVE, 8));
+		punishments.add(new NoteJumpPunishment(Interval.MINOR_SIXTH, Interval.OCTAVE, 8));
 
-		punishments.add(new NoteJumpPunishmentRange(Interval.MAJOR_SEVENTH, Interval.MAJOR_SEVENTH, 12));
-		punishments.add(new NoteJumpPunishmentRange(Interval.MINOR_SEVENTH, Interval.MINOR_SEVENTH, 12));
+		punishments.add(new NoteJumpPunishment(Interval.MAJOR_SEVENTH, Interval.MAJOR_SEVENTH, 12));
+		punishments.add(new NoteJumpPunishment(Interval.MINOR_SEVENTH, Interval.MINOR_SEVENTH, 12));
 
 		parallelMovementPunishments.add(new ParallelMovementPunishment(Interval.PERFECT_FIFTH, 30));
 		parallelMovementPunishments.add(new ParallelMovementPunishment(Interval.UNISON, 30));

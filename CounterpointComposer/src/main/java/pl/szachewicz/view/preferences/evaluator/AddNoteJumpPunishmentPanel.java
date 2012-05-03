@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import pl.szachewicz.model.Interval;
-import pl.szachewicz.model.preferences.NoteJumpPunishmentRange;
+import pl.szachewicz.model.preferences.NoteJumpPunishment;
 
 public class AddNoteJumpPunishmentPanel extends AddPunishmentToTableAbstractPanel {
 
@@ -103,8 +103,8 @@ public class AddNoteJumpPunishmentPanel extends AddPunishmentToTableAbstractPane
 		}
 	}
 
-	public NoteJumpPunishmentRange getPunishment() {
-		NoteJumpPunishmentRange punishment = new NoteJumpPunishmentRange();
+	public NoteJumpPunishment getPunishment() {
+		NoteJumpPunishment punishment = new NoteJumpPunishment();
 
 		punishment.setMinSemitones(getSemitonesFromComboBox(getMinInterval()));
 		punishment.setMaxSemitones(getSemitonesFromComboBox(getMaxInterval()));

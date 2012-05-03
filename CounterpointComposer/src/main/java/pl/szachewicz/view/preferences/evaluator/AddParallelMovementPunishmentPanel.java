@@ -75,6 +75,7 @@ public class AddParallelMovementPunishmentPanel extends AddPunishmentToTableAbst
 		return intervalComboBox;
 	}
 
+	@Override
 	public ParallelMovementPunishment getPunishment() {
 		Interval interval = (Interval) getIntervalComboBox().getSelectedItem();
 		float punishment = getPunishmentSpinner().getValue();

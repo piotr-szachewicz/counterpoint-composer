@@ -2,18 +2,15 @@ package pl.szachewicz.model.preferences;
 
 import pl.szachewicz.model.Interval;
 
-
-public class NoteJumpPunishmentRange {
+public class NoteJumpPunishment extends Punishment {
 
 	private int minSemitones;
 	private int maxSemitones;
 
-	private float punishment;
-
-	public NoteJumpPunishmentRange() {
+	public NoteJumpPunishment() {
 	}
 
-	public NoteJumpPunishmentRange(int minSemitones, int maxSemitones,
+	public NoteJumpPunishment(int minSemitones, int maxSemitones,
 			float punishment) {
 		super();
 		this.minSemitones = minSemitones;
@@ -21,7 +18,7 @@ public class NoteJumpPunishmentRange {
 		this.punishment = punishment;
 	}
 
-	public NoteJumpPunishmentRange(Interval minInterval, Interval maxInterval, float punishment) {
+	public NoteJumpPunishment(Interval minInterval, Interval maxInterval, float punishment) {
 		super();
 		this.minSemitones = minInterval.getNumberOfSemitones();
 		this.maxSemitones = maxInterval.getNumberOfSemitones();
@@ -42,14 +39,6 @@ public class NoteJumpPunishmentRange {
 
 	public void setMaxSemitones(int maxSemitones) {
 		this.maxSemitones = maxSemitones;
-	}
-
-	public float getPunishment() {
-		return punishment;
-	}
-
-	public void setPunishment(float punishment) {
-		this.punishment = punishment;
 	}
 
 }

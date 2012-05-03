@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import pl.szachewicz.model.preferences.Punishment;
 import pl.szachewicz.view.abstractcomponents.AbstractPanel;
 import pl.szachewicz.view.controls.PunishmentSpinner;
 
@@ -43,6 +44,8 @@ public abstract class AddPunishmentToTableAbstractPanel extends AbstractPanel {
 	public void addActionListener(ActionListener actionListener) {
 		getAddButton().addActionListener(actionListener);
 	}
+
+	public abstract Punishment getPunishment();
 
 	public void fillViewFromModel(Object model) {
 	}

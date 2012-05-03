@@ -1,60 +1,34 @@
 package pl.szachewicz.view.preferences.evaluator;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.border.TitledBorder;
-
-import pl.szachewicz.model.preferences.NoteJumpPunishmentRange;
+import pl.szachewicz.model.preferences.NoteJumpPunishment;
 import pl.szachewicz.model.preferences.NoteJumpsPunishmentsTableModel;
 import pl.szachewicz.model.preferences.Preferences;
-import pl.szachewicz.view.abstractcomponents.AbstractPanel;
+import pl.szachewicz.view.preferences.AbstractPunishmentTablePanel;
 
-public class NoteJumpPunishmentsPanel extends AbstractPanel implements ActionListener, KeyListener {
-
-	private JTable punishmentsTable;
-	private NoteJumpsPunishmentsTableModel tableModel;
-	private AddNoteJumpPunishmentPanel addPunishmentPanel;
+public class NoteJumpPunishmentsPanel extends AbstractPunishmentTablePanel<NoteJumpPunishment> {
 
 	public NoteJumpPunishmentsPanel() {
-		setLayout(new BorderLayout());
-		setBorder(new TitledBorder("Note jumps punishments (for semitone min-max ranges)"));
-		add(new JScrollPane(getPunishmentsTable()), BorderLayout.CENTER);
-		add(getAddPunishmentPanel(), BorderLayout.EAST);
+		super();
 	}
 
-	public JTable getPunishmentsTable() {
-		if (punishmentsTable == null) {
-			punishmentsTable = new JTable(getTableModel());
-			punishmentsTable.addKeyListener(this);
-			punishmentsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		}
-		return punishmentsTable;
+	@Override
+	protected String getTitle() {
+		return "Note jump punishments";
 	}
 
+	@Override
 	public NoteJumpsPunishmentsTableModel getTableModel() {
 		if (tableModel == null)
 			tableModel = new NoteJumpsPunishmentsTableModel();
-		return tableModel;
+		return (NoteJumpsPunishmentsTableModel) tableModel;
 	}
 
+	@Override
 	public AddNoteJumpPunishmentPanel getAddPunishmentPanel() {
 		if (addPunishmentPanel == null) {
 			addPunishmentPanel = new AddNoteJumpPunishmentPanel();
-			addPunishmentPanel.addActionListener(this);
 		}
-		return addPunishmentPanel;
-	}
-
-	public void actionPerformed(ActionEvent event) {
-		NoteJumpPunishmentRange punishment = addPunishmentPanel.getPunishment();
-		getTableModel().addItem(punishment);
+		return (AddNoteJumpPunishmentPanel) addPunishmentPanel;
 	}
 
 	public void fillViewFromModel(Object model) {
@@ -67,25 +41,6 @@ public class NoteJumpPunishmentsPanel extends AbstractPanel implements ActionLis
 		Preferences preferences = (Preferences) model;
 
 		preferences.setPunishments(tableModel.getPunishments());
-	}
-
-	public void keyPressed(KeyEvent event) {
-
-		if (event.getKeyCode() == KeyEvent.VK_DELETE) {
-			ListSelectionModel selectionModel = punishmentsTable.getSelectionModel();
-			int index = selectionModel.getMinSelectionIndex();
-			tableModel.removeElement(index);
-		}
-	}
-
-	public void keyReleased(KeyEvent event) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void keyTyped(KeyEvent event) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

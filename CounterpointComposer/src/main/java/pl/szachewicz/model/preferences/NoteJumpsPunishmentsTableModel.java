@@ -1,41 +1,11 @@
 package pl.szachewicz.model.preferences;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.table.AbstractTableModel;
-
 import pl.szachewicz.model.Interval;
 
-public class NoteJumpsPunishmentsTableModel extends AbstractTableModel {
-
-	private List<NoteJumpPunishmentRange> punishments = new ArrayList<NoteJumpPunishmentRange>();
-
-	public void addItem(NoteJumpPunishmentRange jumpPunishment) {
-		punishments.add(jumpPunishment);
-		fireTableDataChanged();
-	}
-
-	public void removeElement(int index) {
-		punishments.remove(index);
-		fireTableDataChanged();
-	}
-
-	public void setPunishments(List<NoteJumpPunishmentRange> punishments) {
-		this.punishments = punishments;
-		fireTableDataChanged();
-	}
-
-	public List<NoteJumpPunishmentRange> getPunishments() {
-		return punishments;
-	}
+public class NoteJumpsPunishmentsTableModel extends AbstractPunishmentTableModel<NoteJumpPunishment> {
 
 	public int getColumnCount() {
 		return 3;
-	}
-
-	public int getRowCount() {
-		return punishments.size();
 	}
 
 	@Override
@@ -54,7 +24,7 @@ public class NoteJumpsPunishmentsTableModel extends AbstractTableModel {
 	}
 
 	public Object getValueAt(int row, int col) {
-		NoteJumpPunishmentRange punishment = punishments.get(row);
+		NoteJumpPunishment punishment = punishments.get(row);
 
 		switch(col) {
 			case 0: return Interval.findIntervalByNumberOfSemitones(punishment.getMinSemitones());
