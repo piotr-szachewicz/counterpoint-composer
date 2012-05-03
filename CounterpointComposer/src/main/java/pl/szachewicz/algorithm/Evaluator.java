@@ -1,5 +1,7 @@
 package pl.szachewicz.algorithm;
 
+import java.text.DecimalFormat;
+
 import jm.constants.Pitches;
 import jm.music.data.Phrase;
 import pl.szachewicz.model.preferences.NoteJumpPunishment;
@@ -7,6 +9,7 @@ import pl.szachewicz.model.preferences.Preferences;
 
 public class Evaluator {
 
+	private static DecimalFormat format = new DecimalFormat("#.##");
 	private final Phrase cantusFirmus;
 	private final Preferences preferences;
 
@@ -101,7 +104,8 @@ public class Evaluator {
 		evaluationLog.append("\t");
 		evaluationLog.append(problem);
 		evaluationLog.append("\t");
-		evaluationLog.append(-punishment);
+		evaluationLog.append("-");
+		evaluationLog.append(format.format(punishment));
 		evaluationLog.append("\n");
 	}
 
