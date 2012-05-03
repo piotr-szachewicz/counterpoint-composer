@@ -13,6 +13,7 @@ import pl.szachewicz.algorithm.Evaluator;
 import pl.szachewicz.algorithm.Ranking;
 import pl.szachewicz.model.EvaluatedPhrase;
 import pl.szachewicz.model.preferences.Preferences;
+import pl.szachewicz.model.preferences.StaveType;
 import pl.szachewicz.view.Dialogs;
 import pl.szachewicz.view.MainFrame;
 import pl.szachewicz.view.PhraseRankingTablePanel;
@@ -69,7 +70,7 @@ public class Controller implements PropertyChangeListener {
 	}
 
 	public void generateRanking() {
-		generateRankingWorker = new GenerateRankingWorker(mainFrame, stavePanel.getTrebleStavePhrase(), preferences);
+		generateRankingWorker = new GenerateRankingWorker(mainFrame, getCantusFirmusPhrase(), preferences);
 		generateRankingWorker.addPropertyChangeListener(this);
 		generateRankingWorker.execute();
 	}
@@ -77,13 +78,31 @@ public class Controller implements PropertyChangeListener {
 	public void setPhrase(int index) {
 		Phrase generatedCounterpoint = ranking.getBestRanking().get(index).getPhrase();
 		//System.out.println("index " + index + " points = " + ranking.getBestRanking().get(index).getNumberOfPoints());
-		stavePanel.setBassStavePhrase(generatedCounterpoint);
+
+		if (preferences.getCounterpointStaveType() == StaveType.BASS)
+			stavePanel.setBassStavePhrase(generatedCounterpoint);
+		else
+			stavePanel.setTrebleStavePhrase(generatedCounterpoint);
 		evaluate();
 	}
 
+	protected Phrase getCantusFirmusPhrase() {
+		if (preferences.getCantusFirmusStaveType() == StaveType.TREBLE)
+			return stavePanel.getTrebleStavePhrase();
+		else
+			return stavePanel.getBassStavePhrase();
+	}
+
+	protected Phrase getCounterpointPhrase() {
+		if (preferences.getCounterpointStaveType() == StaveType.TREBLE)
+			return stavePanel.getTrebleStavePhrase();
+		else
+			return stavePanel.getBassStavePhrase();
+	}
+
 	public void evaluate() {
-		Phrase cantusFirmus = stavePanel.getTrebleStavePhrase();
-		Phrase counterPoint = stavePanel.getBassStavePhrase();
+		Phrase cantusFirmus = getCantusFirmusPhrase();
+		Phrase counterPoint = getCounterpointPhrase();
 
 		String evaluationLog = "";
 

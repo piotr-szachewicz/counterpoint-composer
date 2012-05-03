@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
@@ -41,6 +42,7 @@ public class AvailableScalePanel extends AbstractPanel implements ItemListener {
 		this.add(createStavePanel(), BorderLayout.CENTER);
 
 		JPanel panel = new JPanel();
+		panel.add(new JLabel("Counterpoint stave:"));
 		panel.add(getStaveTypeComboBox());
 		this.add(panel, BorderLayout.SOUTH);
 	}
@@ -69,17 +71,17 @@ public class AvailableScalePanel extends AbstractPanel implements ItemListener {
 		if (staveTypeComboBox == null) {
 			staveTypeComboBox = new JComboBox(StaveType.values());
 			staveTypeComboBox.addItemListener(this);
-			staveTypeComboBox.setEnabled(false);
+			//staveTypeComboBox.setEnabled(false);
 		}
 		return staveTypeComboBox;
 	}
 
-	public StaveType getSelectedStaveType() {
+	public StaveType getSelectedCounterpointStaveType() {
 		return (StaveType) getStaveTypeComboBox().getSelectedItem();
 	}
 
 	public Stave getCurrentStave() {
-		if (getSelectedStaveType() == StaveType.TREBLE)
+		if (getSelectedCounterpointStaveType() == StaveType.TREBLE)
 			return trebleStave;
 		else
 			return bassStave;
@@ -108,6 +110,7 @@ public class AvailableScalePanel extends AbstractPanel implements ItemListener {
 	public void fillModelFromView(Object model) {
 		Preferences preferences = (Preferences) model;
 
+		preferences.setCounterpointStaveType(getSelectedCounterpointStaveType());
 		List<Integer> scale = new ArrayList<Integer>();
 		for (Note note: getCurrentStave().getPhrase().getNoteArray()) {
 			scale.add(note.getPitch());

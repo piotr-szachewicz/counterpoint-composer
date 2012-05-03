@@ -92,6 +92,13 @@ public class Preferences {
 			return StaveType.TREBLE;
 	}
 
+	public void setCounterpointStaveType(StaveType counterpointStaveType) {
+		if (counterpointStaveType == StaveType.TREBLE)
+			cantusFirmusStaveType = StaveType.BASS;
+		else
+			cantusFirmusStaveType = StaveType.TREBLE;
+	}
+
 	public void setDefaults() {
 		cantusFirmusStaveType = StaveType.TREBLE;
 
