@@ -1,43 +1,36 @@
 package pl.szachewicz.view.preferences.evaluator;
 
-import java.awt.event.ActionListener;
-
-import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
 
 import pl.szachewicz.model.Interval;
 import pl.szachewicz.model.preferences.NoteJumpPunishmentRange;
-import pl.szachewicz.view.abstractcomponents.AbstractPanel;
-import pl.szachewicz.view.controls.PunishmentSpinner;
 
-public class AddNoteJumpPunishmentPanel extends AbstractPanel {
+public class AddNoteJumpPunishmentPanel extends AddPunishmentToTableAbstractPanel {
 
 	private JComboBox minIntervalComboBox;
 	private JComboBox maxIntervalComboBox;
-	private PunishmentSpinner punishmentSpinner;
-	private JButton addButton;
 
 	public AddNoteJumpPunishmentPanel() {
-		this.setBorder(new TitledBorder("Add note jump"));
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-		add(createControls());
-		add(getAddButton());
+		super();
 	}
 
+	@Override
+	protected String getTitle() {
+		return "Add note jump";
+	}
+
+	@Override
 	protected JPanel createControls() {
 		JPanel panel = new JPanel();
 
 		JLabel minLabel = new JLabel("min");
 		JLabel maxLabel = new JLabel("max");
 		JLabel punishmentLabel = new JLabel("punishment");
-//
+
 		GroupLayout layout = new GroupLayout(panel);
 		panel.setLayout(layout);
 		layout.setAutoCreateContainerGaps(true);
@@ -100,19 +93,6 @@ public class AddNoteJumpPunishmentPanel extends AbstractPanel {
 		return maxIntervalComboBox;
 	}
 
-	public PunishmentSpinner getPunishmentSpinner() {
-		if (punishmentSpinner == null)
-			punishmentSpinner = new PunishmentSpinner();
-		return punishmentSpinner;
-	}
-
-	public JButton getAddButton() {
-		if (addButton == null) {
-			addButton = new JButton("Add");
-		}
-		return addButton;
-	}
-
 	protected int getSemitonesFromComboBox(JComboBox comboBox) {
 		Object selectedItem = comboBox.getSelectedItem();
 		if (selectedItem instanceof Interval) {
@@ -128,22 +108,8 @@ public class AddNoteJumpPunishmentPanel extends AbstractPanel {
 
 		punishment.setMinSemitones(getSemitonesFromComboBox(getMinInterval()));
 		punishment.setMaxSemitones(getSemitonesFromComboBox(getMaxInterval()));
-		punishment.setPunishment(punishmentSpinner.getValue());
+		punishment.setPunishment(getPunishmentSpinner().getValue());
 		return punishment;
-	}
-
-	public void addActionListener(ActionListener actionListener) {
-		getAddButton().addActionListener(actionListener);
-	}
-
-	public void fillViewFromModel(Object model) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void fillModelFromView(Object model) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

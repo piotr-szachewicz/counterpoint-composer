@@ -1,36 +1,28 @@
 package pl.szachewicz.view.preferences.evaluator;
 
-import java.awt.event.ActionListener;
-
-import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
 
 import pl.szachewicz.model.Interval;
 import pl.szachewicz.model.preferences.ParallelMovementPunishment;
-import pl.szachewicz.view.abstractcomponents.AbstractPanel;
-import pl.szachewicz.view.controls.PunishmentSpinner;
 
-public class AddParallelMovementPunishmentPanel extends AbstractPanel {
+public class AddParallelMovementPunishmentPanel extends AddPunishmentToTableAbstractPanel {
 
 	private JComboBox intervalComboBox;
-	private PunishmentSpinner punishmentSpinner;
-	private JButton addPunishmentButton;
 
 	public AddParallelMovementPunishmentPanel() {
-		setBorder(new TitledBorder("Add punishment"));
-
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-		add(createControls());
-		add(getAddPunishmentButton());
+		super();
 	}
 
+	@Override
+	protected String getTitle() {
+		return "Add parallel movement punishment";
+	}
+
+	@Override
 	protected JPanel createControls() {
 		JPanel panel = new JPanel();
 
@@ -81,28 +73,6 @@ public class AddParallelMovementPunishmentPanel extends AbstractPanel {
 		if (intervalComboBox == null)
 			intervalComboBox = new JComboBox(Interval.values());
 		return intervalComboBox;
-	}
-
-	public PunishmentSpinner getPunishmentSpinner() {
-		if (punishmentSpinner == null)
-			punishmentSpinner = new PunishmentSpinner();
-		return punishmentSpinner;
-	}
-
-	public JButton getAddPunishmentButton() {
-		if (addPunishmentButton == null)
-			addPunishmentButton = new JButton("Add");
-		return addPunishmentButton;
-	}
-
-	public void fillViewFromModel(Object model) {
-	}
-
-	public void fillModelFromView(Object model) {
-	}
-
-	public void addActionListener(ActionListener actionListener) {
-		getAddPunishmentButton().addActionListener(actionListener);
 	}
 
 	public ParallelMovementPunishment getPunishment() {
