@@ -42,14 +42,6 @@ public class EvolutionaryAlgorithm {
 
 		Evolve.cleanup(state);
 
-		/*List<EvaluatedPhrase> list = new ArrayList<EvaluatedPhrase>();
-
-		SimpleStatistics statistics = (SimpleStatistics) state.statistics;
-		IntegerVectorIndividual bestIndividual = (IntegerVectorIndividual) statistics.best_of_run[0];
-		Phrase phrase = new Phrase();
-		phrase.addNoteList(bestIndividual.genome, JMC.QUARTER_NOTE);*/
-
-		//SimpleFitness fitness = (SimpleFitness) bestIndividual.fitness;
 		Statistics statistics = (Statistics) state.statistics;
 
 		return statistics.getBestPhrases();
@@ -66,12 +58,11 @@ public class EvolutionaryAlgorithm {
 		database.put("state", "ec.simple.SimpleEvolutionState");
 
 		database.put("pop", "ec.Population");
-		database.put("init", "pl.szachewicz.algorithm.genetic.Initializer");
+		database.put("init", Initializer.class.getCanonicalName());
 		database.put("finish", "ec.simple.SimpleFinisher");
 		database.put("breed", "ec.simple.SimpleBreeder");
 		database.put("eval", "ec.simple.SimpleEvaluator");
-		//database.put("stat", "ec.simple.SimpleStatistics");
-		database.put("stat", "pl.szachewicz.algorithm.genetic.Statistics");
+		database.put("stat", Statistics.class.getCanonicalName());
 		database.put("exch", "ec.simple.SimpleExchanger");
 
 		database.put("generations", 5);
@@ -106,7 +97,7 @@ public class EvolutionaryAlgorithm {
 
 		database.put("select.tournament.size", 2);
 
-		database.put("eval.problem", "pl.szachewicz.algorithm.genetic.MaxOnes");
+		database.put("eval.problem", CounterpointProblem.class.getCanonicalName());
 
 		return database;
 	}

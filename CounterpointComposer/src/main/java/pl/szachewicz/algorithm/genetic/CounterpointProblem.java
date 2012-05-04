@@ -1,9 +1,3 @@
-/*
-  Copyright 2006 by Sean Luke
-  Licensed under the Academic Free License version 3.0
-  See the file "LICENSE" for more information
- */
-
 package pl.szachewicz.algorithm.genetic;
 
 import jm.constants.RhythmValues;
@@ -17,7 +11,7 @@ import ec.simple.SimpleProblemForm;
 import ec.util.Parameter;
 import ec.vector.IntegerVectorIndividual;
 
-public class MaxOnes extends Problem implements SimpleProblemForm {
+public class CounterpointProblem extends Problem implements SimpleProblemForm {
 
 	private Evaluator evaluator;
 
@@ -37,7 +31,6 @@ public class MaxOnes extends Problem implements SimpleProblemForm {
 			state.output.fatal("Whoa!  It's not a IntegerVectorIndividual!!!",
 					null);
 
-		int sum = 0;
 		IntegerVectorIndividual ind2 = (IntegerVectorIndividual) ind;
 
 		Phrase phrase = new Phrase();
@@ -47,29 +40,13 @@ public class MaxOnes extends Problem implements SimpleProblemForm {
 
 		((SimpleFitness) ind2.fitness).setFitness(state, points);
 
-		/*for (int x = 0; x < ind2.genome.length; x++)
-			sum += (ind2.genome[x] % 2 == 0 ? 1 : 0);
-
-		if (!(ind2.fitness instanceof SimpleFitness))
-			state.output.fatal("Whoa!  It's not a SimpleFitness!!!", null);
-		((SimpleFitness) ind2.fitness).setFitness(state,
-		// / ...the fitness...
-				(float) (((double) sum) / ind2.genome.length),
-				// /... is the individual ideal? Indicate here...
-				sum == ind2.genome.length);*/
-
-
-
-
 		ind2.evaluated = true;
 
-		printInd(ind2);
-		//System.out.println("---------------");
-		//ind2.printIndividualForHumans(state, 0);
+		printIndividualData(ind2);
 
 	}
 
-	protected void printInd(IntegerVectorIndividual ind) {
+	protected void printIndividualData(IntegerVectorIndividual ind) {
 		System.out.print("fitness: " + ((SimpleFitness)ind.fitness).fitness() +" ::: ");
 		for (int i = 0; i < ind.genome.length; i++) {
 			System.out.print(ind.genome[i] + ", ");
