@@ -63,9 +63,18 @@ public class MaxOnes extends Problem implements SimpleProblemForm {
 
 		ind2.evaluated = true;
 
-		System.out.println("---------------");
-		ind2.printIndividualForHumans(state, 0);
-		System.out.println("---------------");
+		printInd(ind2);
+		//System.out.println("---------------");
+		//ind2.printIndividualForHumans(state, 0);
+
+	}
+
+	protected void printInd(IntegerVectorIndividual ind) {
+		System.out.print("fitness: " + ((SimpleFitness)ind.fitness).fitness() +" ::: ");
+		for (int i = 0; i < ind.genome.length; i++) {
+			System.out.print(ind.genome[i] + ", ");
+		}
+		System.out.println("");
 	}
 
 	@Override
