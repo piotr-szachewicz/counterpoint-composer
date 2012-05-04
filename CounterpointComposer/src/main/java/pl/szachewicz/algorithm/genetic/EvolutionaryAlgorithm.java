@@ -2,22 +2,16 @@ package pl.szachewicz.algorithm.genetic;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 
-import jm.JMC;
-import jm.music.data.Phrase;
 import pl.szachewicz.algorithm.Evaluator;
 import pl.szachewicz.algorithm.Generator;
 import pl.szachewicz.model.EvaluatedPhrase;
 import ec.EvolutionState;
 import ec.Evolve;
-import ec.simple.SimpleFitness;
-import ec.simple.SimpleStatistics;
 import ec.util.ParameterDatabase;
-import ec.vector.IntegerVectorIndividual;
 
 public class EvolutionaryAlgorithm {
 
@@ -48,19 +42,17 @@ public class EvolutionaryAlgorithm {
 
 		Evolve.cleanup(state);
 
-		List<EvaluatedPhrase> list = new ArrayList<EvaluatedPhrase>();
+		/*List<EvaluatedPhrase> list = new ArrayList<EvaluatedPhrase>();
 
 		SimpleStatistics statistics = (SimpleStatistics) state.statistics;
 		IntegerVectorIndividual bestIndividual = (IntegerVectorIndividual) statistics.best_of_run[0];
 		Phrase phrase = new Phrase();
-		phrase.addNoteList(bestIndividual.genome, JMC.QUARTER_NOTE);
+		phrase.addNoteList(bestIndividual.genome, JMC.QUARTER_NOTE);*/
 
-		SimpleFitness fitness = (SimpleFitness) bestIndividual.fitness;
-		float fitnessValue = fitness.fitness();
+		//SimpleFitness fitness = (SimpleFitness) bestIndividual.fitness;
+		Statistics statistics = (Statistics) state.statistics;
 
-		list.add(new EvaluatedPhrase(phrase, fitnessValue));
-
-		return list;
+		return statistics.getBestPhrases();
 	}
 
 	protected static Dictionary<String, Object> getParametersHashmap() {
@@ -78,7 +70,8 @@ public class EvolutionaryAlgorithm {
 		database.put("finish", "ec.simple.SimpleFinisher");
 		database.put("breed", "ec.simple.SimpleBreeder");
 		database.put("eval", "ec.simple.SimpleEvaluator");
-		database.put("stat", "ec.simple.SimpleStatistics");
+		//database.put("stat", "ec.simple.SimpleStatistics");
+		database.put("stat", "pl.szachewicz.algorithm.genetic.Statistics");
 		database.put("exch", "ec.simple.SimpleExchanger");
 
 		database.put("generations", 5);
@@ -91,7 +84,7 @@ public class EvolutionaryAlgorithm {
 		database.put("pop.subpops", 1);
 		database.put("pop.subpop.0","ec.Subpopulation");
 
-		database.put("pop.subpop.0.size", 10);
+		database.put("pop.subpop.0.size", 400);
 		database.put("pop.subpop.0.duplicate-retries", 0);
 
 		database.put("pop.subpop.0.species", "ec.vector.IntegerVectorSpecies");

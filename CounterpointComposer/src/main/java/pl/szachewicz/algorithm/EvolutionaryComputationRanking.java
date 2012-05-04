@@ -13,9 +13,8 @@ public class EvolutionaryComputationRanking extends AbstractRanking {
 
 	@Override
 	public void generateRanking() {
-		bestPhrases = EvolutionaryAlgorithm.run(generator, evaluator);
-
-		//super.generateRanking();
+		bestPhrasesLibrary.setBestPhrases(EvolutionaryAlgorithm.run(generator, evaluator));
+		bestPhrasesLibrary.sort();
 	}
 
 }
