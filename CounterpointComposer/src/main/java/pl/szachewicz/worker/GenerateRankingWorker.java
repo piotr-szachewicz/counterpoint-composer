@@ -8,15 +8,17 @@ import javax.swing.ProgressMonitor;
 import javax.swing.SwingWorker;
 
 import jm.music.data.Phrase;
-import pl.szachewicz.algorithm.Ranking;
+import pl.szachewicz.algorithm.AbstractRanking;
+import pl.szachewicz.algorithm.EvolutionaryComputationRanking;
+import pl.szachewicz.algorithm.FullSearchRanking;
 import pl.szachewicz.model.preferences.Preferences;
 
-public class GenerateRankingWorker extends SwingWorker<Ranking, Void> implements PropertyChangeListener {
+public class GenerateRankingWorker extends SwingWorker<AbstractRanking, Void> implements PropertyChangeListener {
 
 	private final Phrase cantusFirmus;
 	private final Preferences preferences;
 
-	private Ranking ranking;
+	private AbstractRanking ranking;
 
     private final ProgressMonitor progressMonitor;
 
@@ -29,9 +31,10 @@ public class GenerateRankingWorker extends SwingWorker<Ranking, Void> implements
 	}
 
 	@Override
-	protected Ranking doInBackground() throws Exception {
+	protected AbstractRanking doInBackground() throws Exception {
 		System.out.println("Calc ranking");
-		ranking = new Ranking(cantusFirmus, preferences);
+		//ranking = new FullSearchRanking(cantusFirmus, preferences);
+		ranking = new EvolutionaryComputationRanking(cantusFirmus, preferences);
 		ranking.addPropertyChangeListener(this);
 
 		ranking.generateRanking();
@@ -40,7 +43,7 @@ public class GenerateRankingWorker extends SwingWorker<Ranking, Void> implements
 	}
 
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(Ranking.PROGRESS_PROPERTY)) {
+		if (evt.getPropertyName().equals(FullSearchRanking.PROGRESS_PROPERTY)) {
 			progressMonitor.setProgress((Integer) evt.getNewValue());
 			progressMonitor.setNote("Completed: " + evt.getNewValue() + "%");
 			if (progressMonitor.isCanceled()) {

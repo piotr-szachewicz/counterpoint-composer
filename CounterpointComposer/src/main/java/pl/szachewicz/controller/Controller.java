@@ -9,8 +9,8 @@ import javax.swing.SwingWorker.StateValue;
 
 import jm.music.data.Phrase;
 import jm.util.Play;
+import pl.szachewicz.algorithm.AbstractRanking;
 import pl.szachewicz.algorithm.Evaluator;
-import pl.szachewicz.algorithm.Ranking;
 import pl.szachewicz.model.EvaluatedPhrase;
 import pl.szachewicz.model.preferences.Preferences;
 import pl.szachewicz.model.preferences.StaveType;
@@ -30,7 +30,7 @@ public class Controller implements PropertyChangeListener {
 	private final PhraseRankingTablePanel phrasesTablePanel;
 
 	private Preferences preferences = new Preferences();
-	private Ranking ranking;
+	private AbstractRanking ranking;
 
 	private GenerateRankingWorker generateRankingWorker;
 

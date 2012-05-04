@@ -9,21 +9,20 @@ import java.util.Collections;
 import java.util.List;
 
 import jm.music.data.Phrase;
-import pl.szachewicz.algorithm.genetic.EvolutionaryAlgorithm;
 import pl.szachewicz.model.EvaluatedPhrase;
 import pl.szachewicz.model.EvaluatedPhraseComparator;
 import pl.szachewicz.model.preferences.Preferences;
 
-public class Ranking {
-	private final Phrase cantusFirmus;
+public class AbstractRanking {
+	protected Phrase cantusFirmus;
 
 	private final PropertyChangeSupport pcSupport;
 	public static final String PROGRESS_PROPERTY = "progressProperty";
 
-	private final List<EvaluatedPhrase> bestPhrases = new ArrayList<EvaluatedPhrase>();
+	protected List<EvaluatedPhrase> bestPhrases = new ArrayList<EvaluatedPhrase>();
 
-	private final Generator generator;
-	private final Evaluator evaluator;
+	protected final Generator generator;
+	protected final Evaluator evaluator;
 
 	private final int numberOfRememberedPhrases = 15;
 
@@ -32,7 +31,7 @@ public class Ranking {
 
 	private boolean canceled = false;
 
-	public Ranking(Phrase cantusFirmus, Preferences preferences) {
+	public AbstractRanking(Phrase cantusFirmus, Preferences preferences) {
 		this.cantusFirmus = cantusFirmus;
 		this.generator = new Generator(cantusFirmus, preferences);
 		this.evaluator = new Evaluator(cantusFirmus, preferences);
@@ -53,9 +52,6 @@ public class Ranking {
 	}
 
 	public void generateRanking() {
-
-		EvolutionaryAlgorithm.run();
-		//canceled = true;
 
 		while (generator.hasNext() && !canceled) {
 			Phrase phrase = generator.generateNext();

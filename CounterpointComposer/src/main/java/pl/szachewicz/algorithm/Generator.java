@@ -6,6 +6,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import jm.constants.Pitches;
 import jm.constants.RhythmValues;
@@ -89,6 +90,20 @@ public class Generator {
 
 		System.out.println("number of possible phrases: " + numberOfPossiblePhrases);
 		currentPhraseNumber = new BigInteger("1");
+	}
+
+	public Phrase generateRandom() {
+		Phrase phrase = new Phrase();
+		Random random = new Random();
+		for (int i = 0; i < cantusFirmus.getSize(); i++) {
+
+			List<Integer> pitches = availablePitches.get(i);
+
+			int position = random.nextInt(pitches.size());
+			phrase.add(new Note(pitches.get(position), RhythmValues.QUARTER_NOTE));
+
+		}
+		return phrase;
 	}
 
 	public Phrase generateNext() {
