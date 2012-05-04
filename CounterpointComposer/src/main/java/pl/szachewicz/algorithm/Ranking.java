@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 import jm.music.data.Phrase;
+import pl.szachewicz.algorithm.genetic.EvolutionaryAlgorithm;
 import pl.szachewicz.model.EvaluatedPhrase;
 import pl.szachewicz.model.EvaluatedPhraseComparator;
 import pl.szachewicz.model.preferences.Preferences;
@@ -52,6 +53,10 @@ public class Ranking {
 	}
 
 	public void generateRanking() {
+
+		EvolutionaryAlgorithm.run();
+		//canceled = true;
+
 		while (generator.hasNext() && !canceled) {
 			Phrase phrase = generator.generateNext();
 			float points = evaluator.evaluatePhrase(phrase);
