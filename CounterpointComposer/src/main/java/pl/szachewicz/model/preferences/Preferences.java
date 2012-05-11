@@ -11,6 +11,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias(value="preferences")
 public class Preferences {
 
+	private SearchAlgorithm searchAlgorithm = SearchAlgorithm.FULL_SEARCH;
 	//generator
 	private StaveType cantusFirmusStaveType;
 
@@ -43,6 +44,12 @@ public class Preferences {
 		this.parallelMovementPunishments = other.parallelMovementPunishments;
 	}
 
+	public SearchAlgorithm getSearchAlgorithm() {
+		return searchAlgorithm;
+	}
+	public void setSearchAlgorithm(SearchAlgorithm searchAlgorithm) {
+		this.searchAlgorithm = searchAlgorithm;
+	}
 	public List<ParallelMovementPunishment> getParallelMovementPunishments() {
 		return parallelMovementPunishments;
 	}
@@ -115,6 +122,8 @@ public class Preferences {
 	}
 
 	public void setDefaults() {
+		searchAlgorithm = SearchAlgorithm.FULL_SEARCH;
+
 		cantusFirmusStaveType = StaveType.TREBLE;
 
 		availableIntervals = new ArrayList<Interval>();

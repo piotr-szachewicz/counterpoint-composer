@@ -9,9 +9,9 @@ import javax.swing.SwingWorker;
 
 import jm.music.data.Phrase;
 import pl.szachewicz.algorithm.AbstractRanking;
-import pl.szachewicz.algorithm.EvolutionaryComputationRanking;
 import pl.szachewicz.algorithm.FullSearchRanking;
 import pl.szachewicz.model.preferences.Preferences;
+import pl.szachewicz.model.preferences.SearchAlgorithm;
 
 public class GenerateRankingWorker extends SwingWorker<AbstractRanking, Void> implements PropertyChangeListener {
 
@@ -33,8 +33,10 @@ public class GenerateRankingWorker extends SwingWorker<AbstractRanking, Void> im
 	@Override
 	protected AbstractRanking doInBackground() throws Exception {
 		System.out.println("Calc ranking");
-		//ranking = new FullSearchRanking(cantusFirmus, preferences);
-		ranking = new EvolutionaryComputationRanking(cantusFirmus, preferences);
+
+		SearchAlgorithm searchAlgorithm = preferences.getSearchAlgorithm();
+		ranking = searchAlgorithm.createRanking(cantusFirmus, preferences);
+
 		ranking.addPropertyChangeListener(this);
 
 		ranking.generateRanking();

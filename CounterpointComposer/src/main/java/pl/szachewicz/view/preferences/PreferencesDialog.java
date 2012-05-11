@@ -15,6 +15,7 @@ import pl.szachewicz.controller.PreferencesManager;
 import pl.szachewicz.model.ValidationErrors;
 import pl.szachewicz.model.preferences.Preferences;
 import pl.szachewicz.view.abstractcomponents.AbstractDialog;
+import pl.szachewicz.view.preferences.algorithm.SearchAlgorithmPreferencesPanel;
 import pl.szachewicz.view.preferences.evaluator.EvaluatorPreferencesPanel;
 import pl.szachewicz.view.preferences.generator.GeneratorPreferencesPanel;
 
@@ -24,6 +25,7 @@ public class PreferencesDialog extends AbstractDialog implements PropertyChangeL
 
 	private GeneratorPreferencesPanel generatorPreferencesPanel;
 	private EvaluatorPreferencesPanel evaluatorPreferencesPanel;
+	private SearchAlgorithmPreferencesPanel searchAlgorithmPreferencesPanel;
 
 	private PreferencesPresetsPanel preferencesPresetsPanel;
 
@@ -42,7 +44,8 @@ public class PreferencesDialog extends AbstractDialog implements PropertyChangeL
 
 		JTabbedPane tabbedPane = new JTabbedPane();
 		tabbedPane.addTab("Generator", getGeneratorTab());
-		tabbedPane.add("Evaluator", createEvaluatorTab());
+		tabbedPane.add("Evaluator", getEvaluatorTab());
+		tabbedPane.add("Search algorithm", getSearchAlgorithmPreferencesPanel());
 
 		panel.add(tabbedPane, BorderLayout.CENTER);
 
@@ -57,10 +60,16 @@ public class PreferencesDialog extends AbstractDialog implements PropertyChangeL
 		return generatorPreferencesPanel;
 	}
 
-	protected JPanel createEvaluatorTab() {
+	protected JPanel getEvaluatorTab() {
 		if (evaluatorPreferencesPanel == null)
 			evaluatorPreferencesPanel = new EvaluatorPreferencesPanel();
 		return evaluatorPreferencesPanel;
+	}
+
+	public SearchAlgorithmPreferencesPanel getSearchAlgorithmPreferencesPanel() {
+		if (searchAlgorithmPreferencesPanel == null)
+			searchAlgorithmPreferencesPanel = new SearchAlgorithmPreferencesPanel();
+		return searchAlgorithmPreferencesPanel;
 	}
 
 	public PreferencesPresetsPanel getPreferencesPresetsPanel() {
@@ -75,11 +84,13 @@ public class PreferencesDialog extends AbstractDialog implements PropertyChangeL
 		preferences = (Preferences) model;
 		generatorPreferencesPanel.fillViewFromModel(model);
 		evaluatorPreferencesPanel.fillViewFromModel(model);
+		searchAlgorithmPreferencesPanel.fillViewFromModel(model);
 	}
 
 	public void fillModelFromView(Object model) {
 		generatorPreferencesPanel.fillModelFromView(model);
 		evaluatorPreferencesPanel.fillModelFromView(model);
+		searchAlgorithmPreferencesPanel.fillModelFromView(model);
 	}
 
 	@Override
