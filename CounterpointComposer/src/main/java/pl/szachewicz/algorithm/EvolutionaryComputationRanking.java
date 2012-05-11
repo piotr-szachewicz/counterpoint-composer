@@ -9,6 +9,7 @@ public class EvolutionaryComputationRanking extends AbstractRanking {
 	public EvolutionaryComputationRanking(Phrase cantusFirmus,
 			Preferences preferences) {
 		super(cantusFirmus, preferences);
+		bestPhrasesLibrary.setWatchOutForDuplicates(true);
 	}
 
 	@Override

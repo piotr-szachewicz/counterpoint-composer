@@ -23,17 +23,11 @@
 
 package jm.music.data;
 
-import jm.JMC;
-import jm.util.*;
-import jm.gui.cpn.Notate;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.Vector;
 import java.util.Enumeration;
+import java.util.Vector;
+
+import jm.JMC;
 
 /**
 * The Phrase class is representative of a single musical phrase.
@@ -94,7 +88,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
     //	private double startTime;
 
     private Position position;
-	
+
 	/** instrumet / MIDI program change number for this phrase */
 	private int instrument;
 	/** speed in beats per minute for this phrase */
@@ -145,7 +139,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 	public Phrase(double startTime, int instrument) {
 		this(DEFAULT_TITLE, startTime, instrument);
 	}
-	
+
 	/**
         * Creates an empty Phrase
 	 * @param title The name for the phrase.
@@ -154,7 +148,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 		this(title, DEFAULT_START_TIME);
 		this.append = true;
 	}
-	
+
 	/**
         * Creates an empty Phrase.
 	 * @param title The name for the phrase.
@@ -163,7 +157,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 	public Phrase(String title, double startTime){
 		this(title, startTime, DEFAULT_INSTRUMENT);
 	}
-	
+
 	/**
         * Creates an empty Phrase.
 	 * @param title The name for the phrase.
@@ -173,7 +167,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 	public Phrase(String title, double startTime, int instrument){
 		this(title, startTime, instrument, DEFAULT_APPEND);
 	}
-	
+
 	/**
         * Creates an empty Phrase.
 	 * @param title The name for the phrase.
@@ -275,7 +269,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 	public void setInstrument(int value){
 		this.instrument = value;
 	}
-	
+
 	/**
         * Add a note to this Phrase
 	 * @param Note note - add a note to this phrase
@@ -334,7 +328,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 	 */
 	public void addNoteList(Vector noteVector, boolean append){
 		Enumeration enum1 = noteVector.elements();
-		if(!append) this.noteList.removeAllElements();				
+		if(!append) this.noteList.removeAllElements();
 		while(enum1.hasMoreElements()){
 			try{
 				Note note = (Note) enum1.nextElement();
@@ -400,7 +394,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 		}
 		this.addNoteList(freqArray, rvArray);
 	}
-	
+
 
 
 	/**
@@ -494,7 +488,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 			}
 		}
 	}
-	
+
 	/**
         * Adds Multiple notes to the phrase from one array of pitch, rhythm pairs
 	 * @param pitchAndRhythmArray  - an array of pitch and rhythm values
@@ -531,7 +525,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 			this.addNote(new Note(frequency, rhythms[i]));
 		}
 	}
-	
+
 
     /**
         * Adds Multiple notes to the phrase all of which start at the same time
@@ -582,7 +576,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 	 * @param int noteNumb the index of the note to be deleted
 	 */
     public void removeNote(int noteNumb) {
-	    Vector vct = (Vector)this.noteList;
+	    Vector vct = this.noteList;
 	    try{
 	        vct.removeElement(vct.elementAt(noteNumb));
 	    } catch (RuntimeException re){
@@ -596,16 +590,16 @@ public class Phrase implements JMC, Cloneable, Serializable{
 	 */
     public void removeNote(Note note) {
         this.noteList.removeElement(note);
-    }		
+    }
 
     /**
         * Deletes the last note in the phrase
 	 */
     public void removeLastNote() {
-	    Vector vct = (Vector)this.noteList;
+	    Vector vct = this.noteList;
 	    vct.removeElementAt(vct.size()-1);
 	}
-	
+
 	/**
         * Returns the entire note list contained in a single voice
 	 * @return Vector A vector containing all Note objects in this phrase
@@ -613,7 +607,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 	public Vector getNoteList(){
 		return this.noteList;
 	}
-	
+
 	/**
         * Replaces the entire note list with a new note list vector
 	 * @param Vector of notes
@@ -621,13 +615,13 @@ public class Phrase implements JMC, Cloneable, Serializable{
 	public void setNoteList(Vector newNoteList){
 		this.noteList = newNoteList;
 	}
-	
+
 	/**
         * Returns the all notes in the phrase as a array of notes
 	 * @return Note[] An array containing all Note objects in this phrase
 	 */
 	public Note[] getNoteArray(){
-		Vector vct = (Vector) this.noteList;
+		Vector vct = this.noteList;
 		Note[] noteArray = new Note[vct.size()];
 		for(int i=0;i< noteArray.length;i++){
 		    noteArray[i] = (Note) vct.elementAt(i);
@@ -706,19 +700,19 @@ public class Phrase implements JMC, Cloneable, Serializable{
     public Anchoring getAnchoring() {
         return position.getAnchoring();
     }
-	
+
 	/**
     * Return the phrases endTime
 	 * @return double the phrases endTime
 	 */
-	public double getEndTime(){	
+	public double getEndTime(){
 	    double tempStartTime = (getStartTime() < MIN_START_TIME) ? MIN_START_TIME : getStartTime();
 	    double endTime = tempStartTime;
 		Enumeration enum1 = this.noteList.elements();
 		while(enum1.hasMoreElements()){
 			Note nextNote = (Note)enum1.nextElement();
 			endTime += nextNote.getRhythmValue();
-		}		
+		}
 		return endTime;
 	}
 
@@ -726,13 +720,13 @@ public class Phrase implements JMC, Cloneable, Serializable{
     * Returns the length of the whole phrase in beats.
      * @return double duration in beats
      */
-	final double getTotalDuration(){	
+	final double getTotalDuration(){
 	    double cumulativeLength = 0.0;
 		Enumeration enum1 = this.noteList.elements();
 		while(enum1.hasMoreElements()){
 			Note nextNote = (Note)enum1.nextElement();
 			cumulativeLength += nextNote.getRhythmValue();
-		}		
+		}
 		return cumulativeLength;
 	}
 
@@ -743,7 +737,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 	public String getTitle(){
 		return this.title;
 	}
-	
+
 	/**
     * Gives the Phrase a new title
 	 * @param phrases title
@@ -751,7 +745,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 	public void setTitle(String title){
 		this.title = title;
 	}
-	
+
 	/**
         * Return this phrases append status
 	 * @return boolean the phrases append value
@@ -759,7 +753,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 	public boolean getAppend(){
 		return this.append;
 	}
-	
+
 	/**
     * Gives the Phrase a new append status
 	 * @param boolean the append status
@@ -767,7 +761,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 	public void setAppend(boolean append){
 		this.append = append;
 	}
-	
+
 	/**
     * Return this phrases this phrase is linked to
 	 * @return Phrase the phrases linked to
@@ -775,7 +769,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 	public Phrase getLinkedPhrase(){
 		return this.linkedPhrase;
 	}
-	
+
 	/**
     * Make a link from this phrase to another
 	 * @param Phrase the phrase to link to
@@ -783,7 +777,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 	public void setLinkedPhrase(Phrase link){
 		this.linkedPhrase = link;
 	}
-	
+
 	/**
     * Return the pan position for this phrase
 	 * @return double the phrases pan setting
@@ -791,7 +785,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 	public double getPan(){
 		return this.pan;
 	}
-	
+
 	/**
     * Determine the pan position for all notes in this phrase.
 	 * @param double the phrase's pan setting
@@ -838,7 +832,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 		}
 		return null;
 	}
-	
+
 
     /**
         * Get the number of notes in this phrase
@@ -864,7 +858,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 		return(noteList.size());
 	}
 
-	
+
 	/**
         * Returns the numerator of the Phrase's time signature
 	 * @return int time signature numerator
@@ -872,7 +866,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 	public int getNumerator(){
 		return this.numerator;
 	}
-	
+
 	/**
         * Specifies the numerator of the Phrase's time signature
 	 * @param int time signature numerator
@@ -880,7 +874,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 	public void setNumerator(int num){
 		this.numerator = num;
 	}
-	
+
 	/**
         * Returns the denominator of the Phrase's time signature
 	 * @return int time signature denominator
@@ -888,7 +882,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 	public int getDenominator(){
 		return this.denominator;
 	}
-	
+
 	/**
         * Specifies the denominator of the Phrase's time signature
 	 * @param int time signature denominator
@@ -976,7 +970,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 	        tempPhr.addNote(r);
             endLoc += beatCounter - startLoc;
 	    }
-	
+
 	    // are there notes before the startLoc to pass up?
 	    for(int i=0; i< this.size(); i++) {
 
@@ -1015,7 +1009,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
                             Note n = new Note( this.getNote(i).getPitch(), beatCounter +
                                                endLoc - startLoc, this.getNote(i).getDynamic());
                             tempPhr.addNote(n);
-                        }					
+                        }
                     }
 	            }
 	        }
@@ -1154,6 +1148,7 @@ public class Phrase implements JMC, Cloneable, Serializable{
 	/**
         * Prints the tracks attributes to stdout
 	 */
+	@Override
 	public String toString(){
 		String phraseData = new String("-------- jMusic PHRASE: '" +
                                        title + "' contains " + this.size() + " notes.  Start time: " +
@@ -1167,14 +1162,14 @@ public class Phrase implements JMC, Cloneable, Serializable{
 		}
 		return phraseData;
 	}
-	
+
 	/**
         * Empty removes all elements in the note list vector
      */
 	public void empty(){
 		noteList.removeAllElements();
 	}
-	
+
 	/**
         * Returns a carbon copy of a specified Phrase
 	 * Changes to notes in the original or the alias will be echoed in the other.
@@ -1423,5 +1418,26 @@ public class Phrase implements JMC, Cloneable, Serializable{
             startLoc += this.getNote(i).getRhythmValue();
         }
         return startLoc;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+    	if (!(obj instanceof Phrase)) {
+    		return false;
+    	}
+    	Phrase otherPhrase = (Phrase) obj;
+
+    	if (otherPhrase.length() != this.length())
+    		return false;
+
+    	for (int i = 0; i < this.length(); i++) {
+    		Note thisNote = this.getNote(i);
+    		Note otherNote = otherPhrase.getNote(i);
+    		if (otherNote.getPitch() != thisNote.getPitch()
+    			|| otherNote.getDuration() != thisNote.getDuration()) {
+    			return false;
+    		}
+    	}
+    	return true;
     }
 }

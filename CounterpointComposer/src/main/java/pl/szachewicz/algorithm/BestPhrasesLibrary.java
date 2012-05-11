@@ -18,6 +18,7 @@ public class BestPhrasesLibrary {
 
 	private float worseNumberOfPoints = Float.MAX_VALUE;
 	private int worsePhraseIndex;
+	private boolean watchOutForDuplicates = false;
 
 	protected void recalculateWorstPhrase() {
 		worseNumberOfPoints = Integer.MAX_VALUE;
@@ -36,22 +37,38 @@ public class BestPhrasesLibrary {
 		if (bestPhrases.size() >= numberOfRememberedPhrases) {
 			if (points > worseNumberOfPoints) {
 				debug(" - ADDED (better than " + worseNumberOfPoints + ")");
-				bestPhrases.add(new EvaluatedPhrase(phrase, points));
 				bestPhrases.remove(worsePhraseIndex);
-				recalculateWorstPhrase();
+				addPhrase(phrase, points);
 			}
 		}
 		else {
 			debug(" - ADDED");
+			addPhrase(phrase, points);
+		}
+		debug("\n");
+	}
+
+	protected void addPhrase(Phrase phrase, float points) {
+		if (!isPhraseAlreadyIncluded(phrase, points)) {
 			bestPhrases.add(new EvaluatedPhrase(phrase, points));
 			recalculateWorstPhrase();
 		}
-		debug("\n");
 	}
 
 	public void sort() {
 		Collections.sort(bestPhrases, new EvaluatedPhraseComparator());
 		Collections.reverse(bestPhrases);
+	}
+
+	public boolean isPhraseAlreadyIncluded(Phrase phrase, float points) {
+		for (EvaluatedPhrase libraryPhrase: bestPhrases) {
+			if (libraryPhrase.getNumberOfPoints() == points) {	//to make the search faster
+				if (libraryPhrase.getPhrase().equals(phrase)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public List<EvaluatedPhrase> getBestPhrases() {
@@ -60,6 +77,14 @@ public class BestPhrasesLibrary {
 
 	public void setBestPhrases(List<EvaluatedPhrase> bestPhrases) {
 		this.bestPhrases = bestPhrases;
+	}
+
+	public void setWatchOutForDuplicates(boolean watchOutForDuplicates) {
+		this.watchOutForDuplicates = watchOutForDuplicates;
+	}
+
+	public boolean isWatchOutForDuplicates() {
+		return watchOutForDuplicates;
 	}
 
 }
