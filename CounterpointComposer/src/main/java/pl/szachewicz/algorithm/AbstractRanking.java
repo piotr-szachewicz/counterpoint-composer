@@ -12,6 +12,7 @@ import pl.szachewicz.model.preferences.Preferences;
 
 public class AbstractRanking {
 	protected Phrase cantusFirmus;
+	protected Preferences preferences;
 
 	private final PropertyChangeSupport pcSupport;
 	public static final String PROGRESS_PROPERTY = "progressProperty";
@@ -25,6 +26,8 @@ public class AbstractRanking {
 
 	public AbstractRanking(Phrase cantusFirmus, Preferences preferences) {
 		this.cantusFirmus = cantusFirmus;
+		this.preferences = preferences;
+
 		this.generator = new Generator(cantusFirmus, preferences);
 		this.evaluator = new Evaluator(cantusFirmus, preferences);
 		this.pcSupport = new PropertyChangeSupport(this);

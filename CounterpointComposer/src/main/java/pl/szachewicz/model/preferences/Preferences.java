@@ -29,6 +29,8 @@ public class Preferences {
 
 	private List<ParallelMovementPunishment> parallelMovementPunishments = new ArrayList<ParallelMovementPunishment>();
 
+	private EvolutionaryComputationPreferences evolutionaryComputationPreferences = new EvolutionaryComputationPreferences();
+
 	public Preferences() {
 	}
 
@@ -197,6 +199,15 @@ public class Preferences {
 			}
 		}
 		return 0.0F;
+	}
+
+	public EvolutionaryComputationPreferences getEvolutionaryComputationPreferences() {
+		return evolutionaryComputationPreferences;
+	}
+
+	public void setEvolutionaryComputationPreferences(
+			EvolutionaryComputationPreferences evolutionaryComputationPreferences) {
+		this.evolutionaryComputationPreferences = evolutionaryComputationPreferences;
 	}
 
 }

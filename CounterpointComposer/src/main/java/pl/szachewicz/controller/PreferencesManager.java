@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import pl.szachewicz.model.Interval;
+import pl.szachewicz.model.preferences.EvolutionaryComputationPreferences;
 import pl.szachewicz.model.preferences.NoteJumpPunishment;
 import pl.szachewicz.model.preferences.ParallelMovementPunishment;
 import pl.szachewicz.model.preferences.Preferences;
@@ -22,7 +23,8 @@ public class PreferencesManager {
 	protected static XStream createXStream() {
 		XStream xstream = new XStream(new DomDriver());
 		xstream.processAnnotations(new Class[] {
-			Preferences.class, Interval.class, NoteJumpPunishment.class, ParallelMovementPunishment.class
+			Preferences.class, Interval.class, NoteJumpPunishment.class, ParallelMovementPunishment.class,
+			EvolutionaryComputationPreferences.class
 		});
 		return xstream;
 	}
