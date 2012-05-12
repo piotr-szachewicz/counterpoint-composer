@@ -1,6 +1,7 @@
 package pl.szachewicz.model.preferences;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import jm.constants.Pitches;
@@ -208,6 +209,14 @@ public class Preferences {
 	public void setEvolutionaryComputationPreferences(
 			EvolutionaryComputationPreferences evolutionaryComputationPreferences) {
 		this.evolutionaryComputationPreferences = evolutionaryComputationPreferences;
+	}
+
+	public int getMinimumCounterpointPitch() {
+		return Collections.min(getScale());
+	}
+
+	public int getMaximumCounterpointPitch() {
+		return Collections.max(getScale());
 	}
 
 }

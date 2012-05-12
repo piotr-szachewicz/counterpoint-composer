@@ -9,6 +9,7 @@ import jm.music.data.Phrase;
 import pl.szachewicz.algorithm.genetic.CounterpointProblem;
 import pl.szachewicz.algorithm.genetic.Initializer;
 import pl.szachewicz.algorithm.genetic.MyEvolutionState;
+import pl.szachewicz.algorithm.genetic.PhraseMutationPipeline;
 import pl.szachewicz.algorithm.genetic.Statistics;
 import pl.szachewicz.model.preferences.EvolutionaryComputationPreferences;
 import pl.szachewicz.model.preferences.Preferences;
@@ -80,7 +81,7 @@ public class EvolutionaryComputationRanking extends AbstractRanking {
 		database.put("verbosity", 0);
 		database.put("breedthreads", 1);
 		database.put("evalthreads", 1);
-		database.put("seed.0", 4357);
+		database.put("seed.0", "time");
 
 		database.put("state", MyEvolutionState.class.getCanonicalName());
 		database.put("pop", "ec.Population");
@@ -105,18 +106,18 @@ public class EvolutionaryComputationRanking extends AbstractRanking {
 		database.put("pop.subpop.0.duplicate-retries", 0);
 
 		database.put("pop.subpop.0.species", "ec.vector.IntegerVectorSpecies");
-		database.put("pop.subpop.0.species.min-gene", 0);
-		database.put("pop.subpop.0.species.max-gene", 6);
+		database.put("pop.subpop.0.species.min-gene", preferences.getMinimumCounterpointPitch());
+		database.put("pop.subpop.0.species.max-gene", preferences.getMaximumCounterpointPitch());
 
 		database.put("pop.subpop.0.species.fitness", "ec.simple.SimpleFitness");
 		database.put("pop.subpop.0.species.ind", "ec.vector.IntegerVectorIndividual");
 
-		database.put("pop.subpop.0.species.genome-size", 10);
+		database.put("pop.subpop.0.species.genome-size", cantusFirmus.length()); //not needed realy Initializer does it
 		database.put("pop.subpop.0.species.crossover-type", "one");
-		database.put("pop.subpop.0.species.crossover-prob", 1.0F);
-		database.put("pop.subpop.0.species.mutation-prob", 0.01F);
+		database.put("pop.subpop.0.species.crossover-prob", 0.0F);
+		database.put("pop.subpop.0.species.mutation-prob", 0.1F);
 
-		database.put("pop.subpop.0.species.pipe", "ec.vector.breed.VectorMutationPipeline");
+		database.put("pop.subpop.0.species.pipe", PhraseMutationPipeline.class.getCanonicalName());
 		database.put("pop.subpop.0.species.pipe.source.0", "ec.vector.breed.VectorCrossoverPipeline");
 		database.put("pop.subpop.0.species.pipe.source.0.source.0", "ec.select.TournamentSelection");
 		database.put("pop.subpop.0.species.pipe.source.0.source.1", "ec.select.TournamentSelection");

@@ -4,7 +4,6 @@ import static pl.szachewicz.algorithm.Helper.debug;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -18,6 +17,7 @@ import pl.szachewicz.model.preferences.Preferences;
 public class Generator {
 
 	private final Phrase cantusFirmus;
+	private final Random random = new Random();
 
 	private Preferences preferences;
 	private int minimumPitch;
@@ -94,16 +94,17 @@ public class Generator {
 
 	public Phrase generateRandom() {
 		Phrase phrase = new Phrase();
-		Random random = new Random();
+
 		for (int i = 0; i < cantusFirmus.getSize(); i++) {
-
-			List<Integer> pitches = availablePitches.get(i);
-
-			int position = random.nextInt(pitches.size());
-			phrase.add(new Note(pitches.get(position), RhythmValues.QUARTER_NOTE));
-
+			phrase.add(new Note(generateRandomPitch(i), RhythmValues.QUARTER_NOTE));
 		}
 		return phrase;
+	}
+
+	public int generateRandomPitch(int pitchIndex) {
+		List<Integer> pitches = availablePitches.get(pitchIndex);
+		int pitchPosition = random.nextInt(pitches.size());
+		return pitches.get(pitchPosition);
 	}
 
 	public Phrase generateNext() {
@@ -156,8 +157,8 @@ public class Generator {
 	public void setPreferences(Preferences preferences) {
 		this.preferences = preferences;
 
-		minimumPitch = Collections.min(preferences.getScale());
-		maximumPitch = Collections.max(preferences.getScale());
+		minimumPitch = preferences.getMinimumCounterpointPitch();
+		maximumPitch = preferences.getMaximumCounterpointPitch();
 
 		prepareAvailablePitches();
 	}
