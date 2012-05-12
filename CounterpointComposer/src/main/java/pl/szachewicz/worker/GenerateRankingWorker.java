@@ -25,7 +25,6 @@ public class GenerateRankingWorker extends SwingWorker<AbstractRanking, Void> im
 	public GenerateRankingWorker(Component invokingComponent, Phrase cantusFirmus, Preferences preferences) {
 		progressMonitor = new ProgressMonitor(invokingComponent, "Composing. Please wait...", " ", 0, 100);
 		progressMonitor.setProgress(0);
-		//progressMonitor.setMillisToDecideToPopup(0);
 		this.cantusFirmus = cantusFirmus;
 		this.preferences = preferences;
 	}

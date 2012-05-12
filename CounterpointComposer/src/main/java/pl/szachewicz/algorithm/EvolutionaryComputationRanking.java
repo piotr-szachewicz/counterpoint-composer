@@ -8,6 +8,7 @@ import java.util.Hashtable;
 import jm.music.data.Phrase;
 import pl.szachewicz.algorithm.genetic.CounterpointProblem;
 import pl.szachewicz.algorithm.genetic.Initializer;
+import pl.szachewicz.algorithm.genetic.MyEvolutionState;
 import pl.szachewicz.algorithm.genetic.Statistics;
 import pl.szachewicz.model.preferences.EvolutionaryComputationPreferences;
 import pl.szachewicz.model.preferences.Preferences;
@@ -17,19 +18,19 @@ import ec.util.ParameterDatabase;
 
 public class EvolutionaryComputationRanking extends AbstractRanking {
 
+	ParameterDatabase parameters;
+	MyEvolutionState state;
+
 	public EvolutionaryComputationRanking(Phrase cantusFirmus,
 			Preferences preferences) {
 		super(cantusFirmus, preferences);
 		bestPhrasesLibrary.setWatchOutForDuplicates(true);
+
+		initialize();
 	}
 
-	@Override
-	public void generateRanking() {
-		String s = "genetic.params";
-		EvolutionState state;
-
+	protected void initialize() {
 		Dictionary<String, Object> paramsMap = getParametersHashmap();
-		ParameterDatabase parameters;
 		try {
 			parameters = new ParameterDatabase(paramsMap);
 		} catch (FileNotFoundException e) {
@@ -42,18 +43,34 @@ public class EvolutionaryComputationRanking extends AbstractRanking {
 
 		parameters.put("generator", generator);
 		parameters.put("evaluator", evaluator);
+		parameters.put("preferences", preferences);
 
-		state = Evolve.initialize(parameters, 0);
+		state = (MyEvolutionState) Evolve.initialize(parameters, 0);
+	}
 
+	@Override
+	protected int getPercentageComplete() {
+		Statistics statistics = (Statistics) state.statistics;
+		if (statistics != null) {
+			return statistics.getPercentageComplete();
+		}
+		return 0;
+	}
+
+	@Override
+	protected void generationLoop() {
 		state.run(EvolutionState.C_STARTED_FRESH);
 
 		Evolve.cleanup(state);
 
-		Statistics statistics = (Statistics) state.statistics;
-
 		//bestPhrases
+		Statistics statistics = (Statistics) state.statistics;
 		bestPhrasesLibrary.setBestPhrases(statistics.getBestPhrases());
-		bestPhrasesLibrary.sort();
+	}
+
+	@Override
+	public void setCanceled(boolean canceled) {
+		state.cancel();
 	}
 
 	protected Dictionary<String, Object> getParametersHashmap() {
@@ -65,8 +82,7 @@ public class EvolutionaryComputationRanking extends AbstractRanking {
 		database.put("evalthreads", 1);
 		database.put("seed.0", 4357);
 
-		database.put("state", "ec.simple.SimpleEvolutionState");
-
+		database.put("state", MyEvolutionState.class.getCanonicalName());
 		database.put("pop", "ec.Population");
 		database.put("init", Initializer.class.getCanonicalName());
 		database.put("finish", "ec.simple.SimpleFinisher");

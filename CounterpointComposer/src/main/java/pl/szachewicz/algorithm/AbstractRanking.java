@@ -4,13 +4,19 @@ import static pl.szachewicz.algorithm.Helper.debug;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import jm.music.data.Phrase;
 import pl.szachewicz.model.EvaluatedPhrase;
 import pl.szachewicz.model.preferences.Preferences;
 
 public class AbstractRanking {
+
+	protected Timer progressTimer;
+
 	protected Phrase cantusFirmus;
 	protected Preferences preferences;
 
@@ -33,17 +39,33 @@ public class AbstractRanking {
 		this.pcSupport = new PropertyChangeSupport(this);
 	}
 
+	public Timer getProgressTimer() {
+		if (progressTimer == null) {
+			progressTimer = new Timer();
+		}
+		return progressTimer;
+	}
+
 	public void generateRanking() {
 
+		progressTimer = new Timer();
+		progressTimer.schedule(new ProgressTimerTask(), Calendar.getInstance().getTime(), 100);
+
+		generationLoop();
+		bestPhrasesLibrary.sort();
+
+		fireProgressChanged();
+		progressTimer.cancel();
+	}
+
+	protected void generationLoop() {
 		while (generator.hasNext() && !canceled) {
 			Phrase phrase = generator.generateNext();
 			float points = evaluator.evaluatePhrase(phrase);
 			debug(" - " + points);
 
 			bestPhrasesLibrary.tryToAdd(phrase, points);
-			fireProgressChanged();
 		}
-		bestPhrasesLibrary.sort();
 	}
 
 	public void setCanceled(boolean canceled) {
@@ -51,7 +73,7 @@ public class AbstractRanking {
 	}
 
 	private void fireProgressChanged() {
-		pcSupport.firePropertyChange(PROGRESS_PROPERTY, null, generator.getPercentageComplete());
+		pcSupport.firePropertyChange(PROGRESS_PROPERTY, null, getPercentageComplete());
 	}
 
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -60,6 +82,17 @@ public class AbstractRanking {
 
 	public List<EvaluatedPhrase> getBestRanking() {
 		return bestPhrasesLibrary.getBestPhrases();
+	}
+
+	protected int getPercentageComplete() {
+		return generator.getPercentageComplete();
+	}
+
+	class ProgressTimerTask extends TimerTask {
+		@Override
+		public void run() {
+			fireProgressChanged();
+		}
 	}
 
 }
