@@ -30,7 +30,7 @@ public class Preferences {
 
 	private List<ParallelMovementPunishment> parallelMovementPunishments = new ArrayList<ParallelMovementPunishment>();
 
-	private EvolutionaryComputationPreferences evolutionaryComputationPreferences = new EvolutionaryComputationPreferences();
+	private GeneticAlgorithmPreferences evolutionaryComputationPreferences = new GeneticAlgorithmPreferences();
 
 	public Preferences() {
 	}
@@ -202,12 +202,12 @@ public class Preferences {
 		return 0.0F;
 	}
 
-	public EvolutionaryComputationPreferences getEvolutionaryComputationPreferences() {
+	public GeneticAlgorithmPreferences getEvolutionaryComputationPreferences() {
 		return evolutionaryComputationPreferences;
 	}
 
 	public void setEvolutionaryComputationPreferences(
-			EvolutionaryComputationPreferences evolutionaryComputationPreferences) {
+			GeneticAlgorithmPreferences evolutionaryComputationPreferences) {
 		this.evolutionaryComputationPreferences = evolutionaryComputationPreferences;
 	}
 

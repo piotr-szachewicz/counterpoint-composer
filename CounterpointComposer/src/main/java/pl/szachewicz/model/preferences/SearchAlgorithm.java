@@ -4,14 +4,14 @@ import java.lang.reflect.Constructor;
 
 import jm.music.data.Phrase;
 import pl.szachewicz.algorithm.AbstractRanking;
-import pl.szachewicz.algorithm.EvolutionaryComputationRanking;
+import pl.szachewicz.algorithm.GeneticAlgorithmRanking;
 import pl.szachewicz.algorithm.FullSearchRanking;
 
 
 public enum SearchAlgorithm {
 
 	FULL_SEARCH("full search", FullSearchRanking.class),
-	EVOLUTIONARY_COMPUTATION("evoluationary computation", EvolutionaryComputationRanking.class);
+	GENETIC_ALGORITHM("genetic algorithm", GeneticAlgorithmRanking.class);
 
 	private String displayName;
 	private Class rankingClass;

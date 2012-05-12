@@ -1,4 +1,4 @@
-package pl.szachewicz.view.preferences.algorithm;
+package pl.szachewicz.view.preferences.algorithm.genetic;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -7,18 +7,17 @@ import javax.swing.JPanel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.TitledBorder;
 
-import pl.szachewicz.model.preferences.EvolutionaryComputationPreferences;
+import pl.szachewicz.model.preferences.GeneticAlgorithmPreferences;
 import pl.szachewicz.model.preferences.Preferences;
 import pl.szachewicz.view.abstractcomponents.AbstractPanel;
 import pl.szachewicz.view.controls.IntegerSpinner;
 
-public class EvolutionaryComputationPreferencesPanel extends AbstractPanel {
-
+public class GeneralPreferencesPanel extends AbstractPanel {
 	private IntegerSpinner numberOfGenerationsSpinner;
 	private IntegerSpinner populationSizeSpinner;
 
-	public EvolutionaryComputationPreferencesPanel() {
-		this.setBorder(new TitledBorder("Evoluationary search preferences"));
+	public GeneralPreferencesPanel() {
+		this.setBorder(new TitledBorder("General preferences"));
 		this.add(createInterface());
 	}
 
@@ -82,7 +81,7 @@ public class EvolutionaryComputationPreferencesPanel extends AbstractPanel {
 
 	public void fillViewFromModel(Object model) {
 		Preferences preferences = (Preferences) model;
-		EvolutionaryComputationPreferences evolutionaryComputationPreferences = preferences.getEvolutionaryComputationPreferences();;
+		GeneticAlgorithmPreferences evolutionaryComputationPreferences = preferences.getEvolutionaryComputationPreferences();;
 
 		getNumberOfGenerationsSpinner().setValue(evolutionaryComputationPreferences.getNumberOfGenerations());
 		getPopulationSizeSpinner().setValue(evolutionaryComputationPreferences.getPopulationSize());
@@ -90,7 +89,7 @@ public class EvolutionaryComputationPreferencesPanel extends AbstractPanel {
 
 	public void fillModelFromView(Object model) {
 		Preferences preferences = (Preferences) model;
-		EvolutionaryComputationPreferences evolutionaryComputationPreferences = preferences.getEvolutionaryComputationPreferences();;
+		GeneticAlgorithmPreferences evolutionaryComputationPreferences = preferences.getEvolutionaryComputationPreferences();;
 		evolutionaryComputationPreferences.setNumberOfGenerations(getNumberOfGenerationsSpinner().getValue());
 		evolutionaryComputationPreferences.setPopulationSize(getPopulationSizeSpinner().getValue());
 	}

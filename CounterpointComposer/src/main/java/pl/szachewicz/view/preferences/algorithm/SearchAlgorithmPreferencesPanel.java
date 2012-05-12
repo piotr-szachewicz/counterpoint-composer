@@ -9,13 +9,14 @@ import javax.swing.JPanel;
 
 import pl.szachewicz.model.preferences.SearchAlgorithm;
 import pl.szachewicz.view.abstractcomponents.AbstractPanel;
+import pl.szachewicz.view.preferences.algorithm.genetic.GeneticAlgorithmPreferencesPanel;
 
 public class SearchAlgorithmPreferencesPanel extends AbstractPanel implements PropertyChangeListener {
 
 	private ChooseSearchAlgorithmPanel chooseSearchAlgorithmPanel;
 
 	private JPanel otherPreferencesCardPanel;
-	private EvolutionaryComputationPreferencesPanel evolutionaryComputationPreferencesPanel;
+	private GeneticAlgorithmPreferencesPanel evolutionaryComputationPreferencesPanel;
 
 	public SearchAlgorithmPreferencesPanel() {
 		this.setLayout(new BorderLayout());
@@ -36,14 +37,14 @@ public class SearchAlgorithmPreferencesPanel extends AbstractPanel implements Pr
 		if (otherPreferencesCardPanel == null) {
 			otherPreferencesCardPanel = new JPanel(new CardLayout());
 			otherPreferencesCardPanel.add(new JPanel(), SearchAlgorithm.FULL_SEARCH.toString());
-			otherPreferencesCardPanel.add(getEvolutionaryComputationPreferencesPanel(), SearchAlgorithm.EVOLUTIONARY_COMPUTATION.toString());
+			otherPreferencesCardPanel.add(getEvolutionaryComputationPreferencesPanel(), SearchAlgorithm.GENETIC_ALGORITHM.toString());
 		}
 		return otherPreferencesCardPanel;
 	}
 
-	public EvolutionaryComputationPreferencesPanel getEvolutionaryComputationPreferencesPanel() {
+	public GeneticAlgorithmPreferencesPanel getEvolutionaryComputationPreferencesPanel() {
 		if (evolutionaryComputationPreferencesPanel == null)
-			evolutionaryComputationPreferencesPanel = new EvolutionaryComputationPreferencesPanel();
+			evolutionaryComputationPreferencesPanel = new GeneticAlgorithmPreferencesPanel();
 		return evolutionaryComputationPreferencesPanel;
 	}
 

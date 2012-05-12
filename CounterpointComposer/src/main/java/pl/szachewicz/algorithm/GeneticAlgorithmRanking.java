@@ -7,22 +7,23 @@ import java.util.Hashtable;
 
 import jm.music.data.Phrase;
 import pl.szachewicz.algorithm.genetic.CounterpointProblem;
+import pl.szachewicz.algorithm.genetic.CrossoverType;
 import pl.szachewicz.algorithm.genetic.Initializer;
 import pl.szachewicz.algorithm.genetic.MyEvolutionState;
 import pl.szachewicz.algorithm.genetic.PhraseMutationPipeline;
 import pl.szachewicz.algorithm.genetic.Statistics;
-import pl.szachewicz.model.preferences.EvolutionaryComputationPreferences;
+import pl.szachewicz.model.preferences.GeneticAlgorithmPreferences;
 import pl.szachewicz.model.preferences.Preferences;
 import ec.EvolutionState;
 import ec.Evolve;
 import ec.util.ParameterDatabase;
 
-public class EvolutionaryComputationRanking extends AbstractRanking {
+public class GeneticAlgorithmRanking extends AbstractRanking {
 
 	ParameterDatabase parameters;
 	MyEvolutionState state;
 
-	public EvolutionaryComputationRanking(Phrase cantusFirmus,
+	public GeneticAlgorithmRanking(Phrase cantusFirmus,
 			Preferences preferences) {
 		super(cantusFirmus, preferences);
 		bestPhrasesLibrary.setWatchOutForDuplicates(true);
@@ -76,7 +77,7 @@ public class EvolutionaryComputationRanking extends AbstractRanking {
 
 	protected Dictionary<String, Object> getParametersHashmap() {
 		Dictionary<String, Object> database = new Hashtable<String, Object>();
-		EvolutionaryComputationPreferences ecPreferences = preferences.getEvolutionaryComputationPreferences();
+		GeneticAlgorithmPreferences ecPreferences = preferences.getEvolutionaryComputationPreferences();
 
 		database.put("verbosity", 0);
 		database.put("breedthreads", 1);
@@ -112,17 +113,18 @@ public class EvolutionaryComputationRanking extends AbstractRanking {
 		database.put("pop.subpop.0.species.fitness", "ec.simple.SimpleFitness");
 		database.put("pop.subpop.0.species.ind", "ec.vector.IntegerVectorIndividual");
 
-		database.put("pop.subpop.0.species.genome-size", cantusFirmus.length()); //not needed realy Initializer does it
-		database.put("pop.subpop.0.species.crossover-type", "one");
-		database.put("pop.subpop.0.species.crossover-prob", 0.0F);
-		database.put("pop.subpop.0.species.mutation-prob", 0.1F);
+		database.put("pop.subpop.0.species.genome-size", cantusFirmus.length());
+		database.put("pop.subpop.0.species.crossover-type", ecPreferences.getCrossoverType().getEcjCode());
+		if (ecPreferences.getCrossoverType() == CrossoverType.UNIFORM)
+			database.put("pop.subpop.0.species.crossover-prob", ecPreferences.getNoteCrossoverProbability());
+		database.put("pop.subpop.0.species.mutation-prob", ecPreferences.getNoteMutationProbability());
 
 		database.put("pop.subpop.0.species.pipe", PhraseMutationPipeline.class.getCanonicalName());
 		database.put("pop.subpop.0.species.pipe.source.0", "ec.vector.breed.VectorCrossoverPipeline");
 		database.put("pop.subpop.0.species.pipe.source.0.source.0", "ec.select.TournamentSelection");
 		database.put("pop.subpop.0.species.pipe.source.0.source.1", "ec.select.TournamentSelection");
 
-		database.put("select.tournament.size", 2);
+		database.put("select.tournament.size", ecPreferences.getTournamentSize());
 
 		database.put("eval.problem", CounterpointProblem.class.getCanonicalName());
 

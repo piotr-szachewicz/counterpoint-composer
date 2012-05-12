@@ -6,7 +6,7 @@ import jm.constants.RhythmValues;
 import jm.music.data.Phrase;
 import pl.szachewicz.algorithm.BestPhrasesLibrary;
 import pl.szachewicz.model.EvaluatedPhrase;
-import pl.szachewicz.model.preferences.EvolutionaryComputationPreferences;
+import pl.szachewicz.model.preferences.GeneticAlgorithmPreferences;
 import pl.szachewicz.model.preferences.Preferences;
 import ec.EvolutionState;
 import ec.simple.SimpleFitness;
@@ -25,7 +25,7 @@ public class Statistics extends ec.Statistics{
 		super.setup(state, base);
 
 		Preferences preferences = (Preferences) state.parameters.get("preferences");
-		EvolutionaryComputationPreferences evolutionaryComputationPreferences = preferences.getEvolutionaryComputationPreferences();
+		GeneticAlgorithmPreferences evolutionaryComputationPreferences = preferences.getEvolutionaryComputationPreferences();
 
 		int numberOfGenerations = evolutionaryComputationPreferences.getNumberOfGenerations();
 		int populationSize = evolutionaryComputationPreferences.getPopulationSize();
