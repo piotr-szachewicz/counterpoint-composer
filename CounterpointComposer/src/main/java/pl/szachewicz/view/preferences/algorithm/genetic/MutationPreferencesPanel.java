@@ -1,5 +1,7 @@
 package pl.szachewicz.view.preferences.algorithm.genetic;
 
+import java.awt.Dimension;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -34,6 +36,10 @@ public class MutationPreferencesPanel extends AbstractPanel {
 		hGroup.addGroup(
 		        layout.createParallelGroup()
 		        .addComponent(noteMutationProbabilityLabel)
+		);
+
+		hGroup.addGroup(
+		        layout.createParallelGroup()
 		        .addComponent(getNoteMutationProbabilitySpinner())
 		);
 
@@ -44,10 +50,6 @@ public class MutationPreferencesPanel extends AbstractPanel {
 		vGroup.addGroup(
 				layout.createParallelGroup(Alignment.BASELINE)
 				.addComponent(noteMutationProbabilityLabel)
-			);
-
-		vGroup.addGroup(
-				layout.createParallelGroup(Alignment.BASELINE)
 				.addComponent(getNoteMutationProbabilitySpinner())
 			);
 
@@ -57,8 +59,10 @@ public class MutationPreferencesPanel extends AbstractPanel {
 	}
 
 	public ProbabilitySpinner getNoteMutationProbabilitySpinner() {
-		if (noteMutationProbabilitySpinner == null)
+		if (noteMutationProbabilitySpinner == null) {
 			noteMutationProbabilitySpinner = new ProbabilitySpinner();
+			noteMutationProbabilitySpinner.setPreferredSize(new Dimension(110, 10));
+		}
 		return noteMutationProbabilitySpinner;
 	}
 

@@ -35,6 +35,10 @@ public class SelectionPreferencesPanel extends AbstractPanel {
 		hGroup.addGroup(
 		        layout.createParallelGroup()
 		        .addComponent(tournamentSizeLabel)
+		);
+
+		hGroup.addGroup(
+		        layout.createParallelGroup()
 		        .addComponent(getTournamentSizeSpinner())
 		);
 
@@ -45,10 +49,6 @@ public class SelectionPreferencesPanel extends AbstractPanel {
 		vGroup.addGroup(
 				layout.createParallelGroup(Alignment.BASELINE)
 				.addComponent(tournamentSizeLabel)
-			);
-
-		vGroup.addGroup(
-				layout.createParallelGroup(Alignment.BASELINE)
 				.addComponent(getTournamentSizeSpinner())
 			);
 
