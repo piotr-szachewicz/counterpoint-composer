@@ -9,8 +9,8 @@ import javax.swing.SwingWorker.StateValue;
 
 import jm.music.data.Phrase;
 import jm.util.Play;
-import pl.szachewicz.algorithm.AbstractRanking;
 import pl.szachewicz.algorithm.Evaluator;
+import pl.szachewicz.algorithm.ranking.AbstractRanking;
 import pl.szachewicz.model.EvaluatedPhrase;
 import pl.szachewicz.model.preferences.Preferences;
 import pl.szachewicz.model.preferences.StaveType;

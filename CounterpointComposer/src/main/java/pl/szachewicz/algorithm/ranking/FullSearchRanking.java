@@ -1,4 +1,4 @@
-package pl.szachewicz.algorithm;
+package pl.szachewicz.algorithm.ranking;
 
 import jm.music.data.Phrase;
 import pl.szachewicz.model.preferences.Preferences;

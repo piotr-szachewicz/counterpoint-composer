@@ -1,4 +1,4 @@
-package pl.szachewicz.algorithm;
+package pl.szachewicz.algorithm.ranking;
 
 import static pl.szachewicz.algorithm.Helper.debug;
 
@@ -10,6 +10,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import jm.music.data.Phrase;
+import pl.szachewicz.algorithm.Evaluator;
+import pl.szachewicz.algorithm.Generator;
+import pl.szachewicz.algorithm.library.PhrasesLibrary;
 import pl.szachewicz.model.EvaluatedPhrase;
 import pl.szachewicz.model.preferences.Preferences;
 
@@ -26,7 +29,7 @@ public class AbstractRanking {
 	protected final Generator generator;
 	protected final Evaluator evaluator;
 
-	protected final BestPhrasesLibrary bestPhrasesLibrary = new BestPhrasesLibrary();
+	protected PhrasesLibrary bestPhrasesLibrary;
 
 	private boolean canceled = false;
 
@@ -37,6 +40,8 @@ public class AbstractRanking {
 		this.generator = new Generator(cantusFirmus, preferences);
 		this.evaluator = new Evaluator(cantusFirmus, preferences);
 		this.pcSupport = new PropertyChangeSupport(this);
+
+		bestPhrasesLibrary = PhrasesLibrary.createPhrasesLibrary(preferences);
 	}
 
 	public Timer getProgressTimer() {

@@ -8,8 +8,8 @@ import javax.swing.ProgressMonitor;
 import javax.swing.SwingWorker;
 
 import jm.music.data.Phrase;
-import pl.szachewicz.algorithm.AbstractRanking;
-import pl.szachewicz.algorithm.FullSearchRanking;
+import pl.szachewicz.algorithm.ranking.AbstractRanking;
+import pl.szachewicz.algorithm.ranking.FullSearchRanking;
 import pl.szachewicz.model.preferences.Preferences;
 import pl.szachewicz.model.preferences.SearchAlgorithm;
 

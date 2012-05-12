@@ -5,6 +5,7 @@ import java.awt.CardLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import pl.szachewicz.model.preferences.SearchAlgorithm;
@@ -14,6 +15,7 @@ import pl.szachewicz.view.preferences.algorithm.genetic.GeneticAlgorithmPreferen
 public class SearchAlgorithmPreferencesPanel extends AbstractPanel implements PropertyChangeListener {
 
 	private ChooseSearchAlgorithmPanel chooseSearchAlgorithmPanel;
+	private ChooseOptimizationGoalPanel chooseOptimizationGoalPanel;
 
 	private JPanel otherPreferencesCardPanel;
 	private GeneticAlgorithmPreferencesPanel evolutionaryComputationPreferencesPanel;
@@ -21,8 +23,18 @@ public class SearchAlgorithmPreferencesPanel extends AbstractPanel implements Pr
 	public SearchAlgorithmPreferencesPanel() {
 		this.setLayout(new BorderLayout());
 
-		this.add(getChooseSearchAlgorithmPanel(), BorderLayout.NORTH);
+		this.add(createNorthPanel(), BorderLayout.NORTH);
 		this.add(getOtherPreferencesCardPanel(), BorderLayout.CENTER);
+	}
+
+	protected JPanel createNorthPanel() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+		panel.add(getChooseOptimizationGoalPanel());
+		panel.add(getChooseSearchAlgorithmPanel());
+
+		return panel;
 	}
 
 	public ChooseSearchAlgorithmPanel getChooseSearchAlgorithmPanel() {
@@ -31,6 +43,12 @@ public class SearchAlgorithmPreferencesPanel extends AbstractPanel implements Pr
 			chooseSearchAlgorithmPanel.addPropertyChangeListener(this);
 		}
 		return chooseSearchAlgorithmPanel;
+	}
+
+	public ChooseOptimizationGoalPanel getChooseOptimizationGoalPanel() {
+		if (chooseOptimizationGoalPanel == null)
+			chooseOptimizationGoalPanel = new ChooseOptimizationGoalPanel();
+		return chooseOptimizationGoalPanel;
 	}
 
 	public JPanel getOtherPreferencesCardPanel() {
@@ -50,11 +68,13 @@ public class SearchAlgorithmPreferencesPanel extends AbstractPanel implements Pr
 
 	public void fillViewFromModel(Object model) {
 		chooseSearchAlgorithmPanel.fillViewFromModel(model);
+		chooseOptimizationGoalPanel.fillViewFromModel(model);
 		evolutionaryComputationPreferencesPanel.fillViewFromModel(model);
 	}
 
 	public void fillModelFromView(Object model) {
 		chooseSearchAlgorithmPanel.fillModelFromView(model);
+		chooseOptimizationGoalPanel.fillModelFromView(model);
 		evolutionaryComputationPreferencesPanel.fillModelFromView(model);
 	}
 

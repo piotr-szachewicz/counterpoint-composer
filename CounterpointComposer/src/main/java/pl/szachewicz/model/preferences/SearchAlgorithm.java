@@ -3,9 +3,9 @@ package pl.szachewicz.model.preferences;
 import java.lang.reflect.Constructor;
 
 import jm.music.data.Phrase;
-import pl.szachewicz.algorithm.AbstractRanking;
-import pl.szachewicz.algorithm.GeneticAlgorithmRanking;
-import pl.szachewicz.algorithm.FullSearchRanking;
+import pl.szachewicz.algorithm.ranking.AbstractRanking;
+import pl.szachewicz.algorithm.ranking.FullSearchRanking;
+import pl.szachewicz.algorithm.ranking.GeneticAlgorithmRanking;
 
 
 public enum SearchAlgorithm {

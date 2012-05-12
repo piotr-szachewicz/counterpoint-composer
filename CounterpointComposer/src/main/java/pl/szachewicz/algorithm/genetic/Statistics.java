@@ -4,7 +4,7 @@ import java.util.List;
 
 import jm.constants.RhythmValues;
 import jm.music.data.Phrase;
-import pl.szachewicz.algorithm.BestPhrasesLibrary;
+import pl.szachewicz.algorithm.library.PhrasesLibrary;
 import pl.szachewicz.model.EvaluatedPhrase;
 import pl.szachewicz.model.preferences.GeneticAlgorithmPreferences;
 import pl.szachewicz.model.preferences.Preferences;
@@ -15,7 +15,7 @@ import ec.vector.IntegerVectorIndividual;
 
 public class Statistics extends ec.Statistics{
 
-	private final BestPhrasesLibrary bestPhrasesLibrary = new BestPhrasesLibrary();
+	private PhrasesLibrary bestPhrasesLibrary;
 
 	private double currentEvaluationNumber;
 	private double totalNumberOfEvaluations;
@@ -30,6 +30,8 @@ public class Statistics extends ec.Statistics{
 		int numberOfGenerations = evolutionaryComputationPreferences.getNumberOfGenerations();
 		int populationSize = evolutionaryComputationPreferences.getPopulationSize();
 		this.totalNumberOfEvaluations = numberOfGenerations * populationSize;
+
+		bestPhrasesLibrary = PhrasesLibrary.createPhrasesLibrary(preferences);
 	}
 
 	@Override

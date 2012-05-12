@@ -13,6 +13,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 public class Preferences {
 
 	private SearchAlgorithm searchAlgorithm = SearchAlgorithm.FULL_SEARCH;
+	private OptimalizationGoal optimalizationGoal = OptimalizationGoal.MAXIMIZE;
 	//generator
 	private StaveType cantusFirmusStaveType;
 
@@ -52,6 +53,12 @@ public class Preferences {
 	}
 	public void setSearchAlgorithm(SearchAlgorithm searchAlgorithm) {
 		this.searchAlgorithm = searchAlgorithm;
+	}
+	public OptimalizationGoal getOptimalizationGoal() {
+		return optimalizationGoal;
+	}
+	public void setOptimalizationGoal(OptimalizationGoal optimalizationGoal) {
+		this.optimalizationGoal = optimalizationGoal;
 	}
 	public List<ParallelMovementPunishment> getParallelMovementPunishments() {
 		return parallelMovementPunishments;

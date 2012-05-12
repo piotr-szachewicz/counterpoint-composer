@@ -1,4 +1,4 @@
-package pl.szachewicz.algorithm;
+package pl.szachewicz.algorithm.library;
 
 import static pl.szachewicz.algorithm.Helper.debug;
 
@@ -9,35 +9,39 @@ import java.util.List;
 import jm.music.data.Phrase;
 import pl.szachewicz.model.EvaluatedPhrase;
 import pl.szachewicz.model.EvaluatedPhraseComparator;
+import pl.szachewicz.model.preferences.OptimalizationGoal;
+import pl.szachewicz.model.preferences.Preferences;
 
-public class BestPhrasesLibrary {
+public abstract class PhrasesLibrary {
 
 	protected List<EvaluatedPhrase> bestPhrases = new ArrayList<EvaluatedPhrase>();
 
-	private final int numberOfRememberedPhrases = 15;
+	protected final int numberOfRememberedPhrases = 15;
 
-	private float worseNumberOfPoints = Float.MAX_VALUE;
-	private int worsePhraseIndex;
-	private boolean watchOutForDuplicates = false;
+	protected float lastNumberOfPoints = Float.MAX_VALUE;
+	protected int lastPhraseIndex;
+	protected boolean watchOutForDuplicates = false;
 
-	protected void recalculateWorstPhrase() {
-		worseNumberOfPoints = Integer.MAX_VALUE;
+	protected void recalculateLastPhrase() {
+		lastNumberOfPoints = bestPhrases.get(0).getNumberOfPoints();
 
 		for (int i = 0; i < bestPhrases.size(); i++) {
 			float phrasePoints = bestPhrases.get(i).getNumberOfPoints();
-			if (phrasePoints < worseNumberOfPoints) {
-				worseNumberOfPoints = phrasePoints;
-				worsePhraseIndex = i;
+			if (!isBetterThanLast(phrasePoints)) {
+				lastNumberOfPoints = phrasePoints;
+				lastPhraseIndex = i;
 			}
 			i++;
 		}
 	}
 
+	protected abstract boolean isBetterThanLast(float points);
+
 	public void tryToAdd(Phrase phrase, float points) {
 		if (bestPhrases.size() >= numberOfRememberedPhrases) {
-			if (points > worseNumberOfPoints) {
-				debug(" - ADDED (better than " + worseNumberOfPoints + ")");
-				bestPhrases.remove(worsePhraseIndex);
+			if (isBetterThanLast(points)) {
+				debug(" - ADDED (better than " + lastNumberOfPoints + ")");
+				bestPhrases.remove(lastPhraseIndex);
 				addPhrase(phrase, points);
 			}
 		}
@@ -51,7 +55,7 @@ public class BestPhrasesLibrary {
 	protected void addPhrase(Phrase phrase, float points) {
 		if (!isPhraseAlreadyIncluded(phrase, points)) {
 			bestPhrases.add(new EvaluatedPhrase(phrase, points));
-			recalculateWorstPhrase();
+			recalculateLastPhrase();
 		}
 	}
 
@@ -85,6 +89,13 @@ public class BestPhrasesLibrary {
 
 	public boolean isWatchOutForDuplicates() {
 		return watchOutForDuplicates;
+	}
+
+	public static PhrasesLibrary createPhrasesLibrary(Preferences preferences) {
+		if (preferences.getOptimalizationGoal() == OptimalizationGoal.MAXIMIZE)
+			return new BestPhrasesLibrary();
+		else
+			return new WorsePhrasesLibrary();
 	}
 
 }
