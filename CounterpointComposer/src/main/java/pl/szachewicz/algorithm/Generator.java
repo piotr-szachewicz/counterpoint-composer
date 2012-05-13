@@ -23,8 +23,8 @@ public class Generator {
 	private int minimumPitch;
 	private int maximumPitch;
 
-	private List<List<Integer>> availablePitches;
 	private final int[] positions;
+	private List<List<Integer>> availablePitches;
 	private boolean incrementEnd = false;
 
 	private BigInteger numberOfPossiblePhrases;
@@ -88,7 +88,7 @@ public class Generator {
 			noteNumber++;
 		}
 
-		System.out.println("number of possible phrases: " + numberOfPossiblePhrases);
+		System.out.println("GENERATOR - number of possible phrases: " + numberOfPossiblePhrases);
 		currentPhraseNumber = new BigInteger("1");
 	}
 

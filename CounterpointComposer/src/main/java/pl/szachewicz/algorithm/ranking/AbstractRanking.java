@@ -56,8 +56,17 @@ public class AbstractRanking {
 		progressTimer = new Timer();
 		progressTimer.schedule(new ProgressTimerTask(), Calendar.getInstance().getTime(), 100);
 
+		long startTime = System.currentTimeMillis();
+
 		generationLoop();
 		bestPhrasesLibrary.sort();
+
+		long endTime = System.currentTimeMillis();
+
+		System.out.println("========================= ");
+		System.out.println("DONE - EXECUTION TIME [ms]: ");
+		System.out.println(endTime - startTime);
+		System.out.println("========================= ");
 
 		fireProgressChanged();
 		progressTimer.cancel();

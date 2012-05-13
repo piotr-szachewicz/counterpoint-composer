@@ -31,8 +31,6 @@ public class GenerateRankingWorker extends SwingWorker<AbstractRanking, Void> im
 
 	@Override
 	protected AbstractRanking doInBackground() throws Exception {
-		System.out.println("Calc ranking");
-
 		SearchAlgorithm searchAlgorithm = preferences.getSearchAlgorithm();
 		ranking = searchAlgorithm.createRanking(cantusFirmus, preferences);
 

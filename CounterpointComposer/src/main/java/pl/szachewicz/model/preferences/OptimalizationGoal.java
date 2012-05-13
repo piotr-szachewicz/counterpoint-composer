@@ -2,8 +2,8 @@ package pl.szachewicz.model.preferences;
 
 public enum OptimalizationGoal {
 
-	MAXIMIZE ("find the best counterpoint"),
-	MINIMIZE ("find the worse counterpoint");
+	MAXIMIZE ("find the best counterpoints"),
+	MINIMIZE ("find the worst counterpoints");
 
 	private String displayName;
 

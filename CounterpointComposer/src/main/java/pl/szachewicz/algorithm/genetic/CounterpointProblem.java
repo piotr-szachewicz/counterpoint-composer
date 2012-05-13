@@ -42,7 +42,7 @@ public class CounterpointProblem extends Problem implements SimpleProblemForm {
 
 		ind2.evaluated = true;
 
-		printIndividualData(ind2);
+		//printIndividualData(ind2);
 
 	}
 
