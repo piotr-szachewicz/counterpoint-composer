@@ -169,12 +169,12 @@ public class Preferences {
 		noteJumpPunishments = new ArrayList<NoteJumpPunishment>();
 
 		noteJumpPunishments.add(new NoteJumpPunishment(Interval.MINOR_THIRD, Interval.PERFECT_FOURTH, 2));
-		noteJumpPunishments.add(new NoteJumpPunishment(Interval.TRITONE, Interval.TRITONE, 20));
+		noteJumpPunishments.add(new NoteJumpPunishment(Interval.TRITONE, Interval.TRITONE, 100));
 
 		noteJumpPunishments.add(new NoteJumpPunishment(Interval.PERFECT_FIFTH, Interval.MAJOR_SIXTH, 8));
 
-		noteJumpPunishments.add(new NoteJumpPunishment(Interval.MINOR_SEVENTH, Interval.MAJOR_SEVENTH, 12));
-		noteJumpPunishments.add(new NoteJumpPunishment(Interval.OCTAVE.getNumberOfSemitones(), Integer.MAX_VALUE, 30));
+		noteJumpPunishments.add(new NoteJumpPunishment(Interval.MINOR_SEVENTH, Interval.MAJOR_SEVENTH, 40));
+		noteJumpPunishments.add(new NoteJumpPunishment(Interval.OCTAVE.getNumberOfSemitones(), Integer.MAX_VALUE, 50));
 
 		parallelMovementPunishments = new ArrayList<ParallelMovementPunishment>();
 		parallelMovementPunishments.add(new ParallelMovementPunishment(Interval.UNISON, 30));
