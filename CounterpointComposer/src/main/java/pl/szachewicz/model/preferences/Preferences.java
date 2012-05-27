@@ -12,7 +12,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias(value="preferences")
 public class Preferences {
 
-	private SearchAlgorithm searchAlgorithm = SearchAlgorithm.FULL_SEARCH;
+	private SearchAlgorithm searchAlgorithm = SearchAlgorithm.GENETIC_ALGORITHM;
 	private OptimalizationGoal optimalizationGoal = OptimalizationGoal.MAXIMIZE;
 	//generator
 	private StaveType cantusFirmusStaveType;
