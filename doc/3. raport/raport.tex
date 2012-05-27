@@ -107,7 +107,7 @@ Algorytm genetyczny zastosowany w programie przebiega następująco:
 \item Każdemu osobnikowi przypisywana jest ocena uzyskana przy pomocy funkcji oceniającej.
 \item Wybierane są osobniki, które mają wziąć udział w procesie reprodukcji. Proces selekcji odbywa się w następujący sposób:
 	\begin{enumerate}
-		\item losowanych jest $n$ osobników z populacji (gdzie $n$ jest parametrem \emph{tournament size}, który można ustawić przy użyciu GUI);
+		\item losowanych jest $n$ osobników z populacji (gdzie $n$ jest wielkością turnieju, którą można ustawić przy użyciu GUI);
 		\item do reprodukcji wybierany jest ten z wylosowanych osobników, który ma najwyższą ocenę.
 	\end{enumerate}
 
@@ -213,13 +213,13 @@ Otrzymane wyniki przedstawiono w tabeli~\ref{tab:wyniki1} oraz na rysunkach~\ref
 \begin{figure}[htb]
 \centering
 \includegraphics[width=1.0\textwidth]{images/liczba_nut_a_jakosc.pdf}
-\caption{Wykres przestawia oceny najlepszych kontrapunktów w zależności od długości \emph{cantus firmus}. Czerwona linia przedstawia oceny uzyksane przy użyciu pełnego przeszukiwania, a niebieska -- przy użyciu algorytmu genetycznego.}
+\caption{Wykres przestawia oceny najlepszych kontrapunktów w zależności od długości \emph{cantus firmus}. Czerwona linia przedstawia oceny uzyskane przy użyciu pełnego przeszukiwania, a niebieska -- przy użyciu algorytmu genetycznego.}
 \label{fig:liczba_nut_a_jakosc}
 \end{figure}
 
 Na wykresie\ref{fig:liczba_nut_a_mozliwe_rozwiazania} przedstawiono liczbę wszystkich dopuszczonych przez generator rozwiązań w zależności od długości \emph{cantus firmus}. Liczba ta rośnie wykładniczo w zależności od liczby nut w \emph{cantus firmus}. Skutkuje to bardzo długimi czasami wykonania, jeśli użyte zostanie pełne przeszukiwania przestrzeni rozwiązań -- niemożliwe staje się wygenerowanie w rozsądnym czasie kontrapunktu dla długich \emph{cantus firmus}.
 
-W tym wypadku korzystne staje się użycie algorytmu genetycznego -- charakteryzuje się on znacznie krótszym czasem wykonania i rośnie liniowo w zależności od długości kontrapunktu. Ponadto, na czas wykonania i jakość uzyskiwanych rozwiązań można wpływać manipulując wielkością populacji i liczbą generacji.
+W tym wypadku korzystne staje się użycie algorytmu genetycznego -- charakteryzuje się on znacznie krótszym czasem wykonania i rośnie liniowo w zależności od długości kontrapunktu. Ponadto, na czas wykonania i jakość uzyskiwanych rozwiązań można wpływać manipulując wielkością populacji i liczbą pokoleń.
 
 \clearpage
 \subsection{Parametry algorytmu genetycznego a jakość uzyskiwanych rozwiązań.}
@@ -228,9 +228,9 @@ Podczas tego testu zbadano wpływ różnych ustawień parametrów algorytmu gene
 
 Domyślne ustawienia w programie wynosiły:
 \begin{itemize}
-\item liczba generacji - $5$,
+\item liczba pokoleń - $5$,
 \item wielkość populacji - $400$,
-\item \emph{tournament size} - $2$,
+\item wielkość turnieju - $2$,
 \item rodzaj algorytmu krzyżującego - \emph{one-point crossover},
 \item prawdopodobieństwo mutacji pojedynczej nuty - $0.1$.
 \end{itemize}
@@ -243,10 +243,10 @@ Otrzymane wyniki przedstawiono w tabelach~\ref{tab:wynik_a_liczba_generacji}-\re
 \begin{center}
   \begin{tabular}{ | c || c | c | c | c | c | }
     \hline
-	liczba generacji & 5 & 7 & 9 & 25 & 50 \\ \hline
+	liczba pokoleń & 5 & 7 & 9 & 25 & 50 \\ \hline
 	wynik & -21.9 & -20.6 & -18 & -10.9 & -9.6 \\ \hline
   \end{tabular}
-  \caption{Uśredniony najlepszy wynik algorytmu genetycznego w zależności od liczby generacji.}
+  \caption{Uśredniony najlepszy wynik algorytmu genetycznego w zależności od liczby pokoleń.}
   \label{tab:wynik_a_liczba_generacji}
   \end{center}
 \end{table}
@@ -267,10 +267,10 @@ Otrzymane wyniki przedstawiono w tabelach~\ref{tab:wynik_a_liczba_generacji}-\re
 \begin{center}
   \begin{tabular}{ | c || c | c | c | c | c | c | c | c | c | c |}
     \hline
-	tournament size & 2 & 3 & 5 & 7 & 9 & 11 & 13 & 15 & 40 & 100 \\ \hline
+	wielkość turnieju & 2 & 3 & 5 & 7 & 9 & 11 & 13 & 15 & 40 & 100 \\ \hline
 	wynik & -21.9 & -20.7 & -14.7 & -15.5 & -12.5 & -11.6 & -12.5 & -11 & -10 & -9.7 \\ \hline
   \end{tabular}
-  \caption{Uśredniony najlepszy wynik algorytmu genetycznego w zależności od \emph{tournament size}.}
+  \caption{Uśredniony najlepszy wynik algorytmu genetycznego w zależności od wielkości turnieju.} 
   \label{tab:wynik_a_tournament_size}
   \end{center}
 \end{table}
@@ -299,13 +299,61 @@ Otrzymane wyniki przedstawiono w tabelach~\ref{tab:wynik_a_liczba_generacji}-\re
   \end{center}
 \end{table}
 
-Z przedstawionych wyników można wywnioskować, że polepszenie otrzymywanych wyników można łatwo uzyskać zwiększając liczbę generacji - im więcej razy krzyżuje i mutuje się osobniki, tym większa jest szansa na otrzymanie osobnika bardziej optymalnego.
+Z przedstawionych wyników można wywnioskować, że polepszenie otrzymywanych wyników można łatwo uzyskać zwiększając liczbę pokoleń - im więcej razy krzyżuje i mutuje się osobniki, tym większa jest szansa na otrzymanie osobnika bardziej optymalnego.
 
 Z kolei zwiększanie wielkości populacji powoduje nieco wolniejsze polepszanie otrzymywanych wyników. Spowodowane jest ono głównie większym prawdopodobieństwem wylosowania lepszych osobników w populacji, ale warto zauważyć, że również w tym wypadku zwiększa się również liczba krzyżowań osobników.
 
-Bardzo dobre wyniki uzyskano, jeśli zwiększano wielkość \emph{tournament size}. Zwiększenie tego parametru powoduje, że więcej osobników jest losowanych do pojedynczej rywalizacji o możliwość reprodukcji. Skutkiem ubocznym jest zmniejszenie szans słabszych osobników na uczestnictwo w procesie krzyżowania, a polepszenie tych szans dla lepszych osobników.
+Bardzo dobre wyniki uzyskano, jeśli zwiększano wielkość turnieju. Zwiększenie tego parametru powoduje, że więcej osobników jest losowanych do pojedynczej rywalizacji o możliwość reprodukcji. Skutkiem ubocznym jest zmniejszenie szans słabszych osobników na uczestnictwo w procesie krzyżowania, a polepszenie tych szans dla lepszych osobników.
 
 Z kolei zmiana algorytmu krzyżującego oraz prawdopodobieństwa mutacji z domyślnych wartości nie przynosiła poprawy otrzymywanych wyników.
+
+\subsection{Korekta parametrów algorytmu genetycznego}
+
+Dodatkowo, przetestowano również, jak będzie działać algorytm genetyczny przy zmienionych parametrach. Najważniejszą zmianą była zmiana proporcji wielkości populacji do liczby pokoleń.
+
+Zaimplementowano również możliwość ustalenia prawdopodobieństwa, z jakim obiekt zostanie poddany krzyżowaniu (jeżeli nie zostaje poddany krzyżowaniu, ulega jedynie mutacjom).
+
+Testy opisane w tym rozdziale przeprowadzono na następujących wartościach parametrów:
+\begin{itemize}
+\item liczba pokoleń - $100$,
+\item wielkość populacji - $20$,
+\item wielkość turnieju - $5$,
+\item rodzaj algorytmu krzyżującego - \emph{one-point crossover},
+\item prawdopodobieństwo krzyżowania - $0.3$,
+\item prawdopodobieństwo mutacji pojedynczej nuty - $0.1$.
+\end{itemize}
+
+Dla każdej długości \emph{cantus firmus} przeprowadzono $10$ testów i pomiary uśredniono. Uzyskane wyniki przedstawiono w tabeli~\ref{tab:wyniki2} oraz na rysunku~\ref{fig:liczba_nut_a_jakosc_poprawki}.
+
+Na podstawie poniższych danych można zauważyć, że korzystne jest w tym wypadku znaczne zwiększenie liczby pokoleń kosztem wielkości populacji.
+
+\begin{table}
+\begin{center}
+  \begin{tabular}{ | c | c | } 
+    \hline
+	liczba nut & najlepsza ocena \\ \hline \hline
+	4 & -2.6 \\ \hline
+	5 & 0.0 \\ \hline
+	6 & -4.6 \\ \hline
+	7 & -6.4 \\ \hline
+	8 & -3.6 \\ \hline
+	9 & -5.2 \\ \hline
+	10 & -7.0 \\ \hline
+	11 & -4.6 \\ \hline
+	12 & -12.2 \\ \hline
+  \end{tabular}
+  \caption{Najlepsza ocena uzyskana przy użyciu algorytmu genetycznego przy zmienionych parametrach w zależności od długości \emph{cantus firmus}}
+  \label{tab:wyniki2}
+  \end{center}
+\end{table}
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=1.0\textwidth]{images/liczba_nut_a_jakosc_poprawki.pdf}
+\caption{Wykres przestawia oceny najlepszych kontrapunktów w zależności od długości \emph{cantus firmus} dla nowych wartości parametrów algorytmu genetycznego. Czerwona linia przedstawia oceny uzyskane przy użyciu pełnego przeszukiwania, a niebieska -- przy użyciu algorytmu genetycznego.}
+\label{fig:liczba_nut_a_jakosc_poprawki}
+\end{figure}
+
 
 \section{Wnioski}
 
