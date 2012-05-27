@@ -1,0 +1,8 @@
+COMPILATION:
+
+mvn package
+
+RUN:
+cd CounterpointComposer/target
+java -jar CounterpointComposer-1.0-SNAPSHOT.one-jar.jar
+
