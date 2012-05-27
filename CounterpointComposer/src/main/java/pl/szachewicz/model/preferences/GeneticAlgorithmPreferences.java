@@ -11,6 +11,7 @@ public class GeneticAlgorithmPreferences {
 	private int populationSize = 20;
 
 	private CrossoverType crossoverType = CrossoverType.ONE_POINT;
+	private float crossoverProbability = 0.3F;
 	private float noteCrossoverProbability = 0.05F;
 	private float noteMutationProbability = 0.1F;
 	private int tournamentSize = 5;
@@ -32,6 +33,12 @@ public class GeneticAlgorithmPreferences {
 	}
 	public void setCrossoverType(CrossoverType crossoverType) {
 		this.crossoverType = crossoverType;
+	}
+	public float getCrossoverProbability() {
+		return crossoverProbability;
+	}
+	public void setCrossoverProbability(float crossoverProbability) {
+		this.crossoverProbability = crossoverProbability;
 	}
 	public float getNoteCrossoverProbability() {
 		return noteCrossoverProbability;

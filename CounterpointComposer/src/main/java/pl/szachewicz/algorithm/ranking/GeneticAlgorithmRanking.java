@@ -120,9 +120,16 @@ public class GeneticAlgorithmRanking extends AbstractRanking {
 		database.put("pop.subpop.0.species.mutation-prob", ecPreferences.getNoteMutationProbability());
 
 		database.put("pop.subpop.0.species.pipe", PhraseMutationPipeline.class.getCanonicalName());
+		database.put("pop.subpop.0.species.pipe.likelihood", 1.0);
+
 		database.put("pop.subpop.0.species.pipe.source.0", "ec.vector.breed.VectorCrossoverPipeline");
+		database.put("pop.subpop.0.species.pipe.source.0.likelihood", ecPreferences.getCrossoverProbability());
+
 		database.put("pop.subpop.0.species.pipe.source.0.source.0", "ec.select.TournamentSelection");
 		database.put("pop.subpop.0.species.pipe.source.0.source.1", "ec.select.TournamentSelection");
+
+
+		//database.put("pop.subpop.0.species.pipe.source.0.likelihood", 0.3F);
 
 		database.put("select.tournament.size", ecPreferences.getTournamentSize());
 
