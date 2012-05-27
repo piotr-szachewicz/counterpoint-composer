@@ -7,13 +7,13 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias(value="geneticAlgorithmPreferences")
 public class GeneticAlgorithmPreferences {
 
-	private int numberOfGenerations = 5;
-	private int populationSize = 400;
+	private int numberOfGenerations = 100;
+	private int populationSize = 20;
 
 	private CrossoverType crossoverType = CrossoverType.ONE_POINT;
 	private float noteCrossoverProbability = 0.05F;
 	private float noteMutationProbability = 0.1F;
-	private int tournamentSize = 2;
+	private int tournamentSize = 5;
 
 	public int getNumberOfGenerations() {
 		return numberOfGenerations;
