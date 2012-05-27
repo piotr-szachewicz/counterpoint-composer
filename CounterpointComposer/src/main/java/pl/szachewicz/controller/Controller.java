@@ -70,6 +70,9 @@ public class Controller implements PropertyChangeListener {
 	}
 
 	public void generateRanking() {
+		if (getCantusFirmusPhrase().size() == 0)
+			return;
+
 		generateRankingWorker = new GenerateRankingWorker(mainFrame, getCantusFirmusPhrase(), preferences);
 		generateRankingWorker.addPropertyChangeListener(this);
 		generateRankingWorker.execute();

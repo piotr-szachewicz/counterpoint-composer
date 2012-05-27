@@ -32,6 +32,7 @@ public class AbstractRanking {
 	protected PhrasesLibrary bestPhrasesLibrary;
 
 	private boolean canceled = false;
+	private float executionTime;
 
 	public AbstractRanking(Phrase cantusFirmus, Preferences preferences) {
 		this.cantusFirmus = cantusFirmus;
@@ -65,11 +66,16 @@ public class AbstractRanking {
 
 		System.out.println("========================= ");
 		System.out.println("DONE - EXECUTION TIME [ms]: ");
-		System.out.println(endTime - startTime);
+		executionTime = endTime - startTime;
+		System.out.println(executionTime);
 		System.out.println("========================= ");
 
 		fireProgressChanged();
 		progressTimer.cancel();
+	}
+
+	public float getExecutionTime() {
+		return executionTime;
 	}
 
 	protected void generationLoop() {

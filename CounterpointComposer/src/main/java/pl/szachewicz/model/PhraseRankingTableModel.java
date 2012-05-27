@@ -52,4 +52,9 @@ public class PhraseRankingTableModel extends DefaultTableModel {
 		return null;
 	}
 
+	@Override
+	public boolean isCellEditable(int row, int column) {
+		return false;
+	}
+
 }
