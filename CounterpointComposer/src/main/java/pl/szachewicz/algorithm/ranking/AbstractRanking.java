@@ -70,7 +70,7 @@ public class AbstractRanking {
 		System.out.println(executionTime);
 		System.out.println("========================= ");
 
-		fireProgressChanged();
+		pcSupport.firePropertyChange(PROGRESS_PROPERTY, null, 100);
 		progressTimer.cancel();
 	}
 
