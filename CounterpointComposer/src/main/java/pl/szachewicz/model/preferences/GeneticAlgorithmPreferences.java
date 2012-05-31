@@ -7,7 +7,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias(value="geneticAlgorithmPreferences")
 public class GeneticAlgorithmPreferences {
 
-	private int numberOfGenerations = 100;
+	private int numberOfGenerations = 400;
 	private int populationSize = 20;
 
 	private CrossoverType crossoverType = CrossoverType.ONE_POINT;

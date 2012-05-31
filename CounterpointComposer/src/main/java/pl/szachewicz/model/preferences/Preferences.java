@@ -132,7 +132,6 @@ public class Preferences {
 	}
 
 	public void setDefaults() {
-		searchAlgorithm = SearchAlgorithm.FULL_SEARCH;
 
 		cantusFirmusStaveType = StaveType.TREBLE;
 
