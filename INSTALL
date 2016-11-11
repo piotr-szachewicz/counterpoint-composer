@@ -1,8 +1,10 @@
 COMPILATION:
 
-mvn package
+mvn compile
+cd CounterpointComposer
+mvn assembly:single
 
 RUN:
-cd CounterpointComposer/target
-java -jar CounterpointComposer-1.0-SNAPSHOT.one-jar.jar
+cd target
+java -jar CounterpointComposer-1.0-SNAPSHOT-jar-with-dependencies.jar
 

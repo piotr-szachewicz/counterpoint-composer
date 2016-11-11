@@ -12,6 +12,7 @@
   <version>1.0-SNAPSHOT</version>
   <name>CounterpointComposer</name>
   <url>http://maven.apache.org</url>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -19,17 +20,18 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-     <dependency>
+
+    <dependency>
       <groupId>jm</groupId>
       <artifactId>JMusic</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
-    
+
     <dependency>
-	<groupId>junit</groupId>
-	<artifactId>junit</artifactId>
-	<version>4.10</version>
-	</dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.10</version>
+    </dependency>
 
     <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
@@ -44,49 +46,32 @@
     </dependency>
 
     <dependency>
-	<groupId>edu.gmu.cs</groupId>
-	<artifactId>ecj</artifactId>
-	<version>20.0</version>
+        <groupId>edu.gmu.cs</groupId>
+        <artifactId>ecj</artifactId>
+        <version>20.0</version>
      </dependency>
-            
-    
   </dependencies>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
   <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>pl.szachewicz.Application</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.dstovall</groupId>
-                <artifactId>onejar-maven-plugin</artifactId>
-                <version>1.4.4</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>one-jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>pl.szachewicz.Application</mainClass>
+            </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>onejar-maven-plugin.googlecode.com</id>
-            <url>http://onejar-maven-plugin.googlecode.com/svn/mavenrepo</url>
-        </pluginRepository>
-    </pluginRepositories>
 </project>
